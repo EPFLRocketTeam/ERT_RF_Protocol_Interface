@@ -39,6 +39,8 @@
 
 // TODO: clean everything once AV data to send are defined
 
+// Test: text written from CLion from ERT2023GS repo HEY ca va
+
 typedef struct __attribute__((__packed__)) {
 	// TODO: @Avioncis update for Nordend 2023 Mission
 	uint32_t prefix;
@@ -57,7 +59,7 @@ typedef struct __attribute__((__packed__)) {
 	uint8_t av_state;
     uint32_t packet_nbr;
     int32_t baro_alt;
-    RF_cmd engine_state;
+    //RF_cmd engine_state;
     
 } PacketAV_downlink;
 const uint32_t packetAV_downlink_size = sizeof(PacketAV_downlink);
