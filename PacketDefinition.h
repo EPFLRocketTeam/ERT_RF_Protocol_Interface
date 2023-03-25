@@ -22,7 +22,7 @@
 //
 //  EPFL Rocket Team - Nordend Project 2023
 //
-//  Lionel Isoz
+//  Charlotte Heibig & Lionel Isoz 
 //  25.03.2023 
 ///////////////////////////////////////////////////////////////////////////////////////
 #ifndef RADIO_PACKET_H
@@ -30,13 +30,14 @@
 
 #include <stdint.h>
 
+#define RF_PREFIX 					'Y' //0b01011001
 #define IGNITION_CODE 				0X434C //CL
 #define CMD_ACTIVE 					0b1111
 #define CMD_INACTIVE 				0b0000
-#define RF_PREFIX 					'Y' //0b01011001
-
 
 ///////////////////////////////////////////////////////////////////////////////////////
+
+// TODO: clean everything once AV data to send are defined
 
 typedef struct __attribute__((__packed__)) {
 	// TODO: @Avioncis update for Nordend 2023 Mission
@@ -56,9 +57,8 @@ typedef struct __attribute__((__packed__)) {
 	uint8_t av_state;
     uint32_t packet_nbr;
     int32_t baro_alt;
-    //RF_cmd engine_state;
-
-
+    RF_cmd engine_state;
+    
 } PacketAV_downlink;
 const uint32_t packetAV_downlink_size = sizeof(PacketAV_downlink);
 
@@ -108,11 +108,7 @@ typedef struct __attribute__((__packed__)) radio_packet {
 	uint8_t av_state;
     uint32_t packet_nbr;
     int32_t baro_alt;
-    //rf_cmd engine_state;
-
-
 } radio_packet_t;
-
 const uint32_t radio_packet_size = sizeof(radio_packet_t);
 
 
