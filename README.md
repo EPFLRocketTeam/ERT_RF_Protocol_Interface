@@ -1,7 +1,7 @@
-[<img src="https://user-images.githubusercontent.com/28660469/227711535-03fd1d77-1fad-4e00-9703-57e4a85180ed.png" width=140 align="right" >](https://epflrocketteam.ch/)
+[<img src="https://user-images.githubusercontent.com/28660469/227711535-03fd1d77-1fad-4e00-9703-57e4a85180ed.png" width=100 align="right" >](https://epflrocketteam.ch/)
 
 # ERT RF Protocol Interface
-<img src="https://user-images.githubusercontent.com/28660469/227712654-80d11d6f-1579-4451-bb96-b4893685d71e.png" width=80 align="left">
+<img src="https://user-images.githubusercontent.com/28660469/227712654-80d11d6f-1579-4451-bb96-b4893685d71e.png" width=100 align="left">
 
 This repository should be used as a **git submodule** for the RF interface such as packet definition.
 The goal is to minimize the protocol interface difficulties encountered between the AV-GS-GSE-PL subsystems.
