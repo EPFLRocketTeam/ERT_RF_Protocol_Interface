@@ -32,7 +32,7 @@ git pull
 ### How to push code to it ?
 Once you made some modifications to the code of this submodule, you need to go in the submodule folder (ERT_RF_Protocol_Interface), then you can run `git status` to see if some changes are seen. If yes you need to add this files, commit with a message and finally push.
 ```
-git add PacketDef.h
+git add --all
 git commit -m "uplink packet update"
 git push
 ```
