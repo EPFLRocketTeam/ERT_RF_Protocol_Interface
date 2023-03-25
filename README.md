@@ -84,12 +84,12 @@ void get_packet_content(uint8_t* byte-array_ptr, size_t byte_array_length) {  //
     }
 }
 ```
-In **Transmission mode**, this is quite similar, once your packet structure is filled with everything, you can send the associated byte array to your serial interface function.
+In **Transmission mode**, this is quite similar, once your packet structure is filled with what you need, you can send the associated byte array to your serial interface function.
 ```cpp
 void send_packet_content(PacketAV_downlink &packetAV_downlink) { // you can pass the pointer directly or by reference
     // Here are some examples
-    Serial.write(&packetAV_downlink, packetAV_downlink_size);
+    Serial.write(&packetAV_downlink, packetAV_downlink_size); // with write(uint8_t* byte_array, size_t size) 
     LoRa.write(&packetAV_downlink, packetAV_downlink_size);
-    udp.broadcastTo(&packetAV_downlink, packetAV_downlink_size, 1234);
+    udp.broadcastTo(&packetAV_downlink, packetAV_downlink_size, 1234); // UDP broadcast on port 1234
 }
 ```
