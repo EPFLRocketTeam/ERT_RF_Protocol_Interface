@@ -13,7 +13,7 @@ Follow this [link](https://git-scm.com/book/en/v2/Git-Tools-Submodules) or direc
 
 Go in your main project folder, which is alreay a git repository, and run:
 ```
-git submode add https://github.com/EPFLRocketTeam/ERT_RF_Protocol_Interface.git
+git submodule add https://github.com/EPFLRocketTeam/ERT_RF_Protocol_Interface.git
 ```
 By default, it will create a folder name "ERT_RF_Protocol_Interface". You can add a different path at the end of the command if you want it to go elsewhere.
 
