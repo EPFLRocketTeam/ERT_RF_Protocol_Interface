@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 [<img src="https://user-images.githubusercontent.com/28660469/227711535-03fd1d77-1fad-4e00-9703-57e4a85180ed.png" width=100 align="right" >](https://epflrocketteam.ch/)
 
 # ERT RF Protocol Interface
