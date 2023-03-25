@@ -40,6 +40,7 @@
 // TODO: clean everything once AV data to send are defined
 
 // Test: text written from CLion from ERT2023GS repo toto
+// I think it is working !
 
 typedef struct __attribute__((__packed__)) {
 	// TODO: @Avioncis update for Nordend 2023 Mission
