@@ -76,7 +76,7 @@ ______________________________________
 In **Reception mode**, imagine that a serial interface (e.g. UART, USB, LoRa, WiFi) sent you a byte array (in C++ it would be a pointer of uint8_t* with its length in bytes). Then here is a code example:
 ```cpp
 void get_packet_content(uint8_t* byte-array_ptr, size_t byte_array_length) {  // arguments given by serial interface
-    PacketAV_uplink_t packetAV_uplink; // declare a new variable, in some case it may required dynamic allocation
+    PacketAV_uplink packetAV_uplink; // declare a new variable, in some case it may required dynamic allocation
     if (byte_array_length == packetAV_uplink_size) { // check if same size, but you should use a better method
         // This is the key function, copy the byte array at the struct address
         memcpy(&packetAV_uplink, byte_array_ptr, packetAV_uplink_size);
