@@ -40,7 +40,10 @@ Note that as it is a private repository, you will need to connect to your accoun
 
 - [ ] TODO: Maybe it is possible to directly push on this repo from the main repo ?
 
-### How to create a GitHub token ?
+### How to connect to Github via SSH key
+TODO
+
+### How to create a GitHub token ? [DEPRACATED]
 You can find some infos [here](https://docs.github.com/fr/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) or
 
 1. Click on your profile picture top right, and got to **Settings**
