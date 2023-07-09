@@ -45,11 +45,11 @@ enum CAPSULE_ID {
     BEGIN_AV_UP_ID,
     ///....
 
-    END_OF_AV_UP_ID,
+    END_AV_UP_ID,
     //////////////////////////////////
-    BEGIN_OF_GSE_UP_ID,
+    BEGIN_GSE_UP_ID,
 
-    END_OF_GSE_UP_ID
+    END_GSE_UP_ID
 };
 
 // TODO: clean everything once AV data to send are defined
