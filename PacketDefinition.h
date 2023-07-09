@@ -37,6 +37,21 @@
 
 ///////////////////////////////////////////////////////////////////////////////////////
 
+// /!\ Flash again the MCU Mainboard
+enum CAPSULE_ID {
+    // Packet to AV
+    AV_TELEMETRY = 0,
+
+    BEGIN_AV_UP_ID,
+    ///....
+
+    END_OF_AV_UP_ID,
+    //////////////////////////////////
+    BEGIN_OF_GSE_UP_ID,
+
+    END_OF_GSE_UP_ID
+};
+
 // TODO: clean everything once AV data to send are defined
 
 // Test: text written from CLion from ERT2023GS repo toto
