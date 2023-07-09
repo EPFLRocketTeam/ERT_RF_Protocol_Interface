@@ -40,14 +40,24 @@
 // /!\ Flash again the MCU Mainboard
 enum CAPSULE_ID {
     // Packet to AV
-    AV_TELEMETRY = 0,
+    AV_TELEMETRY = 8,
+    GSE_TELEMETRY,
+    ABORT,
+    IGNITION,
 
+    //////////////////////////////////
     BEGIN_AV_UP_ID,
-    ///....
+
+    AV_CMD_VALVE_N2O,
+    AV_CMD_VALVE_FUEL,
 
     END_AV_UP_ID,
     //////////////////////////////////
     BEGIN_GSE_UP_ID,
+
+    GSE_FILLING_N2O,
+    GSE_VENT,
+
 
     END_GSE_UP_ID
 };
