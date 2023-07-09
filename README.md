@@ -50,7 +50,7 @@ You can find some infos [here](https://docs.github.com/fr/authentication/keeping
 2. Then go to **Developer settings** at the complete bottom
 3. Then to **Personal Access Tokens > Tokens (classic)** , i.e. here https://github.com/settings/tokens
 4. **Generate New Token**
-
+5. You need to select: [repo, gist, workflow, admin (read:org)]
 <img src="https://user-images.githubusercontent.com/28660469/227711049-973ce670-d139-44f8-9eeb-8125b7475126.png" width=1000 >
 
 Note that as you will see this token only once, you need to save it.
