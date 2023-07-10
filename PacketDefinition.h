@@ -30,10 +30,15 @@
 
 #include <stdint.h>
 
-#define RF_PREFIX 					'Y' //0b01011001
+// The line under has been commented by Yohan to make sure that the prefix should not be used anywhere
+// because Capsule is already taking care of prefixes so using another prefixe would either be useless or dangerous. 
+//#define RF_PREFIX 					'Y' //0b01011001
+
 #define IGNITION_CODE 				0X434C //CL
 #define CMD_ACTIVE 					0b1111
 #define CMD_INACTIVE 				0b0000
+
+#define AV_TELEMETRY_NOMINAL_RATE 1.0 // Hz
 
 ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -58,8 +63,18 @@ enum CAPSULE_ID {
     GSE_FILLING_N2O,
     GSE_VENT,
 
+    END_GSE_UP_ID,
+	//////////////////////////////////
+	BINOC_ATTITUDE,
+	BINOC_POSITION,
+	BINOC_STATUS,
+	BINOC_GLOBAL_STATUS,
+	//////////////////////////////////
+	TRACKER_CMD,
+	//////////////////////////////////
+	CALIBRATE_TELEMETRY
 
-    END_GSE_UP_ID
+
 };
 
 // TODO: clean everything once AV data to send are defined
@@ -67,6 +82,41 @@ enum CAPSULE_ID {
 // Test: text written from CLion from ERT2023GS repo toto
 // I think it is working !
 // And this message is written from STM32Cube IDE !!
+
+///////////////////////////////////////////////////////////////////////////////////////
+
+// Here is a template for writing new packet structures 
+typedef struct __attribute__((__packed__)) {
+	uint8_t data1;
+	uint8_t data2;
+	uint16_t data3;
+} PacketTemplate;
+const uint32_t packetTemplateSize = sizeof(PacketTemplate);
+
+// ---------------------- GSE PACKETS ---------------------- // 
+
+//must be 32 bits
+typedef struct __attribute__((__packed__)) {
+	unsigned int ventN20 : 4;
+	unsigned int ventEthanol : 4;
+	unsigned int servoN20 : 4;
+	unsigned int servoEthanol : 4;
+	unsigned int pressurization : 4;
+	unsigned int abort : 4;
+	unsigned int error : 4;
+	unsigned int other : 4;
+} RF_cmd;
+const uint32_t RF_cmd_size = sizeof(RF_cmd);
+
+// ---------------------- AV PACKETS ---------------------- // 
+
+typedef struct __attribute__((__packed__)) {
+	uint8_t prefix;
+	uint8_t cmd_counter;
+	RF_cmd cmd;
+	uint16_t cmd_ignition;
+} PacketAV_uplink;
+const uint32_t packetAV_uplink_size = sizeof(PacketAV_uplink);
 
 typedef struct __attribute__((__packed__)) {
 	// TODO: @Avioncis update for Nordend 2023 Mission
@@ -91,34 +141,6 @@ typedef struct __attribute__((__packed__)) {
 } PacketAV_downlink;
 const uint32_t packetAV_downlink_size = sizeof(PacketAV_downlink);
 
-///////////////////////////////////////////////////////////////////////////////////////
-
-//must be 32 bits
-typedef struct __attribute__((__packed__)) {
-	unsigned int ventN20 : 4;
-	unsigned int ventEthanol : 4;
-	unsigned int servoN20 : 4;
-	unsigned int servoEthanol : 4;
-	unsigned int pressurization : 4;
-	unsigned int abort : 4;
-	unsigned int error : 4;
-	unsigned int other : 4;
-} RF_cmd;
-const uint32_t RF_cmd_size = sizeof(RF_cmd);
-
-
-typedef struct __attribute__((__packed__)) {
-	uint8_t prefix;
-	uint8_t cmd_counter;
-	RF_cmd cmd;
-	uint16_t cmd_ignition;
-} PacketAV_uplink;
-const uint32_t packetAV_uplink_size = sizeof(PacketAV_uplink);
-
-
-
-///////////////////////////////////////////////////////////////////////////////////////
-
 // old packet, it will be deleted soon
 typedef struct __attribute__((__packed__)) radio_packet { 
 	uint32_t prefix;
@@ -139,6 +161,43 @@ typedef struct __attribute__((__packed__)) radio_packet {
     int32_t baro_alt;
 } radio_packet_t;
 const uint32_t radio_packet_size = sizeof(radio_packet_t);
+
+// ---------------------- BINOC PACKETS ---------------------- // 
+
+typedef struct __attribute__((__packed__)) {
+	float azm;
+	float elv;
+} PacketBinocAttitude;
+const uint32_t packetBinocAttitudeSize = sizeof(PacketBinocAttitude);
+
+typedef struct __attribute__((__packed__)) {
+	float lon;
+	float lat;
+	float alt;
+} PacketBinocPosition;
+const uint32_t packetBinocPositionSize = sizeof(PacketBinocPosition);
+
+typedef struct __attribute__((__packed__)) {
+	bool isInView;
+	bool isCalibrated;
+} PacketBinocStatus;
+const uint32_t packetBinocStatusSize = sizeof(PacketBinocStatus);
+
+typedef struct __attribute__((__packed__)) {
+	PacketBinocAttitude attitude;
+    PacketBinocPosition position;
+    PacketBinocStatus status;
+} PacketBinocGlobalStatus;
+const uint32_t packetBinocGlobalStatusSize = sizeof(PacketBinocGlobalStatus);
+
+// ---------------------- TRACKER PACKETS ---------------------- // 
+
+typedef struct __attribute__((__packed__)) {
+	float azm;
+	float elv;
+	int rate;
+} PacketTrackerCmd;
+const uint32_t packetTrackerCmdSize = sizeof(PacketTrackerCmd);
 
 
 #endif /* RADIO_PACKET_H */
