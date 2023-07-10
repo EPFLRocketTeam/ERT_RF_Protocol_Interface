@@ -195,7 +195,7 @@ const uint32_t packetBinocGlobalStatusSize = sizeof(PacketBinocGlobalStatus);
 typedef struct __attribute__((__packed__)) {
 	float azm;
 	float elv;
-	int rate;
+	int mode;
 } PacketTrackerCmd;
 const uint32_t packetTrackerCmdSize = sizeof(PacketTrackerCmd);
 
