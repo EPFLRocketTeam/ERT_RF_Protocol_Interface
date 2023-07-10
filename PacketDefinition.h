@@ -18,15 +18,15 @@
 //	R::::::R     R:::::RF::::::::FF           B::::::::::::::::B       GGG::::::GGG:::G
 //	RRRRRRRR     RRRRRRRFFFFFFFFFFF           BBBBBBBBBBBBBBBBB           GGGGGG   GGGG
 //                                                                                                                                                                   
-//  Interface header file for RF communication protocol 
+//  Interface header file for communication protocol 
 //
 //  EPFL Rocket Team - Nordend Project 2023
 //
-//  Charlotte Heibig & Lionel Isoz 
+//  Charlotte Heibig & Lionel Isoz & Yohan Hadji
 //  25.03.2023 
 ///////////////////////////////////////////////////////////////////////////////////////
-#ifndef RADIO_PACKET_H
-#define RADIO_PACKET_H
+#ifndef PACKET_H
+#define PACKET_H
 
 #include <stdint.h>
 
@@ -200,4 +200,4 @@ typedef struct __attribute__((__packed__)) {
 const uint32_t packetTrackerCmdSize = sizeof(PacketTrackerCmd);
 
 
-#endif /* RADIO_PACKET_H */
+#endif /* PACKET_H */
