@@ -35,10 +35,11 @@
 //#define RF_PREFIX 					'Y' //0b01011001
 
 #define IGNITION_CODE 				0X434C //CL
-#define CMD_ACTIVE 					0b1111
-#define CMD_INACTIVE 				0b0000
+#define CMD_ACTIVE 					0xAC
+#define CMD_INACTIVE 				0xDE
 
-#define AV_TELEMETRY_NOMINAL_RATE 1.0 // Hz
+#define STATUS_ACTIVE 				0b1101
+#define STATUS_INACTIVE 			0x0100
 
 ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -112,7 +113,7 @@ const uint32_t RF_cmd_status_size = sizeof(RF_cmd_status);
 
 typedef struct __attribute__((__packed__)) {
 //	uint8_t prefix;
-	uint8_t cmd_value;
+	uint8_t value;
 } Packet_cmd;
 const uint32_t packet_cmd_size = sizeof(Packet_cmd);
 
