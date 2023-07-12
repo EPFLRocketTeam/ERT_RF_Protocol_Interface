@@ -106,15 +106,15 @@ typedef struct __attribute__((__packed__)) {
 	unsigned int error : 4;
 	unsigned int other : 4;
 } RF_cmd_status;
-const uint32_t RF_cmd_size = sizeof(RF_cmd_status);
+const uint32_t RF_cmd_status_size = sizeof(RF_cmd_status);
 
 // ---------------------- AV PACKETS ---------------------- // 
 
 typedef struct __attribute__((__packed__)) {
 //	uint8_t prefix;
 	uint8_t cmd_value;
-} PacketAV_cmd;
-const uint32_t packetAV_cmd_size = sizeof(PacketAV_cmd);
+} Packet_cmd;
+const uint32_t packet_cmd_size = sizeof(Packet_cmd);
 
 typedef struct __attribute__((__packed__)) {
 	uint16_t cmd_ignition;
