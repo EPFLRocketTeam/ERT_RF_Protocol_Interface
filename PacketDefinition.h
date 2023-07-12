@@ -39,7 +39,6 @@
 #define ACTIVE 					0xAC // 0xAC for ACtive 
 #define INACTIVE 				0xDE // 0xDE for DEsactive
 
-
 ///////////////////////////////////////////////////////////////////////////////////////
 
 // /!\ Flash again the MCU Mainboard
@@ -95,12 +94,22 @@ const uint32_t packetTemplateSize = sizeof(PacketTemplate);
 
 // ---------------------- GSE PACKETS ---------------------- // 
 
-//must be 32 bits
 typedef struct __attribute__((__packed__)) {
 	unsigned int fillingN2O = INACTIVE;
 	unsigned int vent = ACTIVE;
 } GSE_cmd_status;
 const uint32_t GSE_cmd_status_size = sizeof(GSE_cmd_status);
+
+typedef struct __attribute__((__packed__)) {
+	// TODO: @Avioncis update for Nordend 2023 Mission
+	int32_t tankPressure;
+	float tankTemperature;
+	int32_t fillingTemperature;
+
+    GSE_cmd_status gse_state;
+    
+} PacketGSE_downlink;
+const uint32_t packetGSE_downlink_size = sizeof(PacketGSE_downlink);
 
 // ---------------------- AV PACKETS ---------------------- // 
 
@@ -122,10 +131,13 @@ typedef struct __attribute__((__packed__)) {
 } Packet_cmd;
 const uint32_t packet_cmd_size = sizeof(Packet_cmd);
 
-typedef struct __attribute__((__packed__)) {
-	uint16_t cmd_ignition;
-} Packet_ignition;
-const uint32_t packet_ignition_size = sizeof(Packet_ignition);
+// The following definition was useless because there is a already a packet for commands
+// typedef struct __attribute__((__packed__)) {
+// 	uint16_t cmd_ignition;
+// } Packet_ignition;
+
+// const uint32_t packet_ignition_size = sizeof(Packet_ignition);
+
 typedef struct __attribute__((__packed__)) {
 	// TODO: @Avioncis update for Nordend 2023 Mission
 	uint32_t prefix;
