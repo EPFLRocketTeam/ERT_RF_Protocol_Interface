@@ -104,7 +104,7 @@ typedef struct __attribute__((__packed__)) {
 	// TODO: @Avioncis update for Nordend 2023 Mission
 	int32_t tankPressure;
 	float tankTemperature;
-	int32_t fillingTemperature;
+	int32_t fillingPressure;
 
     GSE_cmd_status status;
     
