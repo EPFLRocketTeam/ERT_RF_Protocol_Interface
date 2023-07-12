@@ -105,19 +105,21 @@ typedef struct __attribute__((__packed__)) {
 	unsigned int abort : 4;
 	unsigned int error : 4;
 	unsigned int other : 4;
-} RF_cmd;
-const uint32_t RF_cmd_size = sizeof(RF_cmd);
+} RF_cmd_status;
+const uint32_t RF_cmd_size = sizeof(RF_cmd_status);
 
 // ---------------------- AV PACKETS ---------------------- // 
 
 typedef struct __attribute__((__packed__)) {
-	uint8_t prefix;
-	uint8_t cmd_counter;
-	RF_cmd cmd;
-	uint16_t cmd_ignition;
-} PacketAV_uplink;
-const uint32_t packetAV_uplink_size = sizeof(PacketAV_uplink);
+//	uint8_t prefix;
+	uint8_t cmd_value;
+} PacketAV_cmd;
+const uint32_t packetAV_cmd_size = sizeof(PacketAV_cmd);
 
+typedef struct __attribute__((__packed__)) {
+	uint16_t cmd_ignition;
+} Packet_ignition;
+const uint32_t packet_ignition_size = sizeof(Packet_ignition);
 typedef struct __attribute__((__packed__)) {
 	// TODO: @Avioncis update for Nordend 2023 Mission
 	uint32_t prefix;
@@ -136,7 +138,7 @@ typedef struct __attribute__((__packed__)) {
 	uint8_t av_state;
     uint32_t packet_nbr;
     int32_t baro_alt;
-    //RF_cmd engine_state;
+    //RF_cmd_status engine_state;
     
 } PacketAV_downlink;
 const uint32_t packetAV_downlink_size = sizeof(PacketAV_downlink);
