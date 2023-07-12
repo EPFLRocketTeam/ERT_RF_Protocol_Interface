@@ -35,11 +35,10 @@
 //#define RF_PREFIX 					'Y' //0b01011001
 
 #define IGNITION_CODE 				0X434C //CL
-#define CMD_ACTIVE 					0xAC
-#define CMD_INACTIVE 				0xDE
 
-#define STATUS_ACTIVE 				0b1101
-#define STATUS_INACTIVE 			0x0100
+#define ACTIVE 					0xAC
+#define INACTIVE 				0xDE
+
 
 ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -98,23 +97,22 @@ const uint32_t packetTemplateSize = sizeof(PacketTemplate);
 
 //must be 32 bits
 typedef struct __attribute__((__packed__)) {
-	unsigned int fillingN2O : 4;
-	unsigned int vent : 4;
+	unsigned int fillingN2O = INACTIVE;
+	unsigned int vent = ACTIVE;
 } GSE_cmd_status;
 const uint32_t GSE_cmd_status_size = sizeof(GSE_cmd_status);
 
 // ---------------------- AV PACKETS ---------------------- // 
 
-//must be 32 bits
 typedef struct __attribute__((__packed__)) {
-	unsigned int ventN20 : 4;
-	unsigned int ventEthanol : 4;
-	unsigned int servoN20 : 4;
-	unsigned int servoEthanol : 4;
-	unsigned int pressurization : 4;
-	unsigned int abort : 4;
-	unsigned int error : 4;
-	unsigned int other : 4;
+	uint8_t ventN20 		= ACTIVE;
+	uint8_t ventEthanol 	= ACTIVE;
+	uint8_t servoN20 		= INACTIVE;
+	uint8_t servoEthanol 	= INACTIVE;
+	uint8_t pressurization 	= INACTIVE;
+	uint8_t abort 			= INACTIVE;
+	uint8_t error 			= INACTIVE;
+	uint8_t other 			= INACTIVE;
 } AV_cmd_status;
 const uint32_t AV_cmd_status_size = sizeof(AV_cmd_status);
 
