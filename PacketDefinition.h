@@ -36,8 +36,8 @@
 
 #define IGNITION_CODE 				0X434C //CL
 
-#define ACTIVE 					0xAC
-#define INACTIVE 				0xDE
+#define ACTIVE 					0xAC // 0xAC for ACtive 
+#define INACTIVE 				0xDE // 0xDE for DEsactive
 
 
 ///////////////////////////////////////////////////////////////////////////////////////
