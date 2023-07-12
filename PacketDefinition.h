@@ -98,6 +98,15 @@ const uint32_t packetTemplateSize = sizeof(PacketTemplate);
 
 //must be 32 bits
 typedef struct __attribute__((__packed__)) {
+	unsigned int fillingN2O : 4;
+	unsigned int vent : 4;
+} GSE_cmd_status;
+const uint32_t GSE_cmd_status_size = sizeof(GSE_cmd_status);
+
+// ---------------------- AV PACKETS ---------------------- // 
+
+//must be 32 bits
+typedef struct __attribute__((__packed__)) {
 	unsigned int ventN20 : 4;
 	unsigned int ventEthanol : 4;
 	unsigned int servoN20 : 4;
@@ -106,10 +115,8 @@ typedef struct __attribute__((__packed__)) {
 	unsigned int abort : 4;
 	unsigned int error : 4;
 	unsigned int other : 4;
-} RF_cmd_status;
-const uint32_t RF_cmd_status_size = sizeof(RF_cmd_status);
-
-// ---------------------- AV PACKETS ---------------------- // 
+} AV_cmd_status;
+const uint32_t AV_cmd_status_size = sizeof(AV_cmd_status);
 
 typedef struct __attribute__((__packed__)) {
 //	uint8_t prefix;
@@ -139,7 +146,7 @@ typedef struct __attribute__((__packed__)) {
 	uint8_t av_state;
     uint32_t packet_nbr;
     int32_t baro_alt;
-    //RF_cmd_status engine_state;
+    AV_cmd_status engine_state;
     
 } PacketAV_downlink;
 const uint32_t packetAV_downlink_size = sizeof(PacketAV_downlink);
