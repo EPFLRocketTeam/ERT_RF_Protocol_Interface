@@ -106,7 +106,7 @@ typedef struct __attribute__((__packed__)) {
 	float tankTemperature;
 	int32_t fillingTemperature;
 
-    GSE_cmd_status gse_state;
+    GSE_cmd_status status;
     
 } PacketGSE_downlink;
 const uint32_t packetGSE_downlink_size = sizeof(PacketGSE_downlink);
