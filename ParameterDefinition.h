@@ -1,5 +1,5 @@
 
-// -------- AV_UPLINK -------- // 
+// -------- UPLINK -------- // 
 #define UPLINK_FREQUENCY 867e6
 #define UPLINK_POWER 2
 #define UPLINK_BW 125e3
@@ -19,7 +19,7 @@
 #define AV_DOWNLINK_SYNC_WORD 0x13
 #define AV_DOWNLINK_CRC true
 
-// -------- GSE_UPLINK -------- // 
+// -------- GSE_DOWNLINK -------- // 
 #define GSE_DOWNLINK_FREQUENCY 869e6
 #define GSE_DOWNLINK_POWER 2
 #define GSE_DOWNLINK_BW 125e3
