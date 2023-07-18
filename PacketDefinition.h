@@ -68,7 +68,6 @@ enum CAPSULE_ID {
 	BINOC_POSITION,
 	BINOC_STATUS,
 	BINOC_GLOBAL_STATUS,
-	BINOC_CALIB_STATUS,
 	//////////////////////////////////
 	TRACKER_CMD,
 	//////////////////////////////////
@@ -210,11 +209,6 @@ typedef struct __attribute__((__packed__)) {
     PacketBinocStatus status;
 } PacketBinocGlobalStatus;
 const uint32_t packetBinocGlobalStatusSize = sizeof(PacketBinocGlobalStatus);
-
-typedef struct __attribute__((__packed__)) {
-	bool status; // False = calibration started and in progress, True = calibration finished
-} PacketBinocCalibStatus;
-const uint32_t packetBinocCalibStatusSize = sizeof(PacketBinocCalibStatus);
 
 // ---------------------- TRACKER PACKETS ---------------------- // 
 
