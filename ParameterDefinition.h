@@ -1,4 +1,3 @@
-
 // -------- UPLINK -------- // 
 #define UPLINK_FREQUENCY 867e6
 #define UPLINK_POWER 2
