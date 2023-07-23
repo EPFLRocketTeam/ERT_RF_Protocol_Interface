@@ -51,9 +51,10 @@ enum CAPSULE_ID {
 
     //////////////////////////////////
     BEGIN_AV_UP_ID,
-
     AV_CMD_VALVE_N2O,
     AV_CMD_VALVE_FUEL,
+	AV_CMD_VENT_N2O,
+	AV_CMD_VENT_FUEL,
 
     END_AV_UP_ID,
     //////////////////////////////////
@@ -95,8 +96,8 @@ const uint32_t packetTemplateSize = sizeof(PacketTemplate);
 // ---------------------- GSE PACKETS ---------------------- // 
 
 typedef struct __attribute__((__packed__)) {
-	unsigned int fillingN2O = INACTIVE;
-	unsigned int vent = ACTIVE;
+	unsigned int fillingN2O;
+	unsigned int vent;
 } GSE_cmd_status;
 const uint32_t GSE_cmd_status_size = sizeof(GSE_cmd_status);
 
@@ -113,34 +114,24 @@ const uint32_t packetGSE_downlink_size = sizeof(PacketGSE_downlink);
 
 // ---------------------- AV PACKETS ---------------------- // 
 
-typedef struct __attribute__((__packed__)) {
-	uint8_t ventN20 		= ACTIVE;
-	uint8_t ventEthanol 	= ACTIVE;
-	uint8_t servoN20 		= INACTIVE;
-	uint8_t servoEthanol 	= INACTIVE;
-	uint8_t pressurization 	= INACTIVE;
-	uint8_t abort 			= INACTIVE;
-	uint8_t error 			= INACTIVE;
-	uint8_t other 			= INACTIVE;
-} AV_cmd_status;
-const uint32_t AV_cmd_status_size = sizeof(AV_cmd_status);
+
+// AV UPLINK PACKET
+
 
 typedef struct __attribute__((__packed__)) {
-//	uint8_t prefix;
-	uint8_t value;
-} Packet_cmd;
-const uint32_t packet_cmd_size = sizeof(Packet_cmd);
+	uint32_t prefix; // RFBG
+	uint8_t order_id;
+	uint8_t order_value;
+} av_uplink_t;
+const size_t av_uplink_size = sizeof(av_uplink_t);
 
-// The following definition was useless because there is a already a packet for commands
-// typedef struct __attribute__((__packed__)) {
-// 	uint16_t cmd_ignition;
-// } Packet_ignition;
 
-// const uint32_t packet_ignition_size = sizeof(Packet_ignition);
+
+// AV DOWNLINK PACKET
 
 typedef struct __attribute__((__packed__)) {
 	// TODO: @Avioncis update for Nordend 2023 Mission
-	uint32_t prefix;
+	uint32_t prefix; //RFBG
 	uint32_t timestamp;
 	int32_t acc_z;
 	int32_t baro_press;
@@ -154,33 +145,26 @@ typedef struct __attribute__((__packed__)) {
 	float	gnss_lat;
 	int32_t	gnss_alt;
 	uint8_t av_state;
-    uint32_t packet_nbr;
     int32_t baro_alt;
-    AV_cmd_status engine_state;
-    
-} PacketAV_downlink;
-const uint32_t packetAV_downlink_size = sizeof(PacketAV_downlink);
+    uint8_t engine_state;
+    uint32_t packet_nbr;
+    //AV_cmd_status engine_state;
+} av_downlink_t;
+const uint32_t av_downlink_size = sizeof(av_downlink_t);
 
-// old packet, it will be deleted soon
-typedef struct __attribute__((__packed__)) radio_packet { 
-	uint32_t prefix;
-	uint32_t timestamp;
-	int32_t acc_z;
-	int32_t baro_press;
-	int16_t baro_temp;
-	int32_t kalman_z;
-	int32_t kalman_v;
-//	int32_t kalman_a;
-	int32_t kalman_sigma_z;
-//	float	gnss_hdop;
+
+typedef enum {
+	MIAOU_RF,
+	MIAOU_GNSS
+}miaou_transfer_type;
+
+typedef struct __attribute__((__packed__)) {
 	float	gnss_lon;
 	float	gnss_lat;
 	int32_t	gnss_alt;
-	uint8_t av_state;
-    uint32_t packet_nbr;
-    int32_t baro_alt;
-} radio_packet_t;
-const uint32_t radio_packet_size = sizeof(radio_packet_t);
+} av_miaou_gnss_t;
+const size_t av_miaou_gnss_size = sizeof(av_miaou_gnss_t);
+
 
 // ---------------------- BINOC PACKETS ---------------------- // 
 
