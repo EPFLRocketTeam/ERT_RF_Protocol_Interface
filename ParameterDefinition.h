@@ -1,29 +1,39 @@
+// Default RF parameters
+#define DEFAULT_TX_POWER            2  // dBm   max 20dBm
+#define DEFAULT_BW                  125E3  // kHz
+#define DEFAULT_SF                  8          
+#define DEFAULT_CR                  7
+
+#define DEFAULT_PREAMBLE_LENGTH     8       
+#define DEFAULT_CRC                 true   
+
 // -------- UPLINK -------- // 
-#define UPLINK_FREQUENCY 867e6
-#define UPLINK_POWER 2
-#define UPLINK_BW 125e3
-#define UPLINK_SF 8
-#define UPLINK_CR 7
-#define UPLINK_PREAMBLE_LEN 8
-#define UPLINK_SYNC_WORD 0x12
-#define UPLINK_CRC true
+#define UPLINK_FREQUENCY            867E6
+#define UPLINK_POWER                DEFAULT_TX_POWER
+#define UPLINK_BW                   DEFAULT_BW
+#define UPLINK_SF                   DEFAULT_SF
+#define UPLINK_CR                   DEFAULT_CR
+#define UPLINK_PREAMBLE_LEN         DEFAULT_PREAMBLE_LENGTH
+#define UPLINK_CRC                  DEFAULT_CRC
+#define UPLINK_INVERSE_IQ           false
 
 // -------- AV_DOWNLINK -------- // 
-#define AV_DOWNLINK_FREQUENCY 868e6
-#define AV_DOWNLINK_POWER 2
-#define AV_DOWNLINK_BW 125e3
-#define AV_DOWNLINK_SF 8
-#define AV_DOWNLINK_CR 7
-#define AV_DOWNLINK_PREAMBLE_LEN 8
-#define AV_DOWNLINK_SYNC_WORD 0x13
-#define AV_DOWNLINK_CRC true
+#define AV_DOWNLINK_FREQUENCY       869E6
+#define AV_DOWNLINK_POWER           DEFAULT_TX_POWER
+#define AV_DOWNLINK_BW              DEFAULT_BW
+#define AV_DOWNLINK_SF              DEFAULT_SF
+#define AV_DOWNLINK_CR              DEFAULT_CR
+#define AV_DOWNLINK_PREAMBLE_LEN    DEFAULT_PREAMBLE_LENGTH
+#define AV_DOWNLINK_CRC             DEFAULT_CRC
+#define AV_DOWNLINK_INVERSE_IQ      true
 
 // -------- GSE_DOWNLINK -------- // 
-#define GSE_DOWNLINK_FREQUENCY 869e6
-#define GSE_DOWNLINK_POWER 2
-#define GSE_DOWNLINK_BW 125e3
-#define GSE_DOWNLINK_SF 8
-#define GSE_DOWNLINK_CR 7
-#define GSE_DOWNLINK_PREAMBLE_LEN 8
-#define GSE_DOWNLINK_SYNC_WORD 0x14
-#define GSE_DOWNLINK_CRC true
+#define GSE_DOWNLINK_FREQUENCY      866E6
+#define GSE_DOWNLINK_POWER          DEFAULT_TX_POWER
+#define GSE_DOWNLINK_BW             DEFAULT_BW
+#define GSE_DOWNLINK_SF             DEFAULT_SF
+#define GSE_DOWNLINK_CR             DEFAULT_CR
+#define GSE_DOWNLINK_PREAMBLE_LEN   DEFAULT_PREAMBLE_LENGTH
+#define GSE_DOWNLINK_CRC            DEFAULT_CRC
+#define GSE_DOWNLINK_INVERSE_IQ     false
+
