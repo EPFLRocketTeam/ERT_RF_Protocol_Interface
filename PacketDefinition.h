@@ -60,6 +60,8 @@ enum CAPSULE_ID {
     AV_CMD_VALVE_FUEL,
 	AV_CMD_VENT_N2O,
 	AV_CMD_VENT_FUEL,
+	AV_RESERVED1,
+	AV_RESERVED2,
 
     END_AV_UP_ID,
     //////////////////////////////////
