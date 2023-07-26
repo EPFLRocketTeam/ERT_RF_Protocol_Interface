@@ -22,19 +22,19 @@
 //
 //  EPFL Rocket Team - Nordend Project 2023
 //
-//  Charlotte Heibig & Lionel Isoz & Yohan Hadji
-//  25.03.2023 
+//  Charlotte Heibig & Lionel Isoz & Yohan Hadji & Iacopo Sprenger
+//  26.07.2023 
 ///////////////////////////////////////////////////////////////////////////////////////
 #ifndef PACKET_H
 #define PACKET_H
 
-#include <stdint.h>
+#include <stdint.h> // for uint8_t
+#include <stddef.h> // for size_t
 
-// The line under has been commented by Yohan to make sure that the prefix should not be used anywhere
-// because Capsule is already taking care of prefixes so using another prefixe would either be useless or dangerous. 
-//#define RF_PREFIX 					'Y' //0b01011001
 
-#define IGNITION_CODE 				0X434C //CL
+#define ERT_PREFIX 				((uint16_t) ('B' << 8 | 'G'))
+
+#define IGNITION_CODE 			0x434C //CL
 
 #define ACTIVE 					0xAC // 0xAC for ACtive 
 #define INACTIVE 				0xDE // 0xDE for DEsactive
@@ -43,30 +43,13 @@
 
 // /!\ Flash again the MCU Mainboard
 enum CAPSULE_ID {
-    // Packet to AV
+	//////////////////////////////////
+    // Rocket & GSE
     AV_TELEMETRY = 8,
     GSE_TELEMETRY,
-    ABORT,
-    IGNITION,
-
-    //////////////////////////////////
-    BEGIN_AV_UP_ID,
-    AV_CMD_VALVE_N2O,
-    AV_CMD_VALVE_FUEL,
-	AV_CMD_VENT_N2O,
-	AV_CMD_VENT_FUEL,
-	AV_RESERVED1,
-	AV_RESERVED2,
-
-    END_AV_UP_ID,
-    //////////////////////////////////
-    BEGIN_GSE_UP_ID,
-
-    GSE_FILLING_N2O,
-    GSE_VENT,
-
-    END_GSE_UP_ID,
+	GS_CMD, // uplink from GS
 	//////////////////////////////////
+	// Tracker
 	BINOC_ATTITUDE,
 	BINOC_POSITION,
 	BINOC_STATUS,
@@ -75,18 +58,21 @@ enum CAPSULE_ID {
 	TRACKER_CMD,
 	//////////////////////////////////
 	CALIBRATE_TELEMETRY
-
-
 };
 
-// TODO: clean everything once AV data to send are defined
+enum CMD_ID {
+	AV_CMD_VALVE_N2O = 3,
+    AV_CMD_VALVE_FUEL,
+	AV_CMD_VENT_N2O,
+	AV_CMD_VENT_FUEL,
+	GSE_FILLING_N2O,
+    GSE_VENT,
+	ABORT,
+    IGNITION
+};
 
-// Test: text written from CLion from ERT2023GS repo toto
-// I think it is working !
-// And this message is written from STM32Cube IDE !!
 
-///////////////////////////////////////////////////////////////////////////////////////
-
+/////////////////////////////////////////////////////////////////
 // Here is a template for writing new packet structures 
 typedef struct __attribute__((__packed__)) {
 	uint8_t data1;
@@ -95,48 +81,25 @@ typedef struct __attribute__((__packed__)) {
 } PacketTemplate;
 const uint32_t packetTemplateSize = sizeof(PacketTemplate);
 
-// ---------------------- GSE PACKETS ---------------------- // 
 
-typedef struct __attribute__((__packed__)) {
-	unsigned int fillingN2O;
-	unsigned int vent;
-} GSE_cmd_status;
-const uint32_t GSE_cmd_status_size = sizeof(GSE_cmd_status);
-
-typedef struct __attribute__((__packed__)) {
-	// TODO: @Avioncis update for Nordend 2023 Mission
-	int32_t tankPressure;
-	float tankTemperature;
-	int32_t fillingPressure;
-
-    GSE_cmd_status status;
-    
-} PacketGSE_downlink;
-const uint32_t packetGSE_downlink_size = sizeof(PacketGSE_downlink);
-
-// ---------------------- AV PACKETS ---------------------- // 
-
+/////////////////////////////////////////////////////////////////
+// ---------------------- AV PACKETS ------------------------  // 
+/////////////////////////////////////////////////////////////////
 
 // AV UPLINK PACKET
 
-
 typedef struct __attribute__((__packed__)) {
-	uint32_t prefix; // RFBG
-	uint8_t order_id;
-	uint8_t order_value;
+	uint16_t prefix = ERT_PREFIX;
+	uint8_t order_id; // from CMD_ID
+	uint8_t order_value;  // only ACTIVE or INACTIVE  	254 other possibilities unconsidered
 } av_uplink_t;
 const size_t av_uplink_size = sizeof(av_uplink_t);
 
-
-
 // AV DOWNLINK PACKET
-
-#define Packet_cmd 			av_downlink_t
-#define packet_cmd_size 	av_downlink_size
 
 typedef struct __attribute__((__packed__)) {
 	// TODO: @Avioncis update for Nordend 2023 Mission
-	uint32_t prefix; //RFBG
+	uint16_t prefix = ERT_PREFIX;
 	uint32_t timestamp;
 	int32_t acc_z;
 	int32_t baro_press;
@@ -151,7 +114,7 @@ typedef struct __attribute__((__packed__)) {
 	int32_t	gnss_alt;
 	uint8_t av_state;
     int32_t baro_alt;
-    uint8_t engine_state;
+    uint8_t engine_state; // TODO !! explain how GS can get the info from your valve state!
     uint8_t valves_state;
     uint32_t packet_nbr;
     //AV_cmd_status engine_state;
@@ -171,6 +134,32 @@ typedef struct __attribute__((__packed__)) {
 const size_t av_miaou_gnss_size = sizeof(av_miaou_gnss_t);
 
 
+/////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+////////// FROM HERE, GS stuff, please don't touch //////////////
+/////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////
+// ---------------------- GSE PACKETS ---------------------- // 
+
+typedef struct __attribute__((__packed__)) {
+	uint8_t fillingN2O;
+	uint8_t vent;
+} GSE_cmd_status;
+const uint32_t GSE_cmd_status_size = sizeof(GSE_cmd_status);
+
+typedef struct __attribute__((__packed__)) {
+	// TODO: @Avioncis update for Nordend 2023 Mission
+	int32_t tankPressure;
+	float tankTemperature;
+	int32_t fillingPressure;
+    GSE_cmd_status status;
+} PacketGSE_downlink;
+const uint32_t packetGSE_downlink_size = sizeof(PacketGSE_downlink);
+
+
+/////////////////////////////////////////////////////////////////
 // ---------------------- BINOC PACKETS ---------------------- // 
 
 typedef struct __attribute__((__packed__)) {
@@ -199,6 +188,7 @@ typedef struct __attribute__((__packed__)) {
 } PacketBinocGlobalStatus;
 const uint32_t packetBinocGlobalStatusSize = sizeof(PacketBinocGlobalStatus);
 
+/////////////////////////////////////////////////////////////////
 // ---------------------- TRACKER PACKETS ---------------------- // 
 
 typedef struct __attribute__((__packed__)) {

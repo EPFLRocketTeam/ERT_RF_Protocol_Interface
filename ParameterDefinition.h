@@ -1,3 +1,5 @@
+// LoRa Parameters Definition of the ERT2023 network architecture
+
 // Default RF parameters
 #define DEFAULT_TX_POWER            2  // dBm   max 20dBm
 #define DEFAULT_BW                  125E3  // kHz
@@ -15,7 +17,7 @@
 #define UPLINK_CR                   DEFAULT_CR
 #define UPLINK_PREAMBLE_LEN         DEFAULT_PREAMBLE_LENGTH
 #define UPLINK_CRC                  DEFAULT_CRC
-#define UPLINK_INVERSE_IQ           false
+#define UPLINK_INVERSE_IQ           true
 
 // -------- AV_DOWNLINK -------- // 
 #define AV_DOWNLINK_FREQUENCY       869E6
