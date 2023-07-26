@@ -30,6 +30,11 @@
 
 #include <stdint.h>
 
+// RULES: 
+// Packet names should NEVER be changed once they are defined
+// If not already written with some other convention, packet names should be written in CamelCase
+// If not already written with some other convention, packet sizes should be written in camelCase
+
 // The line under has been commented by Yohan to make sure that the prefix should not be used anywhere
 // because Capsule is already taking care of prefixes so using another prefixe would either be useless or dangerous. 
 //#define RF_PREFIX 					'Y' //0b01011001
@@ -118,19 +123,13 @@ const uint32_t packetGSE_downlink_size = sizeof(PacketGSE_downlink);
 
 
 // AV UPLINK PACKET
-
-
 typedef struct __attribute__((__packed__)) {
-	uint32_t prefix; // RFBG
-	uint8_t order_id;
-	uint8_t order_value;
-} av_uplink_t;
-const size_t av_uplink_size = sizeof(av_uplink_t);
-
-
+ //	uint8_t prefix;
+ 	uint8_t value;
+ } Packet_cmd;
+ const uint32_t packet_cmd_size = sizeof(Packet_cmd);
 
 // AV DOWNLINK PACKET
-
 typedef struct __attribute__((__packed__)) {
 	// TODO: @Avioncis update for Nordend 2023 Mission
 	uint32_t prefix; //RFBG
@@ -151,9 +150,8 @@ typedef struct __attribute__((__packed__)) {
     uint8_t engine_state;
     uint32_t packet_nbr;
     //AV_cmd_status engine_state;
-} av_downlink_t;
-const uint32_t av_downlink_size = sizeof(av_downlink_t);
-
+} PacketAV_downlink;
+const uint32_t packetAV_downlink_size = sizeof(PacketAV_downlink);
 
 typedef enum {
 	MIAOU_RF,
