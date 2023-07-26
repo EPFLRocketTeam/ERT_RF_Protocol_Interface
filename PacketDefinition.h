@@ -147,6 +147,7 @@ typedef struct __attribute__((__packed__)) {
 	uint8_t av_state;
     int32_t baro_alt;
     uint8_t engine_state;
+    uint8_t valves_state;
     uint32_t packet_nbr;
     //AV_cmd_status engine_state;
 } av_downlink_t;
