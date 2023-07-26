@@ -131,6 +131,9 @@ const size_t av_uplink_size = sizeof(av_uplink_t);
 
 // AV DOWNLINK PACKET
 
+#define Packet_cmd 			av_downlink_t
+#define packet_cmd_size 	av_downlink_size
+
 typedef struct __attribute__((__packed__)) {
 	// TODO: @Avioncis update for Nordend 2023 Mission
 	uint32_t prefix; //RFBG
