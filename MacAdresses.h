@@ -1,4 +1,4 @@
-#include <stdint> // For uint8_t
+#include <stdint.h>
 
 // -------- ESP NOW MAC ADRESSES -------- // 
 

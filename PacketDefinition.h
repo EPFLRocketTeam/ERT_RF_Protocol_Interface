@@ -55,6 +55,8 @@ enum CAPSULE_ID {
     AV_CMD_VALVE_FUEL,
 	AV_CMD_VENT_N2O,
 	AV_CMD_VENT_FUEL,
+	AV_RESERVED1,
+	AV_RESERVED2,
 
     END_AV_UP_ID,
     //////////////////////////////////
@@ -129,6 +131,9 @@ const size_t av_uplink_size = sizeof(av_uplink_t);
 
 // AV DOWNLINK PACKET
 
+#define Packet_cmd 			av_downlink_t
+#define packet_cmd_size 	av_downlink_size
+
 typedef struct __attribute__((__packed__)) {
 	// TODO: @Avioncis update for Nordend 2023 Mission
 	uint32_t prefix; //RFBG
@@ -152,7 +157,6 @@ typedef struct __attribute__((__packed__)) {
     //AV_cmd_status engine_state;
 } av_downlink_t;
 const uint32_t av_downlink_size = sizeof(av_downlink_t);
-
 
 typedef enum {
 	MIAOU_RF,
