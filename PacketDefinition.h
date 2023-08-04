@@ -90,7 +90,11 @@ const uint32_t packetTemplateSize = sizeof(PacketTemplate);
 // AV UPLINK PACKET
 
 typedef struct __attribute__((__packed__)) {
+#ifdef __cplusplus
 	uint16_t prefix = ERT_PREFIX;
+#else
+	uint16_t prefix;
+#endif
 	uint8_t order_id; // from CMD_ID
 	uint8_t order_value;  // only ACTIVE or INACTIVE  	254 other possibilities unconsidered
 } av_uplink_t;
@@ -100,7 +104,11 @@ const size_t av_uplink_size = sizeof(av_uplink_t);
 
 typedef struct __attribute__((__packed__)) {
 	// TODO: @Avioncis update for Nordend 2023 Mission
+#ifdef __cplusplus
 	uint16_t prefix = ERT_PREFIX;
+#else
+	uint16_t prefix;
+#endif
 	uint32_t timestamp;
 	int32_t acc_z;
 	int32_t baro_press;
