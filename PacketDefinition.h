@@ -196,6 +196,8 @@ typedef struct __attribute__((__packed__)) {
 	float azm;
 	float elv;
 	int mode;
+	float cutoffFreq;
+	unsigned maxTimeWindow;
 } PacketTrackerCmd;
 const uint32_t packetTrackerCmdSize = sizeof(PacketTrackerCmd);
 
