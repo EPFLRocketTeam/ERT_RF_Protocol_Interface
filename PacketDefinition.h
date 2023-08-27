@@ -55,7 +55,7 @@ enum CAPSULE_ID {
 	BINOC_STATUS,
 	BINOC_GLOBAL_STATUS,
 	//////////////////////////////////
-	TRACKER_CMD,
+	TRACKER_CMD = 99,
 	//////////////////////////////////
 	CALIBRATE_TELEMETRY
 };
