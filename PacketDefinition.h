@@ -130,7 +130,10 @@ typedef enum {
 typedef struct __attribute__((__packed__)) {
 	float	gnss_lon;
 	float	gnss_lat;
-	int32_t	gnss_alt;
+	float	gnss_alt;
+	float   gnss_speed;
+	float 	gnss_hdop;
+	uint32_t time;
 } av_miaou_gnss_t;
 const size_t av_miaou_gnss_size = sizeof(av_miaou_gnss_t);
 
