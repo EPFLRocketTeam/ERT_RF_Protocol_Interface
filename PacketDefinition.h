@@ -30,6 +30,7 @@
 
 #include <stdint.h> // for uint8_t
 #include <stddef.h> // for size_t
+#include <stdbool.h>
 
 
 #define ERT_PREFIX 				((uint16_t) ('B' << 8 | 'G'))
