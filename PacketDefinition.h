@@ -139,8 +139,8 @@ const uint32_t av_downlink_size = sizeof(av_downlink_t);
 #endif
 
 typedef enum {
-	MIAOU_RF,
-	MIAOU_GNSS
+	MIAOU_RF = 0x65,
+	MIAOU_GNSS = 0x69
 }miaou_transfer_type;
 
 typedef struct __attribute__((__packed__)) {
