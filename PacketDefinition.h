@@ -80,8 +80,9 @@ typedef struct __attribute__((__packed__)) {
 	uint8_t data2;
 	uint16_t data3;
 } PacketTemplate;
+#ifdef __cplusplus
 const uint32_t packetTemplateSize = sizeof(PacketTemplate);
-
+#endif
 
 /////////////////////////////////////////////////////////////////
 // ---------------------- AV PACKETS ------------------------  // 
@@ -90,17 +91,27 @@ const uint32_t packetTemplateSize = sizeof(PacketTemplate);
 // AV UPLINK PACKET
 
 typedef struct __attribute__((__packed__)) {
+#ifdef __cplusplus
 	uint16_t prefix = ERT_PREFIX;
+#else
+	uint16_t prefix;
+#endif
 	uint8_t order_id; // from CMD_ID
 	uint8_t order_value;  // only ACTIVE or INACTIVE  	254 other possibilities unconsidered
 } av_uplink_t;
+#ifdef __cplusplus
 const size_t av_uplink_size = sizeof(av_uplink_t);
+#endif
 
 // AV DOWNLINK PACKET
 
 typedef struct __attribute__((__packed__)) {
 	// TODO: @Avioncis update for Nordend 2023 Mission
+#ifdef __cplusplus
 	uint16_t prefix = ERT_PREFIX;
+#else
+	uint16_t prefix;
+#endif
 	uint32_t timestamp;
 	int32_t acc_z;
 	int32_t baro_press;
@@ -120,7 +131,9 @@ typedef struct __attribute__((__packed__)) {
     uint32_t packet_nbr;
     //AV_cmd_status engine_state;
 } av_downlink_t;
+#ifdef __cplusplus
 const uint32_t av_downlink_size = sizeof(av_downlink_t);
+#endif
 
 typedef enum {
 	MIAOU_RF,
@@ -132,7 +145,9 @@ typedef struct __attribute__((__packed__)) {
 	float	gnss_lat;
 	int32_t	gnss_alt;
 } av_miaou_gnss_t;
+#ifdef __cplusplus
 const size_t av_miaou_gnss_size = sizeof(av_miaou_gnss_t);
+#endif
 
 
 /////////////////////////////////////////////////////////////////
@@ -148,7 +163,9 @@ typedef struct __attribute__((__packed__)) {
 	uint8_t fillingN2O;
 	uint8_t vent;
 } GSE_cmd_status;
+#ifdef __cplusplus
 const uint32_t GSE_cmd_status_size = sizeof(GSE_cmd_status);
+#endif
 
 typedef struct __attribute__((__packed__)) {
 	// TODO: @Avioncis update for Nordend 2023 Mission
@@ -157,8 +174,9 @@ typedef struct __attribute__((__packed__)) {
 	int32_t fillingPressure;
     GSE_cmd_status status;
 } PacketGSE_downlink;
+#ifdef __cplusplus
 const uint32_t packetGSE_downlink_size = sizeof(PacketGSE_downlink);
-
+#endif
 
 /////////////////////////////////////////////////////////////////
 // ---------------------- BINOC PACKETS ---------------------- // 
@@ -167,27 +185,35 @@ typedef struct __attribute__((__packed__)) {
 	float azm;
 	float elv;
 } PacketBinocAttitude;
+#ifdef __cplusplus
 const uint32_t packetBinocAttitudeSize = sizeof(PacketBinocAttitude);
+#endif
 
 typedef struct __attribute__((__packed__)) {
 	float lon;
 	float lat;
 	float alt;
 } PacketBinocPosition;
+#ifdef __cplusplus
 const uint32_t packetBinocPositionSize = sizeof(PacketBinocPosition);
+#endif
 
 typedef struct __attribute__((__packed__)) {
 	bool isInView;
 	bool isCalibrated;
 } PacketBinocStatus;
+#ifdef __cplusplus
 const uint32_t packetBinocStatusSize = sizeof(PacketBinocStatus);
+#endif
 
 typedef struct __attribute__((__packed__)) {
 	PacketBinocAttitude attitude;
     PacketBinocPosition position;
     PacketBinocStatus status;
 } PacketBinocGlobalStatus;
+#ifdef __cplusplus
 const uint32_t packetBinocGlobalStatusSize = sizeof(PacketBinocGlobalStatus);
+#endif
 
 /////////////////////////////////////////////////////////////////
 // ---------------------- TRACKER PACKETS ---------------------- // 
@@ -197,7 +223,8 @@ typedef struct __attribute__((__packed__)) {
 	float elv;
 	int mode;
 } PacketTrackerCmd;
+#ifdef __cplusplus
 const uint32_t packetTrackerCmdSize = sizeof(PacketTrackerCmd);
-
+#endif
 
 #endif /* PACKET_H */
