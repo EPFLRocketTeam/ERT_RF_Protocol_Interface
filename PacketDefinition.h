@@ -72,6 +72,7 @@ enum CMD_ID {
 	ARM,
 	PRESSURIZE,
 	ABORT,
+  RECOVER,
     IGNITION
 };
 
