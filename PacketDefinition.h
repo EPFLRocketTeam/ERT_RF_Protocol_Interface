@@ -33,7 +33,7 @@
 #include <stdbool.h>
 
 
-#define ERT_PREFIX 				((uint16_t) ('B' << 8 | 'G'))
+#define ERT_PREFIX 				((uint32_t) ('R' << 24 | 'F' << 16 | 'B' << 8 | 'G'))
 
 #define ACTIVE 					0xAC // 0xAC for ACtive 
 #define INACTIVE 				0xDE // 0xDE for DEsactive
@@ -93,7 +93,22 @@ const uint32_t packetTemplateSize = sizeof(PacketTemplate);
 // ---------------------- AV PACKETS ------------------------  // 
 /////////////////////////////////////////////////////////////////
 
+
+typedef struct __attribute__((__packed__)) {
+	uint8_t servo_N2O  :1;
+	uint8_t servo_fuel :1;
+	uint8_t vent_N2O   :1;
+	uint8_t vent_fuel  :1;
+	uint8_t pressurize :1;
+	uint8_t purge      :1;
+	uint8_t reserve    :2;
+} engine_state_t;
+#ifdef __cplusplus
+const uint32_t engine_state_size = sizeof(engine_state_t);
+#endif
+
 // AV UPLINK PACKET
+
 
 typedef struct __attribute__((__packed__)) {
 #ifdef __cplusplus
@@ -113,31 +128,25 @@ const size_t av_uplink_size = sizeof(av_uplink_t);
 typedef struct __attribute__((__packed__)) {
 	// TODO: @Avioncis update for Nordend 2023 Mission
 #ifdef __cplusplus
-	uint16_t prefix = ERT_PREFIX;
+	uint32_t prefix = ERT_PREFIX;
 #else
-	uint16_t prefix;
+	uint32_t prefix;
 #endif
-	uint32_t timestamp;
-	int32_t acc_z;
-	int32_t baro_press;
-	int16_t baro_temp;
-	int32_t kalman_z;
-	int32_t kalman_v;
-//	int32_t kalman_a;
-	int32_t kalman_sigma_z;
-//	float	gnss_hdop;
-	float	gnss_lon;
-	float	gnss_lat;
-	int32_t	gnss_alt;
-	uint8_t av_state;
-    int32_t baro_alt;
-    uint8_t engine_state; // TODO !! explain how GS can get the info from your valve state!
-    uint8_t valves_state;
     uint32_t packet_nbr;
-    uint16_t N2O_pressure;
+	uint32_t timestamp;
+	float acc_z; // g
+	float acc_hg_z; // g (high g)
+	float baro_press; //hPa
+	float baro_temp; //C
+	float	gnss_lon; //dd.dddddd
+	float	gnss_lat; //dd.dddddd
+	float	gnss_alt; //m
+	uint16_t N2O_pressure;
     uint16_t N2O_temp;
     uint16_t fuel_pressure;
     uint16_t chamber_pressure;
+	uint8_t av_state; //enum
+	engine_state_t engine_state; //binaries states of the valves
     //AV_cmd_status engine_state;
 } av_downlink_t;
 #ifdef __cplusplus
