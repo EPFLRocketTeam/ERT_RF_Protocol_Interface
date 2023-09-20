@@ -35,10 +35,11 @@
 
 #define ERT_PREFIX 				((uint16_t) ('B' << 8 | 'G'))
 
-#define IGNITION_CODE 			0x434C //CL
-
 #define ACTIVE 					0xAC // 0xAC for ACtive 
 #define INACTIVE 				0xDE // 0xDE for DEsactive
+
+#define IGNITION_CODE 	0x42  // "66"  // in order_value
+
 
 ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -62,8 +63,8 @@ enum CAPSULE_ID {
 };
 
 enum CMD_ID {
-	AV_CMD_VALVE_N2O = 3,
-    AV_CMD_VALVE_FUEL,
+	AV_CMD_SERVO_N2O = 3,
+    AV_CMD_SERVO_FUEL,
 	AV_CMD_VENT_N2O,
 	AV_CMD_VENT_FUEL,
 	GSE_FILLING_N2O,
@@ -133,6 +134,10 @@ typedef struct __attribute__((__packed__)) {
     uint8_t engine_state; // TODO !! explain how GS can get the info from your valve state!
     uint8_t valves_state;
     uint32_t packet_nbr;
+    uint16_t N2O_pressure;
+    uint16_t N2O_temp;
+    uint16_t fuel_pressure;
+    uint16_t chamber_pressure;
     //AV_cmd_status engine_state;
 } av_downlink_t;
 #ifdef __cplusplus
