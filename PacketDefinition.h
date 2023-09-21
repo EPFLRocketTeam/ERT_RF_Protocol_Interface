@@ -31,13 +31,16 @@
 #include <stdint.h> // for uint8_t
 #include <stddef.h> // for size_t
 
+// #define ERT_PREFIX 				((uint16_t) ('B' << 8 | 'G'))
 
-#define ERT_PREFIX 				((uint16_t) ('B' << 8 | 'G'))
+// #define IGNITION_CODE 			0x434C //CL
 
-#define IGNITION_CODE 			0x434C //CL
+// For valves and servos
+#define OPEN 					0xAC // 0xAC for ACtive 
+#define CLOSED	 				0xDE // 0xDE for DEsactive
 
-#define ACTIVE 					0xAC // 0xAC for ACtive 
-#define INACTIVE 				0xDE // 0xDE for DEsactive
+// For igniter
+#define BURN 					0xBB // 0xBB for BBBBurn
 
 ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -100,6 +103,28 @@ const size_t packetAvUplinkSize = sizeof(PacketAvUplink);
 // AV DOWNLINK PACKET
 
 typedef struct __attribute__((__packed__)) {
+	uint8_t solenoidPressure;
+	uint8_t solenoidVentN2O;
+	uint8_t solenoidVentFuel;
+	uint8_t servoN2O;
+	uint8_t servoFuel;
+	uint8_t ignitor;
+	uint16_t pressureN2O;
+	uint16_t pressureFuel;
+	uint16_t pressureChamber;
+	float_t temperatureN2O;
+} PacketEngineStatus;
+const uint32_t packetEngineStatusSize = sizeof(PacketEngineStatus);
+
+typedef struct __attribute__((__packed__)) {
+
+	uint32_t timestamp;
+	uint8_t flightMode;
+	float lat;
+	float lng;
+	float alt;
+	uint16_t positionAge;
+	PacketEngineStatus engineStatus;
 
 } PacketAVDownlink;
 const uint32_t packetAVDownlinkSize = sizeof(PacketAVDownlink);
