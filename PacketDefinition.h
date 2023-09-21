@@ -47,7 +47,7 @@ enum CAPSULE_ID {
     // Rocket & GSE
     AV_TELEMETRY = 8,
     GSE_TELEMETRY,
-	GS_CMD, // uplink from GS
+	GS_CMD,
 	//////////////////////////////////
 	// Tracker
 	BINOC_ATTITUDE,
@@ -82,58 +82,22 @@ typedef struct __attribute__((__packed__)) {
 } PacketTemplate;
 const uint32_t packetTemplateSize = sizeof(PacketTemplate);
 
-
 /////////////////////////////////////////////////////////////////
 // ---------------------- AV PACKETS ------------------------  // 
 /////////////////////////////////////////////////////////////////
 
-// AV UPLINK PACKET
-
 typedef struct __attribute__((__packed__)) {
-	uint16_t prefix = ERT_PREFIX;
-	uint8_t order_id; // from CMD_ID
-	uint8_t order_value;  // only ACTIVE or INACTIVE  	254 other possibilities unconsidered
-} av_uplink_t;
-const size_t av_uplink_size = sizeof(av_uplink_t);
+	uint8_t cmdId; 
+	uint8_t cmdValue;
+} PacketAvUplink;
+const size_t packetAvUplinkSize = sizeof(PacketAvUplink);
 
 // AV DOWNLINK PACKET
 
 typedef struct __attribute__((__packed__)) {
-	// TODO: @Avioncis update for Nordend 2023 Mission
-	uint16_t prefix = ERT_PREFIX;
-	uint32_t timestamp;
-	int32_t acc_z;
-	int32_t baro_press;
-	int16_t baro_temp;
-	int32_t kalman_z;
-	int32_t kalman_v;
-//	int32_t kalman_a;
-	int32_t kalman_sigma_z;
-//	float	gnss_hdop;
-	float	gnss_lon;
-	float	gnss_lat;
-	int32_t	gnss_alt;
-	uint8_t av_state;
-    int32_t baro_alt;
-    uint8_t engine_state; // TODO !! explain how GS can get the info from your valve state!
-    uint8_t valves_state;
-    uint32_t packet_nbr;
-    //AV_cmd_status engine_state;
-} av_downlink_t;
-const uint32_t av_downlink_size = sizeof(av_downlink_t);
 
-typedef enum {
-	MIAOU_RF,
-	MIAOU_GNSS
-}miaou_transfer_type;
-
-typedef struct __attribute__((__packed__)) {
-	float	gnss_lon;
-	float	gnss_lat;
-	int32_t	gnss_alt;
-} av_miaou_gnss_t;
-const size_t av_miaou_gnss_size = sizeof(av_miaou_gnss_t);
-
+} PacketAVDownlink;
+const uint32_t packetAVDownlinkSize = sizeof(PacketAVDownlink);
 
 /////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -147,17 +111,17 @@ const size_t av_miaou_gnss_size = sizeof(av_miaou_gnss_t);
 typedef struct __attribute__((__packed__)) {
 	uint8_t fillingN2O;
 	uint8_t vent;
-} GSE_cmd_status;
-const uint32_t GSE_cmd_status_size = sizeof(GSE_cmd_status);
+} GSECmdStatus;
+const uint32_t GSECmdStatusSize = sizeof(GSECmdStatus);
 
 typedef struct __attribute__((__packed__)) {
 	// TODO: @Avioncis update for Nordend 2023 Mission
 	int32_t tankPressure;
 	float tankTemperature;
 	int32_t fillingPressure;
-    GSE_cmd_status status;
-} PacketGSE_downlink;
-const uint32_t packetGSE_downlink_size = sizeof(PacketGSE_downlink);
+    GSECmdStatus status;
+} PacketGSEDownlink;
+const uint32_t packetGSEDownlinkSize = sizeof(PacketGSEDownlink);
 
 
 /////////////////////////////////////////////////////////////////
