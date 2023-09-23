@@ -112,7 +112,7 @@ const uint32_t engine_state_size = sizeof(engine_state_t);
 
 typedef struct __attribute__((__packed__)) {
 #ifdef __cplusplus
-	uint16_t prefix = ERT_PREFIX;
+	uint32_t prefix = ERT_PREFIX;
 #else
 	uint16_t prefix;
 #endif
@@ -189,11 +189,11 @@ const uint32_t GSE_cmd_status_size = sizeof(GSE_cmd_status);
 #endif
 
 typedef struct __attribute__((__packed__)) {
-	// TODO: @Avioncis update for Nordend 2023 Mission
 	int32_t tankPressure;
 	float tankTemperature;
 	int32_t fillingPressure;
     GSE_cmd_status status;
+	bool disconnectActive;
 } PacketGSE_downlink;
 #ifdef __cplusplus
 const uint32_t packetGSE_downlink_size = sizeof(PacketGSE_downlink);
