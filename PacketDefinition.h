@@ -159,11 +159,11 @@ typedef enum {
 }miaou_transfer_type;
 
 typedef struct __attribute__((__packed__)) {
-	float	gnss_lon;
-	float	gnss_lat;
-	float	gnss_alt;
-	float   gnss_speed;
-	float 	gnss_hdop;
+	float	longitude;
+	float	latitude;
+	float	altitude;
+	float   speed;
+	float 	hdop;
 	uint32_t time;
 } av_miaou_gnss_t;
 #ifdef __cplusplus
