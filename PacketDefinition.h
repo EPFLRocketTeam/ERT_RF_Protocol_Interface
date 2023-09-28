@@ -74,7 +74,8 @@ enum CMD_ID {
 	AV_CMD_PRESSURIZE,
 	AV_CMD_ABORT,
 	AV_CMD_RECOVER,
-	AV_CMD_IGNITION
+	AV_CMD_IGNITION,
+	AV_CMD_MAN_PRESSURE
 };
 
 
@@ -134,18 +135,22 @@ typedef struct __attribute__((__packed__)) {
 #endif
     uint32_t packet_nbr;
 	uint32_t timestamp;
-	float acc_z; // g
-	float acc_hg_z; // g (high g)
-	float baro_press; //hPa
-	float baro_temp; //C
-	float	gnss_lon; //dd.dddddd
-	float	gnss_lat; //dd.dddddd
-	float	gnss_alt; //m
-	uint16_t N2O_pressure;
-    uint16_t N2O_temp;
-    uint16_t fuel_pressure;
-    uint16_t chamber_pressure;
-	uint8_t av_state; //enum
+	float    acc_z; // g
+	float    acc_hg_z; // g (high g)
+	float    baro_press; //hPa
+	float    baro_temp; //C
+	float    baro_press_r; //hPa
+	float	 gnss_lon; //dd.dddddd
+	float	 gnss_lat; //dd.dddddd
+	float	 gnss_alt; //m
+	float	 gnss_lon_r; //dd.dddddd
+	float	 gnss_lat_r; //dd.dddddd
+	float	 gnss_alt_r; //m
+	float    N2O_pressure;
+    float    tank_temp;
+    float    fuel_pressure;
+    float    chamber_pressure;
+	uint8_t  av_state; //enum
 	engine_state_t engine_state; //binaries states of the valves
     //AV_cmd_status engine_state;
 } av_downlink_t;
@@ -159,11 +164,11 @@ typedef enum {
 }miaou_transfer_type;
 
 typedef struct __attribute__((__packed__)) {
-	float	gnss_lon;
-	float	gnss_lat;
-	float	gnss_alt;
-	float   gnss_speed;
-	float 	gnss_hdop;
+	float	longitude;
+	float	latitude;
+	float	altitude;
+	float   speed;
+	float 	hdop;
 	uint32_t time;
 } av_miaou_gnss_t;
 #ifdef __cplusplus
