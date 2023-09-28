@@ -168,6 +168,41 @@ const size_t av_miaou_gnss_size = sizeof(av_miaou_gnss_t);
 #endif
 
 
+//CAUTION COPIED FROM od/data_types.h
+typedef enum control_state_copy
+{
+	/** Wait for arming or calibration */
+	CONTROL_IDLE,
+	/** Calibrate sensors and actuators */
+	CONTROL_CALIBRATION,
+	/** Manual Servo movement */
+	CONTROL_MANUAL_OPERATION,
+	/** System is armed and ready to pressure*/
+	CONTROL_ARMED,
+	/** system is pressured */
+	CONTROL_PRESSURED,
+	/** fire igniter */
+	CONTROL_IGNITER,
+	/** partially open valves*/
+	CONTROL_IGNITION,
+	/** fully open valves */
+	CONTROL_THRUST,
+	/** close ethanol valve */
+	CONTROL_SHUTDOWN,
+	/** glide */
+	CONTROL_GLIDE,
+	/** Descent */
+	CONTROL_DESCENT,
+	/** Safe state */
+	CONTROL_SAFE,
+	/** system error*/
+	CONTROL_ERROR,
+	/** User triggered abort */
+	CONTROL_ABORT
+} control_state_copy_t;
+
+
+
 /////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 ////////// FROM HERE, GS stuff, please don't touch //////////////
