@@ -172,33 +172,33 @@ const size_t av_miaou_gnss_size = sizeof(av_miaou_gnss_t);
 typedef enum control_state_copy
 {
 	/** Wait for arming or calibration */
-	CONTROL_IDLE,
+	AV_CONTROL_IDLE,
 	/** Calibrate sensors and actuators */
-	CONTROL_CALIBRATION,
+	AV_CONTROL_CALIBRATION,
 	/** Manual Servo movement */
-	CONTROL_MANUAL_OPERATION,
+	AV_CONTROL_MANUAL_OPERATION,
 	/** System is armed and ready to pressure*/
-	CONTROL_ARMED,
+	AV_CONTROL_ARMED,
 	/** system is pressured */
-	CONTROL_PRESSURED,
+	AV_CONTROL_PRESSURED,
 	/** fire igniter */
-	CONTROL_IGNITER,
+	AV_CONTROL_IGNITER,
 	/** partially open valves*/
-	CONTROL_IGNITION,
+	AV_CONTROL_IGNITION,
 	/** fully open valves */
-	CONTROL_THRUST,
+	AV_CONTROL_THRUST,
 	/** close ethanol valve */
-	CONTROL_SHUTDOWN,
+	AV_CONTROL_SHUTDOWN,
 	/** glide */
-	CONTROL_GLIDE,
+	AV_CONTROL_GLIDE,
 	/** Descent */
-	CONTROL_DESCENT,
+	AV_CONTROL_DESCENT,
 	/** Safe state */
-	CONTROL_SAFE,
+	AV_CONTROL_SAFE,
 	/** system error*/
-	CONTROL_ERROR,
+	AV_CONTROL_ERROR,
 	/** User triggered abort */
-	CONTROL_ABORT
+	AV_CONTROL_ABORT
 } control_state_copy_t;
 
 
