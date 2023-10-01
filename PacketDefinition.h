@@ -67,9 +67,9 @@ enum CMD_ID {
     AV_CMD_SERVO_FUEL,
 	AV_CMD_VENT_N2O,
 	AV_CMD_VENT_FUEL,
-	GSE_FILLING_N2O,
-    GSE_VENT,
-	AV_CMD_DISCONNECT,
+	GSE_CMD_FILLING_N2O,
+    GSE_CMD_VENT,
+	GSE_CMD_DISCONNECT,
 	AV_CMD_ARM,
 	AV_CMD_PRESSURIZE,
 	AV_CMD_ABORT,
@@ -221,9 +221,9 @@ const uint32_t GSE_cmd_status_size = sizeof(GSE_cmd_status);
 #endif
 
 typedef struct __attribute__((__packed__)) {
-	int32_t tankPressure;
+	float tankPressure;
 	float tankTemperature;
-	int32_t fillingPressure;
+	float fillingPressure;
     GSE_cmd_status status;
 	bool disconnectActive;
 } PacketGSE_downlink;
