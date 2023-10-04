@@ -96,13 +96,13 @@ const uint32_t packetTemplateSize = sizeof(PacketTemplate);
 
 
 typedef struct __attribute__((__packed__)) {
-	uint8_t servo_N2O  :1;
-	uint8_t servo_fuel :1;
-	uint8_t vent_N2O   :1;
-	uint8_t vent_fuel  :1;
-	uint8_t pressurize :1;
-	uint8_t purge      :1;
-	uint8_t reserve    :2;
+	uint8_t servo_N2O;
+	uint8_t servo_fuel;
+	uint8_t vent_N2O;
+	uint8_t vent_fuel;
+	uint8_t pressurize;
+	uint8_t purge;
+	uint8_t reserve;
 } engine_state_t;
 #ifdef __cplusplus
 const uint32_t engine_state_size = sizeof(engine_state_t);
@@ -201,7 +201,22 @@ typedef enum control_state_copy
 	AV_CONTROL_ABORT
 } control_state_copy_t;
 
-
+enum FLIGHTMODE {
+  INITIALIZE_MODE = 0, 
+  READYSTEADY_MODE,
+  CALIBRATION_MODE,
+  MANUAL_MODE,
+  ARMED_MODE,
+  PRESSURED_MODE,
+  IGNITER_MODE,
+  IGNITION_MODE,
+  THRUST_MODE,
+  SHUTDOWN_MODE, 
+  ASCENT_MODE, 
+  DESCENT_MODE, 
+  GLIDING_MODE,
+  ABORT_MODE
+};
 
 /////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////

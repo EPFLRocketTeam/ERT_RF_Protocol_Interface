@@ -1,7 +1,7 @@
 // LoRa Parameters Definition of the ERT2023 network architecture
 
 // Default RF parameters
-#define DEFAULT_TX_POWER            2  // dBm   max 20dBm
+#define DEFAULT_TX_POWER            20  // dBm   max 20dBm
 #define DEFAULT_BW                  125E3  // kHz
 #define DEFAULT_SF                  8          
 #define DEFAULT_CR                  7
