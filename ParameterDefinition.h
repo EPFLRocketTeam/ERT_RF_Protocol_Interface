@@ -10,7 +10,7 @@
 #define DEFAULT_CRC                 true   
 
 // -------- UPLINK -------- // 
-#define UPLINK_FREQUENCY            867E6
+#define UPLINK_FREQUENCY            865.34E6
 #define UPLINK_POWER                DEFAULT_TX_POWER
 #define UPLINK_BW                   DEFAULT_BW
 #define UPLINK_SF                   DEFAULT_SF
@@ -20,7 +20,7 @@
 #define UPLINK_INVERSE_IQ           true
 
 // -------- AV_DOWNLINK -------- // 
-#define AV_DOWNLINK_FREQUENCY       869E6
+#define AV_DOWNLINK_FREQUENCY       866.34E6
 #define AV_DOWNLINK_POWER           DEFAULT_TX_POWER
 #define AV_DOWNLINK_BW              DEFAULT_BW
 #define AV_DOWNLINK_SF              DEFAULT_SF
@@ -30,7 +30,7 @@
 #define AV_DOWNLINK_INVERSE_IQ      true
 
 // -------- GSE_DOWNLINK -------- // 
-#define GSE_DOWNLINK_FREQUENCY      866E6
+#define GSE_DOWNLINK_FREQUENCY      868.67E6
 #define GSE_DOWNLINK_POWER          DEFAULT_TX_POWER
 #define GSE_DOWNLINK_BW             DEFAULT_BW
 #define GSE_DOWNLINK_SF             DEFAULT_SF
