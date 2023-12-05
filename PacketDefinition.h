@@ -62,20 +62,28 @@ enum CAPSULE_ID {
 	CALIBRATE_TELEMETRY
 };
 
+/* Updated on 05.12.2023 for Firehorn project */
 enum CMD_ID {
-	AV_CMD_SERVO_N2O = 3,
-    AV_CMD_SERVO_FUEL,
-	AV_CMD_VENT_N2O,
-	AV_CMD_VENT_FUEL,
-	GSE_CMD_FILLING_N2O,
-    GSE_CMD_VENT,
-	GSE_CMD_DISCONNECT,
-	AV_CMD_ARM,
-	AV_CMD_PRESSURIZE,
-	AV_CMD_ABORT,
+	AV_CMD_CALIBRATE = 3,
 	AV_CMD_RECOVER,
+	AV_CMD_GET_READY,
+	AV_CMD_ARM,
 	AV_CMD_IGNITION,
-	AV_CMD_MAN_PRESSURE
+	AV_CMD_ABORT,
+	AV_CMD_MANUAL_DEPLOY,
+	AV_CMD_IGNITER_LOX,
+	AV_CMD_IGNITER_FUEL,
+	AV_CMD_MAIN_LOX,
+	AV_CMD_MAIN_FUEL,
+	AV_CMD_VENT_LOX,
+	AV_CMD_VENT_FUEL,
+	AV_CMD_PRES_LOX,
+	AV_CMD_PRES_FUEL,
+	AV_CMD_PRESSURIZE,
+	/* GSE commands left untouched, just replaced N20 with LOX */
+	GSE_CMD_FILLING_LOX,
+	GSE_CMD_VENT,
+	GSE_CMD_DISCONNECT
 };
 
 
@@ -94,12 +102,16 @@ const uint32_t packetTemplateSize = sizeof(PacketTemplate);
 // ---------------------- AV PACKETS ------------------------  // 
 /////////////////////////////////////////////////////////////////
 
-
+/* Updated on 05.12.2023 for Firehorn project */
 typedef struct __attribute__((__packed__)) {
-	uint8_t servo_N2O;
-	uint8_t servo_fuel;
-	uint8_t vent_N2O;
+	uint8_t igniter_LOX;
+	uint8_t igniter_fuel;
+	uint8_t main_LOX;
+	uint8_t main_fuel;
+	uint8_t vent_LOX;
 	uint8_t vent_fuel;
+	uint8_t pressurant_LOX;
+	uint8_t pressurant_fuel;
 	uint8_t pressurize;
 	uint8_t purge;
 	uint8_t reserve;
@@ -108,9 +120,8 @@ typedef struct __attribute__((__packed__)) {
 const uint32_t engine_state_size = sizeof(engine_state_t);
 #endif
 
+
 // AV UPLINK PACKET
-
-
 typedef struct __attribute__((__packed__)) {
 	uint32_t prefix;
 	uint8_t order_id; // from CMD_ID
@@ -121,7 +132,6 @@ const size_t av_uplink_size = sizeof(av_uplink_t);
 #endif
 
 // AV DOWNLINK PACKET
-
 typedef struct __attribute__((__packed__)) {
 	uint32_t prefix;
     uint32_t packet_nbr;
@@ -202,21 +212,19 @@ typedef enum control_state_copy
 	AV_CONTROL_ABORT
 } control_state_copy_t;
 
-enum FLIGHTMODE {
-  INITIALIZE_MODE = 0, 
-  READYSTEADY_MODE,
-  CALIBRATION_MODE,
-  MANUAL_MODE,
-  ARMED_MODE,
-  PRESSURED_MODE,
-  IGNITER_MODE,
-  IGNITION_MODE,
-  THRUST_MODE,
-  SHUTDOWN_MODE, 
-  ASCENT_MODE, 
-  DESCENT_MODE, 
-  GLIDING_MODE,
-  ABORT_MODE
+/* Updated on 05.12.2023 for Firehorn project */
+enum class FLIGHTMODE {
+	INIT = 0,
+	CALIBRATION,
+	ERROR_GROUND,
+	READY_STEADY,
+	MANUAL,
+	ARMED,
+	THRUST_SEQUENCE,
+	ASCENT,
+	DESCENT,
+	LANDED,
+	ERROR_FLIGHT
 };
 
 /////////////////////////////////////////////////////////////////
