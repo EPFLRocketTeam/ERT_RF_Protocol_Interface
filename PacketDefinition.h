@@ -66,7 +66,7 @@ enum CAPSULE_ID {
 enum CMD_ID {
 	AV_CMD_CALIBRATE = 3,
 	AV_CMD_RECOVER,
-	AV_CMD_GET_READY,
+	AV_CMD_READY,
 	AV_CMD_ARM,
 	AV_CMD_IGNITION,
 	AV_CMD_ABORT,
@@ -104,17 +104,19 @@ const uint32_t packetTemplateSize = sizeof(PacketTemplate);
 
 /* Updated on 05.12.2023 for Firehorn project */
 typedef struct __attribute__((__packed__)) {
-	uint8_t igniter_LOX;
-	uint8_t igniter_fuel;
-	uint8_t main_LOX;
-	uint8_t main_fuel;
-	uint8_t vent_LOX;
-	uint8_t vent_fuel;
-	uint8_t pressurant_LOX;
+	uint8_t igniter_LOX;    // V3
+	uint8_t igniter_fuel;   // V4
+	uint8_t main_LOX;       // V5
+	uint8_t main_fuel;      // V6
+	uint8_t vent_LOX;       // V1
+	uint8_t vent_fuel;      // V2
+	uint8_t pressurant_LOX; 
 	uint8_t pressurant_fuel;
+	/* Commented out because didn't know what to do with it
 	uint8_t pressurize;
 	uint8_t purge;
 	uint8_t reserve;
+	*/
 } engine_state_t;
 #ifdef __cplusplus
 const uint32_t engine_state_size = sizeof(engine_state_t);
@@ -134,27 +136,28 @@ const size_t av_uplink_size = sizeof(av_uplink_t);
 // AV DOWNLINK PACKET
 typedef struct __attribute__((__packed__)) {
 	uint32_t prefix;
-    uint32_t packet_nbr;
+	uint32_t packet_nbr;
 	uint32_t timestamp;
-	// float    acc_z; // g
-	// float    acc_hg_z; // g (high g)
-	// float    baro_press; //hPa
-	// float    baro_temp; //C
-	// float    baro_press_r; //hPa
-	float	 gnss_lon; //dd.dddddd
-	float	 gnss_lat; //dd.dddddd
-	float	 gnss_alt; //m
-	float	 gnss_lon_r; //dd.dddddd
-	float	 gnss_lat_r; //dd.dddddd
-	float	 gnss_alt_r; //m
-	float 	 gnss_vertical_speed; //m/s
-	float    N2O_pressure;
-    float    tank_temp;
-    float    fuel_pressure;
-    float    chamber_pressure;
-	uint8_t  av_state; //enum
-	engine_state_t engine_state; //binaries states of the valves
-    //AV_cmd_status engine_state;
+	float	 gnss_lon;   // dd.dddddd
+	float	 gnss_lat;   // dd.dddddd
+	float	 gnss_alt;   // m
+	float	 gnss_lon_r; // dd.dddddd
+	float	 gnss_lat_r; // dd.dddddd
+	float	 gnss_alt_r; // m
+	float 	 gnss_vertical_speed; // m/s
+	/* Engine sensors */
+	float    N2_pressure;       // P1
+	float    fuel_pressure;     // P2
+	float    LOX_pressure;      // P3
+	float    fuel_level;        // L1
+	float    LOX_level;         // L2
+	float    engine_temp;       // T1
+	float    igniter_pressure;  // P4
+	float    LOX_inj_pressure;  // P5
+	float    fuel_inj_pressure; // P6
+	float    chamber_pressure;  // P7
+	engine_state_t engine_state; // binary states of the valves
+	uint8_t  av_state; // flightmode
 	uint8_t  gnss_choice;
 } av_downlink_t;
 #ifdef __cplusplus
