@@ -125,9 +125,8 @@ const uint32_t engine_state_size = sizeof(engine_state_t);
 
 // AV UPLINK PACKET
 typedef struct __attribute__((__packed__)) {
-	uint32_t prefix;
-	uint8_t order_id; // from CMD_ID
-	uint8_t order_value;  // only ACTIVE or INACTIVE  	254 other possibilities unconsidered
+	uint8_t order_id;    // from CMD_ID
+	uint8_t order_value; // only ACTIVE or INACTIVE  	254 other possibilities unconsidered
 } av_uplink_t;
 #ifdef __cplusplus
 const size_t av_uplink_size = sizeof(av_uplink_t);
@@ -135,7 +134,6 @@ const size_t av_uplink_size = sizeof(av_uplink_t);
 
 // AV DOWNLINK PACKET
 typedef struct __attribute__((__packed__)) {
-	uint32_t prefix;
 	uint32_t packet_nbr;
 	uint32_t timestamp;
 	float	 gnss_lon;   // dd.dddddd
