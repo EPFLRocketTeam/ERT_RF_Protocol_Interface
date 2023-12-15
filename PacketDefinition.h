@@ -49,9 +49,9 @@
 // /!\ Flash again the MCU Mainboard
 enum CAPSULE_ID {
 	//////////////////////////////////
-    	// Rocket & GSE
-    	AV_TELEMETRY = 8,
-    	GSE_TELEMETRY,
+	// Rocket & GSE
+	AV_TELEMETRY = 8,
+	GSE_TELEMETRY,
 	GS_CMD, // uplink from GS
 	//////////////////////////////////
 	// Tracker
