@@ -20,10 +20,13 @@
 //                                                                                                                                                                   
 //  Interface header file for communication protocol 
 //
-//  EPFL Rocket Team - Nordend Project 2023
+//  EPFL Rocket Team
 //
-//  Charlotte Heibig & Lionel Isoz & Yohan Hadji & Iacopo Sprenger
-//  26.07.2023 
+//  Created by
+//  	Charlotte Heibig & Lionel Isoz & Yohan Hadji & Iacopo Sprenger
+//  for Nordend project, on 26.07.2023
+//
+//  Updated for Firehorn project
 ///////////////////////////////////////////////////////////////////////////////////////
 #ifndef PACKET_H
 #define PACKET_H
@@ -46,9 +49,9 @@
 // /!\ Flash again the MCU Mainboard
 enum CAPSULE_ID {
 	//////////////////////////////////
-    // Rocket & GSE
-    AV_TELEMETRY = 8,
-    GSE_TELEMETRY,
+    	// Rocket & GSE
+    	AV_TELEMETRY = 8,
+    	GSE_TELEMETRY,
 	GS_CMD, // uplink from GS
 	//////////////////////////////////
 	// Tracker
@@ -62,11 +65,9 @@ enum CAPSULE_ID {
 	CALIBRATE_TELEMETRY
 };
 
-/* Updated on 05.12.2023 for Firehorn project */
 enum CMD_ID {
 	AV_CMD_CALIBRATE = 3,
 	AV_CMD_RECOVER,
-	AV_CMD_READY,
 	AV_CMD_ARM,
 	AV_CMD_IGNITION,
 	AV_CMD_ABORT,
@@ -77,13 +78,25 @@ enum CMD_ID {
 	AV_CMD_MAIN_FUEL,
 	AV_CMD_VENT_LOX,
 	AV_CMD_VENT_FUEL,
-	AV_CMD_PRES_LOX,
-	AV_CMD_PRES_FUEL,
 	AV_CMD_PRESSURIZE,
 	/* GSE commands left untouched, just replaced N20 with LOX */
 	GSE_CMD_FILLING_LOX,
 	GSE_CMD_VENT,
 	GSE_CMD_DISCONNECT
+};
+
+// AV FSM states
+enum class FLIGHTMODE {
+	INIT = 0,
+	CALIBRATION,
+	ERROR_GROUND,
+	MANUAL,
+	ARMED,
+	THRUST_SEQUENCE,
+	ASCENT,
+	DESCENT,
+	LANDED,
+	ERROR_FLIGHT
 };
 
 
@@ -102,7 +115,6 @@ const uint32_t packetTemplateSize = sizeof(PacketTemplate);
 // ---------------------- AV PACKETS ------------------------  // 
 /////////////////////////////////////////////////////////////////
 
-/* Updated on 05.12.2023 for Firehorn project */
 typedef struct __attribute__((__packed__)) {
 	uint8_t igniter_LOX;    // V3
 	uint8_t igniter_fuel;   // V4
@@ -110,8 +122,6 @@ typedef struct __attribute__((__packed__)) {
 	uint8_t main_fuel;      // V6
 	uint8_t vent_LOX;       // V1
 	uint8_t vent_fuel;      // V2
-	uint8_t pressurant_LOX; 
-	uint8_t pressurant_fuel;
 	/* Commented out because didn't know what to do with it
 	uint8_t pressurize;
 	uint8_t purge;
@@ -121,7 +131,6 @@ typedef struct __attribute__((__packed__)) {
 #ifdef __cplusplus
 const uint32_t engine_state_size = sizeof(engine_state_t);
 #endif
-
 
 // AV UPLINK PACKET
 typedef struct __attribute__((__packed__)) {
@@ -161,72 +170,6 @@ typedef struct __attribute__((__packed__)) {
 #ifdef __cplusplus
 const uint32_t av_downlink_size = sizeof(av_downlink_t);
 #endif
-
-typedef enum {
-	MIAOU_RF = 0x65,
-	MIAOU_GNSS = 0x69
-}miaou_transfer_type;
-
-typedef struct __attribute__((__packed__)) {
-	float	longitude;
-	float	latitude;
-	float	altitude;
-	float   speed;
-	float 	hdop;
-	uint32_t time;
-} av_miaou_gnss_t;
-#ifdef __cplusplus
-const size_t av_miaou_gnss_size = sizeof(av_miaou_gnss_t);
-#endif
-
-
-//CAUTION COPIED FROM od/data_types.h
-typedef enum control_state_copy
-{
-	/** Wait for arming or calibration */
-	AV_CONTROL_IDLE,
-	/** Calibrate sensors and actuators */
-	AV_CONTROL_CALIBRATION,
-	/** Manual Servo movement */
-	AV_CONTROL_MANUAL_OPERATION,
-	/** System is armed and ready to pressure*/
-	AV_CONTROL_ARMED,
-	/** system is pressured */
-	AV_CONTROL_PRESSURED,
-	/** fire igniter */
-	AV_CONTROL_IGNITER,
-	/** partially open valves*/
-	AV_CONTROL_IGNITION,
-	/** fully open valves */
-	AV_CONTROL_THRUST,
-	/** close ethanol valve */
-	AV_CONTROL_SHUTDOWN,
-	/** glide */
-	AV_CONTROL_GLIDE,
-	/** Descent */
-	AV_CONTROL_DESCENT,
-	/** Safe state */
-	AV_CONTROL_SAFE,
-	/** system error*/
-	AV_CONTROL_ERROR,
-	/** User triggered abort */
-	AV_CONTROL_ABORT
-} control_state_copy_t;
-
-/* Updated on 05.12.2023 for Firehorn project */
-enum class FLIGHTMODE {
-	INIT = 0,
-	CALIBRATION,
-	ERROR_GROUND,
-	READY_STEADY,
-	MANUAL,
-	ARMED,
-	THRUST_SEQUENCE,
-	ASCENT,
-	DESCENT,
-	LANDED,
-	ERROR_FLIGHT
-};
 
 /////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
