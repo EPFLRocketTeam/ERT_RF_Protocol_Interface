@@ -253,3 +253,69 @@ const uint32_t packetTrackerCmdSize = sizeof(PacketTrackerCmd);
 #endif
 
 #endif /* PACKET_H */
+
+
+//////////////////////////////////////////////////////////////////////
+// ---------------------- FirehornGUI Server ---------------------- // 
+
+#ifndef PACKET_DEFINITION_H
+#define PACKET_DEFINITION_H
+
+
+enum GUI_CMD {
+	GET_SERIAL_STATUS = 0,
+
+};
+
+
+enum GUI_FIELD {
+    IGNITER_LOX,
+    IGNITER_FUEL,
+    MAIN_LOX,
+    MAIN_FUEL,
+    VENT_LOX,
+    VENT_FUEL,
+    ORDER_ID,
+    ORDER_VALUE,
+    PACKET_NBR,
+    TIMESTAMP,
+    GNSS_LON,
+    GNSS_LAT,
+    GNSS_ALT,
+    GNSS_LON_R,
+    GNSS_LAT_R,
+    GNSS_ALT_R,
+    GNSS_VERTICAL_SPEED,
+    N2_PRESSURE,
+    FUEL_PRESSURE,
+    LOX_PRESSURE,
+    FUEL_LEVEL,
+    LOX_LEVEL,
+    ENGINE_TEMP,
+    IGNITER_PRESSURE,
+    LOX_INJ_PRESSURE,
+    FUEL_INJ_PRESSURE,
+    CHAMBER_PRESSURE,
+    AV_STATE,
+    GNSS_CHOICE,
+    FILLINGN2O,
+    VENT_GSE,
+    TANK_PRESSURE,
+    TANK_TEMPERATURE,
+    FILLING_PRESSURE,
+    DISCONNECT_ACTIVE,
+    LOADCELL_RAW,
+	ENGINE_STATE,
+	GSE_VENT,
+	GSE_CMD_STATUS,
+	DOWNRANGE,
+	SERIAL_STATUS,
+	SERIAL_NAME_USE,
+	AV_TIMER,
+	GSE_TIMER,
+	CMD_1,
+	CMD_2,
+	CMD_3,
+};
+
+#endif // PACKET_DEFINITION_H
