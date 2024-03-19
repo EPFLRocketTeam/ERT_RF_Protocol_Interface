@@ -316,6 +316,7 @@ enum GUI_FIELD {
 	CMD_1,
 	CMD_2,
 	CMD_3,
+	UNKNOWN
 };
 
 #endif // PACKET_DEFINITION_H
