@@ -1,48 +1,14 @@
+///////////////////////////////////////////////////////////////////////////////////////                                                                                                                                             
+//  Packet definitions for Firehorn Project 2024-2025
+//
+//  Maxime Rochat & Cyprien Lacassagne & Samuel Wahba
 ///////////////////////////////////////////////////////////////////////////////////////
-//
-//                                                                                                                                                            
-//	RRRRRRRRRRRRRRRRR   FFFFFFFFFFFFFFFFFFFFFFBBBBBBBBBBBBBBBBB           GGGGGGGGGGGGG
-//	R::::::::::::::::R  F::::::::::::::::::::FB::::::::::::::::B       GGG::::::::::::G
-//	R::::::RRRRRR:::::R F::::::::::::::::::::FB::::::BBBBBB:::::B    GG:::::::::::::::G
-//	RR:::::R     R:::::RFF::::::FFFFFFFFF::::FBB:::::B     B:::::B  G:::::GGGGGGGG::::G
-//	  R::::R     R:::::R  F:::::F       FFFFFF  B::::B     B:::::B G:::::G       GGGGGG
-//	  R::::R     R:::::R  F:::::F               B::::B     B:::::BG:::::G              
-//	  R::::RRRRRR:::::R   F::::::FFFFFFFFFF     B::::BBBBBB:::::B G:u:::G              
-//	  R::::o::::::::RR    F:::::::::::::::F     B:::::::::::::BB  G:::::G    GGGGGGGGGG
-//	  R::::RRRRRR:::::R   F::::::a::::::::F     B::::BBBBBB:::::B G:::::G    G::::::::G
-//	  R::::R     R:::::R  F::::::FFFFFFFFFF     B::::B     B:::::BG:::::G    GGGGG::::G
-//	  R::::R     R:::::R  F:::::F               B::::B     B:::::BG:::::G        G::::G
-//	  R::::R     R:::::R  F:::::F               B::::B     B:::::B G:::::G       G::::G
-//	RR:::::R     R:::::RFF:::::::FF           BB:::::BBBBBB::::::B  G:::::GGGGGGGG::::G
-//	R::::::R     R:::::RF::::::::FF           B::::::s::::::::::B    GG:::::::::::::::G
-//	R::::::R     R:::::RF::::::::FF           B::::::::::::::::B       GGG::::::GGG:::G
-//	RRRRRRRR     RRRRRRRFFFFFFFFFFF           BBBBBBBBBBBBBBBBB           GGGGGG   GGGG
-//                                                                                                                                                                   
-//  Interface header file for communication protocol 
-//
-//  EPFL Rocket Team
-//
-//  Created by
-//  	Charlotte Heibig & Lionel Isoz & Yohan Hadji & Iacopo Sprenger
-//  for Nordend project, on 26.07.2023
-//
-//  Updated for Firehorn project
-///////////////////////////////////////////////////////////////////////////////////////
-#ifndef PACKET_H
-#define PACKET_H
+#ifndef PACKET_FIREHORN_H
+#define PACKET_FIREHORN_H
 
 #include <stdint.h> // for uint8_t
 #include <stddef.h> // for size_t
 #include <stdbool.h>
-
-
-#define ERT_PREFIX 				((uint32_t) ('R' << 24 | 'F' << 16 | 'B' << 8 | 'G'))
-
-#define ACTIVE 					0xAC // 0xAC for ACtive 
-#define INACTIVE 				0xDE // 0xDE for DEsactive
-
-#define IGNITION_CODE 	0x42  // "66"  // in order_value
-
 
 ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -86,7 +52,7 @@ enum CMD_ID {
 };
 
 // AV FSM states
-enum class FLIGHTMODE {
+/* enum class FLIGHTMODE {
 	INIT = 0,
 	CALIBRATION,
 	ERROR_GROUND,
@@ -97,7 +63,7 @@ enum class FLIGHTMODE {
 	DESCENT,
 	LANDED,
 	ERROR_FLIGHT
-};
+};*/
 
 
 /////////////////////////////////////////////////////////////////
@@ -252,4 +218,4 @@ typedef struct __attribute__((__packed__)) {
 const uint32_t packetTrackerCmdSize = sizeof(PacketTrackerCmd);
 #endif
 
-#endif /* PACKET_H */
+#endif /* PACKET_FIREHORN_H */

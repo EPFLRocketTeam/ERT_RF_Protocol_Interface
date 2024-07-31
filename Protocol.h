@@ -1,0 +1,14 @@
+#ifndef RF_PROTOCOL_H_
+#define RF_PROTOCOL_H_
+
+#ifdef RF_PROTOCOL_NORDEND
+#include "PacketDefinition_Nordend.h"
+#include "ParameterDefinition_Nordend.h"
+#endif /* RF_PROTOCOL_NORDEND */
+
+#ifdef RF_PROTOCOL_FIREHORN
+#include "PacketDefinition_Firehorn.h"
+#include "ParameterDefinition_Firehorn.h"
+#endif /* RF_PROTOCOL_FIREHORN */
+
+#endif /* RF_PROTOCOL_H_ */
