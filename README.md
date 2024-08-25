@@ -19,7 +19,7 @@ By default, it will create a folder name "ERT_RF_Protocol_Interface". You can ad
 
 Then in your C++ code, you can simply do:
 ```cpp
-#include <ERT_RF_Protocol_Interface/PacketDefinition.h>
+#include <PacketDefinition.h>
 ```
 Now you can have access to the *struct* definitions in your code, see the [example](#how-to-properly-use-packet-structure) at the end. 
 

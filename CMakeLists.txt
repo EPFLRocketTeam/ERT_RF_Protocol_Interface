@@ -1,0 +1,2 @@
+add_library(ERT_RF_Protocol_Interface)
+target_include_directories(ERT_RF_Protocol_Interface PUBLIC .)
