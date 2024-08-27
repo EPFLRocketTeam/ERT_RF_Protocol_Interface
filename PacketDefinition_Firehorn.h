@@ -114,24 +114,27 @@ typedef struct __attribute__((__packed__)) {
 	float	 gnss_lon;   // dd.dddddd
 	float	 gnss_lat;   // dd.dddddd
 	float	 gnss_alt;   // m
-	float	 gnss_lon_r; // dd.dddddd
-	float	 gnss_lat_r; // dd.dddddd
-	float	 gnss_alt_r; // m
 	float 	 gnss_vertical_speed; // m/s
 	/* Engine sensors */
 	float    N2_pressure;       // P1
 	float    fuel_pressure;     // P2
 	float    LOX_pressure;      // P3
-	float    fuel_level;        // L1
-	float    LOX_level;         // L2
-	float    engine_temp;       // T1
 	float    igniter_pressure;  // P4
 	float    LOX_inj_pressure;  // P5
 	float    fuel_inj_pressure; // P6
 	float    chamber_pressure;  // P7
+	float    fuel_level;        // L1
+	float    LOX_level;         // L2
+	float	 N2_temp;	    // T1
+	float 	 fuel_temp;	    // T2
+	float  	 LOX_temp; 	    // T3
+	float 	 igniter_temp;	    // T4
+	float 	 fuel_inj_temp;     // T5
+	float    fuel_inj_cool_temp // T6
+	float 	 LOX_inj_temp; 	    // T7
+	float    engine_temp;       // T8
 	engine_state_t engine_state; // binary states of the valves
 	uint8_t  av_state; // flightmode
-	uint8_t  gnss_choice;
 } av_downlink_t;
 #ifdef __cplusplus
 const uint32_t av_downlink_size = sizeof(av_downlink_t);
