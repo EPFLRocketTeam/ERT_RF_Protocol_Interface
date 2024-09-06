@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////                                                                                                                                             
 //  Packet definitions for Firehorn Project 2024-2025
 //
-//  Maxime Rochat & Cyprien Lacassagne & Samuel Wahba
+//  Maxime Rochat (TL C-GS) & Cyprien Lacassagne (TL C-AV) & Samuel Wahba (SE C-AV C-GS) 
 ///////////////////////////////////////////////////////////////////////////////////////
 #ifndef PACKET_FIREHORN_H
 #define PACKET_FIREHORN_H
@@ -12,7 +12,7 @@
 
 ///////////////////////////////////////////////////////////////////////////////////////
 
-// /!\ Flash again the MCU Mainboard
+// This enum is used by the motherboard and the radioboard's softwares
 enum CAPSULE_ID {
 	//////////////////////////////////
 	// Rocket & GSE
@@ -50,20 +50,6 @@ enum CMD_ID {
 	GSE_CMD_VENT,
 	GSE_CMD_DISCONNECT
 };
-
-// AV FSM states
-/* enum class FLIGHTMODE {
-	INIT = 0,
-	CALIBRATION,
-	ERROR_GROUND,
-	MANUAL,
-	ARMED,
-	THRUST_SEQUENCE,
-	ASCENT,
-	DESCENT,
-	LANDED,
-	ERROR_FLIGHT
-};*/
 
 
 /////////////////////////////////////////////////////////////////
@@ -141,12 +127,6 @@ const uint32_t av_downlink_size = sizeof(av_downlink_t);
 #endif
 
 /////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////
-////////// FROM HERE, GS stuff, please don't touch //////////////
-/////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////
-
-/////////////////////////////////////////////////////////////////
 // ---------------------- GSE PACKETS ---------------------- // 
 
 typedef struct __attribute__((__packed__)) {
@@ -169,6 +149,7 @@ typedef struct __attribute__((__packed__)) {
 const uint32_t packetGSE_downlink_size = sizeof(PacketGSE_downlink);
 #endif
 
+/*
 /////////////////////////////////////////////////////////////////
 // ---------------------- BINOC PACKETS ---------------------- // 
 
@@ -220,5 +201,6 @@ typedef struct __attribute__((__packed__)) {
 #ifdef __cplusplus
 const uint32_t packetTrackerCmdSize = sizeof(PacketTrackerCmd);
 #endif
+*/
 
 #endif /* PACKET_FIREHORN_H */
