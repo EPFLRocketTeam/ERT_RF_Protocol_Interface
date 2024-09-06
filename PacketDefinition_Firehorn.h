@@ -116,7 +116,7 @@ typedef struct __attribute__((__packed__)) {
 	float  	 LOX_temp; 	    // T3
 	float 	 igniter_temp;	    // T4
 	float 	 fuel_inj_temp;     // T5
-	float    fuel_inj_cool_temp // T6
+	float    fuel_inj_cool_temp; // T6
 	float 	 LOX_inj_temp; 	    // T7
 	float    engine_temp;       // T8
 	engine_state_t engine_state; // binary states of the valves
