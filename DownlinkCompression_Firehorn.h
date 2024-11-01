@@ -14,10 +14,10 @@ inline av_downlink_t encode_downlink(const av_downlink_unpacked& unpacked_data) 
     packet.packet_nbr = unpacked_data.packet_nbr;
 
     packet.gnss_lon = ((int32_t)unpacked_data.gnss_lon << 10)
-                    + (unpacked_data.gnss_lon - (int32_t)unpacked_data.gnss_lon) * 1000;
+                    + abs((unpacked_data.gnss_lon - (int32_t)unpacked_data.gnss_lon) * 1000);
 
     packet.gnss_lat = ((int32_t)unpacked_data.gnss_lat << 10)
-                    + (unpacked_data.gnss_lat - (int32_t)unpacked_data.gnss_lat) * 1000;
+                    + abs((unpacked_data.gnss_lat - (int32_t)unpacked_data.gnss_lat) * 1000);
 
     packet.gnss_alt = (uint16_t)unpacked_data.gnss_alt / 10;
 
@@ -72,14 +72,14 @@ inline av_downlink_unpacked decode_downlink(const av_downlink_t& packet) {
     unpacked_data.packet_nbr = packet.packet_nbr;
 
     unpacked_data.gnss_lon = (packet.gnss_lon >> 10)
-                           + (packet.gnss_lon & 0x03FF) / 1000.0;
+                           + (1 - 2 * (packet.gnss_lon < 0)) * (packet.gnss_lon & 0x03FF) / 1000.0;
 
     unpacked_data.gnss_lat = (packet.gnss_lat >> 10)
-                           + (packet.gnss_lat & 0x03FF) / 1000.0;
+                           + (1 - 2 * (packet.gnss_lat < 0)) * (packet.gnss_lat & 0x03FF) / 1000.0;
 
-    unpacked_data.gnss_alt = packet.gnss_alt;
+    unpacked_data.gnss_alt = packet.gnss_alt * 10;
 
-    unpacked_data.gnss_vertical_speed = packet.gnss_vertical_speed;
+    unpacked_data.gnss_vertical_speed = packet.gnss_vertical_speed * 10;
 
     unpacked_data.N2_pressure = (packet.N2_pressure >> 1)
                               + (packet.N2_pressure & 0x01) * 0.5;
