@@ -58,6 +58,8 @@ inline av_downlink_t encode_downlink(const av_downlink_unpacked& unpacked_data) 
 
     packet.av_state = unpacked_data.av_state;
 
+    packet.cam_rec = unpacked_data.cam_rec;
+
     return packet;
 }
 
@@ -113,6 +115,8 @@ inline av_downlink_unpacked decode_downlink(const av_downlink_t& packet) {
     unpacked_data.engine_state = packet.engine_state;
 
     unpacked_data.av_state = packet.av_state;
+
+    unpacked_data.cam_rec = packet.cam_rec;
 
     return unpacked_data;
 }

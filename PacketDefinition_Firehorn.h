@@ -23,6 +23,11 @@
 #define ENGINE_STATE_MAIN_LOX	(1 << 1)
 #define ENGINE_STATE_MAIN_FUEL	(1 << 0)
 
+/* Cameras recording map (0: rec OFF, 1: rec ON) */
+#define CAMERA_REC_PARACHUTE    (1 << 2)
+#define CAMERA_REC_AIRFRAME_UP  (1 << 1)
+#define CAMERA_REC_AIRFRAME_DN  (1 << 0)
+
 // This enum is used by the motherboard and the radioboard's softwares
 enum CAPSULE_ID {
 	//////////////////////////////////
@@ -109,6 +114,7 @@ typedef struct __attribute__((__packed__)) {
 	int16_t  ambient_temp		 : 9;   // integer              | -200,100 | 1    | °C
 	uint8_t  engine_state 		 : 6;   // binary states of the valves
 	uint8_t  av_state     		 : 4;   // FSM state
+	uint8_t  cam_rec             : 3;   // Cameras recording state
 } av_downlink_t;
 #ifdef __cplusplus
 const uint32_t av_downlink_size = sizeof(av_downlink_t);
@@ -135,6 +141,7 @@ typedef struct {
 	int16_t  ambient_temp;
 	uint8_t  engine_state;
 	uint8_t  av_state;
+	uint8_t  cam_rec;
 } av_downlink_unpacked;
 
 /////////////////////////////////////////////////////////////////
