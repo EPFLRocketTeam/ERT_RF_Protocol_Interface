@@ -23,30 +23,31 @@
 
 // /!\ Flash again the MCU Mainboard
 enum CAPSULE_ID {
-    //////////////////////////////////
-    // Rocket & GSE
-    AV_TELEMETRY = 8,
-    GSE_TELEMETRY,
-    GS_CMD, // uplink from GS
-    //////////////////////////////////
-    // Tracker
-    BINOC_ATTITUDE,
-    BINOC_POSITION,
-    BINOC_STATUS,
-    BINOC_GLOBAL_STATUS,
-    //////////////////////////////////
-    TRACKER_CMD,
-    //////////////////////////////////
-    CALIBRATE_TELEMETRY
+	//////////////////////////////////
+	// Rocket & GSE
+	AV_TELEMETRY = 8,
+	GSE_TELEMETRY,
+	HOPPER_DOWNLINK,
+	GS_CMD, // uplink from GS
+	//////////////////////////////////
+	// Tracker
+	BINOC_ATTITUDE,
+	BINOC_POSITION,
+	BINOC_STATUS,
+	BINOC_GLOBAL_STATUS,
+	//////////////////////////////////
+	TRACKER_CMD,
+	//////////////////////////////////
+	CALIBRATE_TELEMETRY
 };
 
 enum CMD_ID {
 	AV_CMD_SERVO_N2O = 3,
-	AV_CMD_SERVO_FUEL,
+    AV_CMD_SERVO_FUEL,
 	AV_CMD_VENT_N2O,
 	AV_CMD_VENT_FUEL,
 	GSE_CMD_FILLING_N2O,
-	GSE_CMD_VENT,
+    GSE_CMD_VENT,
 	GSE_CMD_DISCONNECT,
 	AV_CMD_ARM,
 	AV_CMD_PRESSURIZE,
@@ -129,74 +130,45 @@ typedef struct __attribute__((__packed__)) {
 const uint32_t av_downlink_size = sizeof(av_downlink_t);
 #endif
 
-typedef enum {
-	MIAOU_RF = 0x65,
-	MIAOU_GNSS = 0x69
-}miaou_transfer_type;
-
+// ---------------------- HOPPER PACKET ---------------------- // 
 typedef struct __attribute__((__packed__)) {
-	float	longitude;
-	float	latitude;
-	float	altitude;
-	float   speed;
-	float 	hdop;
-	uint32_t time;
-} av_miaou_gnss_t;
+    uint32_t packet_nbr;      // 32 bits: packet counter (10Hz update rate)
+    uint16_t N2O_pressure;    // 16 bits (only 12 bits used from ADC)
+    uint16_t ETH_pressure;    // 16 bits
+    uint8_t  N2O_temp;        // 8 bits
+    struct {
+        unsigned int N2O_vent : 1;  // 1 bit
+        unsigned int ETH_vent : 1;  // 1 bit
+    } vents;                    // Together: 2 bits (packed with next field)
+    uint8_t  N2O_main;        // 8 bits
+    uint8_t  ETH_main;        // 8 bits
+    float    gnss_lon;        // 32 bits (IEEE 754)
+    float    gnss_lat;        // 32 bits (IEEE 754)
+    uint8_t  sat_nbr;         // 8 bits: number of fixed satellites
+    int16_t  gyro_x;          // 16 bits: raw gyro values
+    int16_t  gyro_y;          // 16 bits
+    int16_t  gyro_z;          // 16 bits
+    int16_t  acc_x;           // 16 bits: raw accelerometer values
+    int16_t  acc_y;           // 16 bits
+    int16_t  acc_z;           // 16 bits
+    int16_t  baro;            // 16 bits: barometric reading
+    int16_t  kalman_pos_x;    // 16 bits: Kalman filter estimated positions
+    int16_t  kalman_pos_y;    // 16 bits
+    int16_t  kalman_pos_z;    // 16 bits
+    int16_t  kalman_yaw;      // 16 bits: Kalman filter estimated angles
+    int16_t  kalman_pitch;    // 16 bits
+    int16_t  kalman_roll;     // 16 bits
+    uint8_t  gimbal_x;        // 8 bits: gimbal position
+    uint8_t  gimbal_y;        // 8 bits
+    uint8_t  HV_voltage;      // 8 bits: high-voltage measurement
+    uint8_t  LV_voltage;      // 8 bits: low-voltage measurement
+    uint8_t  AV_temp;         // 8 bits: AV temperature
+    // Total: 410 bits (51.25 bytes)
+} PacketHopper_downlink;
+
 #ifdef __cplusplus
-const size_t av_miaou_gnss_size = sizeof(av_miaou_gnss_t);
+const uint32_t packetHopper_downlink_size = sizeof(PacketHopper_downlink);
 #endif
-
-
-//CAUTION COPIED FROM od/data_types.h
-typedef enum control_state_copy
-{
-	/** Wait for arming or calibration */
-	AV_CONTROL_IDLE,
-	/** Calibrate sensors and actuators */
-	AV_CONTROL_CALIBRATION,
-	/** Manual Servo movement */
-	AV_CONTROL_MANUAL_OPERATION,
-	/** System is armed and ready to pressure*/
-	AV_CONTROL_ARMED,
-	/** system is pressured */
-	AV_CONTROL_PRESSURED,
-	/** fire igniter */
-	AV_CONTROL_IGNITER,
-	/** partially open valves*/
-	AV_CONTROL_IGNITION,
-	/** fully open valves */
-	AV_CONTROL_THRUST,
-	/** close ethanol valve */
-	AV_CONTROL_SHUTDOWN,
-	/** glide */
-	AV_CONTROL_GLIDE,
-	/** Descent */
-	AV_CONTROL_DESCENT,
-	/** Safe state */
-	AV_CONTROL_SAFE,
-	/** system error*/
-	AV_CONTROL_ERROR,
-	/** User triggered abort */
-	AV_CONTROL_ABORT
-} control_state_copy_t;
-
-enum FLIGHTMODE {
-  INITIALIZE_MODE = 0, 
-  READYSTEADY_MODE,
-  CALIBRATION_MODE,
-  MANUAL_MODE,
-  ARMED_MODE,
-  PRESSURED_MODE,
-  IGNITER_MODE,
-  IGNITION_MODE,
-  THRUST_MODE,
-  SHUTDOWN_MODE, 
-  ASCENT_MODE, 
-  DESCENT_MODE, 
-  GLIDING_MODE,
-  ABORT_MODE
-};
-
 /////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 ////////// FROM HERE, GS stuff, please don't touch //////////////
@@ -218,9 +190,12 @@ typedef struct __attribute__((__packed__)) {
 	float tankPressure;
 	float tankTemperature;
 	float fillingPressure;
-    GSE_cmd_status status;
+	GSE_cmd_status status;
 	bool disconnectActive;
-	int32_t loadcellRaw;
+	uint32_t loadcell1;
+	uint32_t loadcell2;
+	uint32_t loadcell3;
+	uint32_t loadcell4;
 } PacketGSE_downlink;
 #ifdef __cplusplus
 const uint32_t packetGSE_downlink_size = sizeof(PacketGSE_downlink);
@@ -278,4 +253,4 @@ typedef struct __attribute__((__packed__)) {
 const uint32_t packetTrackerCmdSize = sizeof(PacketTrackerCmd);
 #endif
 
-#endif
+#endif /* PACKET_NORDEND_H */
