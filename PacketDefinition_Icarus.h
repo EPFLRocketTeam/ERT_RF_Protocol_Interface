@@ -46,12 +46,15 @@ enum CMD_ID {
 	HOPPER_CMD_SERVO_FUEL,
 	HOPPER_CMD_VENT_N2O,
 	HOPPER_CMD_VENT_FUEL,
+	HOPPER_CMD_N2_SOL,
 	HOPPER_CMD_GIMBALL_X,
 	HOPPER_CMD_GIMBALL_Y,
 	HOPPER_CMD_CALIBRATE,
+	HOPPER_CMD_PRESSURIZE,
 	HOPPER_CMD_ARM,
 	HOPPER_CMD_LAUNCH,
 	HOPPER_CMD_ABORT,
+	HOPPER_CMD_ID_CONFIG,
 	
 
 	GSE_CMD_FILLING_N2O,
@@ -90,8 +93,6 @@ const uint32_t engine_state_size = sizeof(engine_state_t);
 #endif
 
 // AV UPLINK PACKET
-
-
 typedef struct __attribute__((__packed__)) {
 	uint32_t prefix;
 	uint8_t order_id; // from CMD_ID
@@ -99,37 +100,6 @@ typedef struct __attribute__((__packed__)) {
 } av_uplink_t;
 #ifdef __cplusplus
 const size_t av_uplink_size = sizeof(av_uplink_t);
-#endif
-
-// AV DOWNLINK PACKET
-
-typedef struct __attribute__((__packed__)) {
-	uint32_t prefix;
-    uint32_t packet_nbr;
-	uint32_t timestamp;
-	// float    acc_z; // g
-	// float    acc_hg_z; // g (high g)
-	// float    baro_press; //hPa
-	// float    baro_temp; //C
-	// float    baro_press_r; //hPa
-	float	 gnss_lon; //dd.dddddd
-	float	 gnss_lat; //dd.dddddd
-	float	 gnss_alt; //m
-	float	 gnss_lon_r; //dd.dddddd
-	float	 gnss_lat_r; //dd.dddddd
-	float	 gnss_alt_r; //m
-	float 	 gnss_vertical_speed; //m/s
-	float    N2O_pressure;
-    float    tank_temp;
-    float    fuel_pressure;
-    float    chamber_pressure;
-	uint8_t  av_state; //enum
-	engine_state_t engine_state; //binaries states of the valves
-    //AV_cmd_status engine_state;
-	uint8_t  gnss_choice;
-} av_downlink_t;
-#ifdef __cplusplus
-const uint32_t av_downlink_size = sizeof(av_downlink_t);
 #endif
 
 // ---------------------- HOPPER PACKET ---------------------- // 
@@ -141,6 +111,7 @@ typedef struct __attribute__((__packed__)) {
     struct {
         unsigned int N2O_vent : 1;  // 1 bit
         unsigned int ETH_vent : 1;  // 1 bit
+        unsigned int N2_sol : 1;  // 1 bit
     } vents;                    // Together: 2 bits (packed with next field)
     uint8_t  N2O_main;        // 8 bits
     uint8_t  ETH_main;        // 8 bits
@@ -165,6 +136,8 @@ typedef struct __attribute__((__packed__)) {
     uint8_t  HV_voltage;      // 8 bits: high-voltage measurement
     uint8_t  LV_voltage;      // 8 bits: low-voltage measurement
     uint8_t  AV_temp;         // 8 bits: AV temperature
+    uint8_t  ID_config;         // 8 bits: ID config
+    uint8_t  AV_state;         // 8 bits: AV State
     // Total: 410 bits (51.25 bytes)
 } PacketHopper_downlink;
 
