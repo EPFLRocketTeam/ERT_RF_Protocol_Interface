@@ -161,7 +161,10 @@ typedef struct __attribute__((__packed__)) {
 	float fillingPressure;
     GSE_cmd_status status;
 	bool disconnectActive;
-	int32_t loadcellRaw;
+	uint32_t loadcell1;
+	uint32_t loadcell2;
+	uint32_t loadcell3;
+	uint32_t loadcell4;
 } PacketGSE_downlink;
 #ifdef __cplusplus
 const uint32_t packetGSE_downlink_size = sizeof(PacketGSE_downlink);
