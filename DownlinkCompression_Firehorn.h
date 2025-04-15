@@ -1,6 +1,7 @@
 #ifndef DOWNLINK_COMPRESSION_FIREHORN_H
 #define DOWNLINK_COMPRESSION_FIREHORN_H
 
+#include <cmath>
 #include "PacketDefinition_Firehorn.h"
 
 /**
