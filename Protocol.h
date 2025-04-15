@@ -9,6 +9,7 @@
 #ifdef RF_PROTOCOL_FIREHORN
 #include "PacketDefinition_Firehorn.h"
 #include "ParameterDefinition_Firehorn.h"
+#include "DownlinkCompression_Firehorn.h"
 #endif /* RF_PROTOCOL_FIREHORN */
 
 #endif /* RF_PROTOCOL_H_ */
