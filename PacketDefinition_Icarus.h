@@ -1,3 +1,4 @@
+
 ///////////////////////////////////////////////////////////////////////////////////////                                                                                                                                             
 //  Packet definitions for Nordend Project 2023
 //
@@ -75,74 +76,84 @@ const uint32_t packetTemplateSize = sizeof(PacketTemplate);
 #endif
 
 /////////////////////////////////////////////////////////////////
-// ---------------------- AV PACKETS ------------------------  // 
+// ---------------------- AV PACKETS ------------------------  //
 /////////////////////////////////////////////////////////////////
 
-
+// AV DOWNLINK PACKET
 typedef struct __attribute__((__packed__)) {
-	uint8_t servo_N2O;
-	uint8_t servo_fuel;
-	uint8_t vent_N2O;
-	uint8_t vent_fuel;
-	uint8_t pressurize;
-	uint8_t purge;
-	uint8_t reserve;
-} engine_state_t;
+    
+	uint32_t packet_nbr;
+    
+	uint16_t N2O_pressure;
+    uint16_t ETH_pressure;
+    uint8_t N2O_temp;
+    uint8_t N2O_vent;
+    uint8_t ETH_vent;
+    uint8_t N2_solenoid;
+    uint8_t N2O_main;
+    uint8_t ETH_main;
+    
+	uint32_t gnss_lon; //Data with RTK correction
+    uint32_t gnss_lat; //Data with RTK correction
+    uint8_t sat_nbr; //gnss : number of fixed satellite
+    uint16_t gyro_x; //raw gyro
+    uint16_t gyro_y; //raw gyro
+    uint16_t gyro_z; //raw gyro
+    uint16_t acc_x; //raw acc
+    uint16_t acc_y; //raw acc
+    uint16_t acc_z; //raw acc
+    uint16_t baro;
+    uint16_t kalman_pos_x;
+    uint16_t kalman_pos_y;
+    uint16_t kalman_pos_z;
+    uint16_t kalman_yaw;
+    uint16_t kalman_pitch;
+    uint16_t kalman_roll;
+    uint8_t gimbal_x;
+    uint8_t gimbal_y;
+    
+	uint8_t HV_voltage;
+    uint8_t LV_voltage;
+    uint8_t AV_temp;
+    uint8_t ID_config;
+    uint8_t AV_state; // AV Power-up / Idle / Initialisation / Pressurization / Armed / Motor Fire-up / Automatic Flight / Forced Landing / ABORT
+    uint8_t Fire_up_state; // Allumage Igniter / Check Igniter / Allumage Chambres / Check Chambres / Ready to Fly 
+} AV_downlink_packet;
+
 #ifdef __cplusplus
-const uint32_t engine_state_size = sizeof(engine_state_t);
+const uint32_t AV_downlink_packet_size = sizeof(AV_downlink_packet);
 #endif
+
 
 // AV UPLINK PACKET
 typedef struct __attribute__((__packed__)) {
-	uint32_t prefix;
-	uint8_t order_id; // from CMD_ID
-	uint8_t order_value;  // only ACTIVE or INACTIVE  	254 other possibilities unconsidered
-} av_uplink_t;
-#ifdef __cplusplus
-const size_t av_uplink_size = sizeof(av_uplink_t);
-#endif
+    
+	uint32_t packet_nbr;
+    
+	uint8_t gimbal_x;
+    uint8_t gimbal_y;
+	uint8_t N2O_vent;
+    uint8_t ETH_vent;
+    uint8_t N2_solenoid;
+	uint8_t N2O_main;
+    uint8_t ETH_main;
 
-// ---------------------- HOPPER PACKET ---------------------- // 
-typedef struct __attribute__((__packed__)) {
-    uint32_t packet_nbr;      // 32 bits: packet counter (10Hz update rate)
-    uint16_t N2O_pressure;    // 16 bits (only 12 bits used from ADC)
-    uint16_t ETH_pressure;    // 16 bits
-    uint8_t  N2O_temp;        // 8 bits
-    struct {
-        unsigned int N2O_vent : 1;  // 1 bit
-        unsigned int ETH_vent : 1;  // 1 bit
-        unsigned int N2_sol : 1;  // 1 bit
-    } vents;                    // Together: 2 bits (packed with next field)
-    uint8_t  N2O_main;        // 8 bits
-    uint8_t  ETH_main;        // 8 bits
-    float    gnss_lon;        // 32 bits (IEEE 754)
-    float    gnss_lat;        // 32 bits (IEEE 754)
-    uint8_t  sat_nbr;         // 8 bits: number of fixed satellites
-    int16_t  gyro_x;          // 16 bits: raw gyro values
-    int16_t  gyro_y;          // 16 bits
-    int16_t  gyro_z;          // 16 bits
-    int16_t  acc_x;           // 16 bits: raw accelerometer values
-    int16_t  acc_y;           // 16 bits
-    int16_t  acc_z;           // 16 bits
-    int16_t  baro;            // 16 bits: barometric reading
-    int16_t  kalman_pos_x;    // 16 bits: Kalman filter estimated positions
-    int16_t  kalman_pos_y;    // 16 bits
-    int16_t  kalman_pos_z;    // 16 bits
-    int16_t  kalman_yaw;      // 16 bits: Kalman filter estimated angles
-    int16_t  kalman_pitch;    // 16 bits
-    int16_t  kalman_roll;     // 16 bits
-    uint8_t  gimbal_x;        // 8 bits: gimbal position
-    uint8_t  gimbal_y;        // 8 bits
-    uint8_t  HV_voltage;      // 8 bits: high-voltage measurement
-    uint8_t  LV_voltage;      // 8 bits: low-voltage measurement
-    uint8_t  AV_temp;         // 8 bits: AV temperature
-    uint8_t  ID_config;         // 8 bits: ID config
-    uint8_t  AV_state;         // 8 bits: AV State
-    // Total: 410 bits (51.25 bytes)
-} PacketHopper_downlink;
+    uint8_t ID_config; // ID de la config de vol voulue
+    
+	uint8_t cmd_init;
+    uint8_t cmd_pressurize;
+    uint8_t cmd_arm;
+    uint8_t cmd_fire;
+    uint8_t cmd_end;
+    uint8_t cmd_forced;
+    uint8_t cmd_abort;
+
+    uint8_t hopper_wet_mass_launch; // (From Launch Pad -> Filling Station -> Telem)
+
+} AV_uplink_packet;
 
 #ifdef __cplusplus
-const uint32_t packetHopper_downlink_size = sizeof(PacketHopper_downlink);
+const uint32_t AV_uplink_packet_size = sizeof(AV_uplink_packet);
 #endif
 /////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
