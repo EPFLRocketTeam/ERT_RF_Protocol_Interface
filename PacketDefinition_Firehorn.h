@@ -34,17 +34,7 @@ enum CAPSULE_ID {
 	// Rocket & GSE
 	AV_TELEMETRY = 8,
 	GSE_TELEMETRY,
-	GS_CMD, // uplink from GS
-	//////////////////////////////////
-	// Tracker
-	BINOC_ATTITUDE,
-	BINOC_POSITION,
-	BINOC_STATUS,
-	BINOC_GLOBAL_STATUS,
-	//////////////////////////////////
-	TRACKER_CMD,
-	//////////////////////////////////
-	CALIBRATE_TELEMETRY
+	GSC_CMD, // uplink from GS
 };
 
 enum CMD_ID {
@@ -62,9 +52,10 @@ enum CMD_ID {
 	AV_CMD_VENT_FUEL,
 	AV_CMD_PRESSURIZE,
 	/* GSE commands left untouched, just replaced N20 with LOX */
-	GSE_CMD_FILLING_LOX,
-	GSE_CMD_VENT,
-	GSE_CMD_DISCONNECT
+	GSE_CMD_IDLE,
+	GSE_CMD_ARM,
+	GSE_CMD_CALIBRATE,
+	GSE_CMD_PASSIVATE,
 };
 
 
@@ -147,24 +138,23 @@ typedef struct {
 /////////////////////////////////////////////////////////////////
 // ---------------------- GSE PACKETS ---------------------- // 
 
+// AV UPLINK PACKET
 typedef struct __attribute__((__packed__)) {
-	uint8_t fillingN2O;
-	uint8_t vent;
-} GSE_cmd_status;
+	uint8_t order_id;
+	uint8_t order_value;
+} gse_uplink_t;
 #ifdef __cplusplus
-const uint32_t GSE_cmd_status_size = sizeof(GSE_cmd_status);
+const size_t gse_uplink_size = sizeof(gse_uplink_t);
 #endif
 
 typedef struct __attribute__((__packed__)) {
 	float tankPressure;
 	float tankTemperature;
 	float fillingPressure;
-    GSE_cmd_status status;
 	bool disconnectActive;
-	int32_t loadcellRaw;
-} PacketGSE_downlink;
+} gse_downlink_t;
 #ifdef __cplusplus
-const uint32_t packetGSE_downlink_size = sizeof(PacketGSE_downlink);
+const uint32_t gse_downlink_size = sizeof(gse_downlink_t);
 #endif
 
 /*
