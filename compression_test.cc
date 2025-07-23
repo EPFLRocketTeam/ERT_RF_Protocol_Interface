@@ -1,3 +1,4 @@
+/*
 #include <iostream>
 #include <chrono>
 #include "Protocol.h"
@@ -63,3 +64,4 @@ int main() {
     std::cout << "Encoding time: " << encoding_time << " us\n"
               << "Decoding time: " << decoding_time << " us\n";
 }
+*/
