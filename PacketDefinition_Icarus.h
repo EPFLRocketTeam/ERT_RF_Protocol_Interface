@@ -4,8 +4,8 @@
 //
 //  Charlotte Heibig & Lionel Isoz & Yohan Hadji & Iacopo Sprenger
 ///////////////////////////////////////////////////////////////////////////////////////
-#ifndef PACKET_NORDEND_H
-#define PACKET_NORDEND_H
+#ifndef PACKET_ICARUS_H
+#define PACKET_ICARUS_H
 
 #include <stdint.h> // for uint8_t
 #include <stddef.h> // for size_t
@@ -155,6 +155,16 @@ typedef struct __attribute__((__packed__)) {
 #ifdef __cplusplus
 const uint32_t AV_uplink_packet_size = sizeof(AV_uplink_packet);
 #endif
+
+
+typedef struct __attribute__((__packed__)) {
+	uint8_t order_id;    // from CMD_ID
+	uint8_t order_value; // only ACTIVE or INACTIVE  	254 other possibilities unconsidered
+} av_uplink_t;
+#ifdef __cplusplus
+const size_t av_uplink_size = sizeof(av_uplink_t);
+#endif
+
 /////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 ////////// FROM HERE, GS stuff, please don't touch //////////////
