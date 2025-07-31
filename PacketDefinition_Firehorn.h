@@ -61,14 +61,14 @@ enum CMD_ID {
 
 /////////////////////////////////////////////////////////////////
 // Here is a template for writing new packet structures 
-typedef struct __attribute__((__packed__)) {
+/*typedef struct __attribute__((__packed__)) {
 	uint8_t data1;
 	uint8_t data2;
 	uint16_t data3;
 } PacketTemplate;
 #ifdef __cplusplus
 const uint32_t packetTemplateSize = sizeof(PacketTemplate);
-#endif
+#endif*/
 
 /////////////////////////////////////////////////////////////////
 // ---------------------- AV PACKETS ------------------------  // 
@@ -148,10 +148,26 @@ const size_t gse_uplink_size = sizeof(gse_uplink_t);
 #endif
 
 typedef struct __attribute__((__packed__)) {
-	float tankPressure;
-	float tankTemperature;
-	float fillingPressure;
-	bool disconnectActive;
+	uint8_t GQN_NC1; //Nitrogen and Ethanol disconnect actuation
+	uint8_t GQN_NC2; //LOX disconnect actuation
+	uint8_t GQN_NC3; // reserved
+	uint8_t GQN_NC4; // reserved
+
+	uint8_t GQN_NC5; // Low mass flow anti-freeze lox disconnect
+	uint8_t GPN_NC1; // Controls the activation of the pressure booster
+
+	uint8_t GPN_NC2; // Control the opening of the high pressure bottle
+	uint8_t GVN_NC;  // Vents the tube before disconnect
+	uint8_t GFE_NC;  // Controls the filling of ethanol along with the pump
+	uint8_t GFO_NCC; // Controls LOX filling	
+	uint8_t GDO_NCC; // Vent the tube before disconnect
+	uint8_t PC_OLC;  // Trigger Lox disconnect and purge the tube of LOX 
+
+	float GP1;		 // Nitrogen pressure in the filling line
+	float GP2;		 // LOX pressure in the deware
+	float GP3;		 // Pressure in the low-pressure side of the gas booster
+	float GP4;		 // Pressure before the pneumatic valve
+	float GP5;		 // Pressure in the ethanol filling line
 } gse_downlink_t;
 #ifdef __cplusplus
 const uint32_t gse_downlink_size = sizeof(gse_downlink_t);
