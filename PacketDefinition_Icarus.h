@@ -28,7 +28,7 @@ enum CAPSULE_ID {
 	// Rocket & GSE
 	AV_TELEMETRY = 8,
 	GSE_TELEMETRY,
-	HOPPER_DOWNLINK,
+	HOPPER_TELEMETRY,
 	GS_CMD, // uplink from GS
 	//////////////////////////////////
 	// Tracker
@@ -56,6 +56,7 @@ enum CMD_ID {
 	HOPPER_CMD_LAUNCH,
 	HOPPER_CMD_ABORT,
 	HOPPER_CMD_ID_CONFIG,
+	HOPPER_CMD_WET_MASS,
 	
 
 	GSE_CMD_FILLING_N2O,
@@ -118,10 +119,10 @@ typedef struct __attribute__((__packed__)) {
     uint8_t ID_config;
     uint8_t AV_state; // AV Power-up / Idle / Initialisation / Pressurization / Armed / Motor Fire-up / Automatic Flight / Forced Landing / ABORT
     uint8_t Fire_up_state; // Allumage Igniter / Check Igniter / Allumage Chambres / Check Chambres / Ready to Fly 
-} AV_downlink_packet;
+} av_downlink_t;
 
 #ifdef __cplusplus
-const uint32_t AV_downlink_packet_size = sizeof(AV_downlink_packet);
+const uint32_t av_downlink_size = sizeof(av_downlink_t);
 #endif
 
 
