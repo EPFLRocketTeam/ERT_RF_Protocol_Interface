@@ -38,6 +38,7 @@ enum CAPSULE_ID {
 };
 
 enum CMD_ID {
+	NO_PACKET = 0,
 	AV_CMD_CALIBRATE = 3,
 	AV_CMD_RECOVER,
 	AV_CMD_ARM,
