@@ -34,20 +34,11 @@ enum CAPSULE_ID {
 	// Rocket & GSE
 	AV_TELEMETRY = 8,
 	GSE_TELEMETRY,
-	GS_CMD, // uplink from GS
-	//////////////////////////////////
-	// Tracker
-	BINOC_ATTITUDE,
-	BINOC_POSITION,
-	BINOC_STATUS,
-	BINOC_GLOBAL_STATUS,
-	//////////////////////////////////
-	TRACKER_CMD,
-	//////////////////////////////////
-	CALIBRATE_TELEMETRY
+	GSC_CMD, // uplink from GS
 };
 
 enum CMD_ID {
+	NO_PACKET = 0,
 	AV_CMD_CALIBRATE = 3,
 	AV_CMD_RECOVER,
 	AV_CMD_ARM,
@@ -62,22 +53,41 @@ enum CMD_ID {
 	AV_CMD_VENT_FUEL,
 	AV_CMD_PRESSURIZE,
 	/* GSE commands left untouched, just replaced N20 with LOX */
-	GSE_CMD_FILLING_LOX,
-	GSE_CMD_VENT,
-	GSE_CMD_DISCONNECT
+	GSE_CMD_IDLE,
+	GSE_CMD_ARM,
+	GSE_CMD_CALIBRATE,
+	GSE_CMD_PASSIVATE,
+
+	GSE_CMD_SERVO_1,
+	GSE_CMD_SERVO_2,
+
+	GSE_CMD_TOGGLE_11,
+	GSE_CMD_TOGGLE_12,
+	GSE_CMD_TOGGLE_13,
+	GSE_CMD_TOGGLE_14,
+	GSE_CMD_TOGGLE_15,
+	GSE_CMD_TOGGLE_16,
+	GSE_CMD_TOGGLE_21,
+	GSE_CMD_TOGGLE_22,
+	GSE_CMD_TOGGLE_23,
+	GSE_CMD_TOGGLE_24,
+	GSE_CMD_TOGGLE_25,
+	GSE_CMD_TOGGLE_26,
+	GSE_CMD_TOGGLE_27,
+	GSE_CMD_TOGGLE_28,
 };
 
 
 /////////////////////////////////////////////////////////////////
 // Here is a template for writing new packet structures 
-typedef struct __attribute__((__packed__)) {
+/*typedef struct __attribute__((__packed__)) {
 	uint8_t data1;
 	uint8_t data2;
 	uint16_t data3;
 } PacketTemplate;
 #ifdef __cplusplus
 const uint32_t packetTemplateSize = sizeof(PacketTemplate);
-#endif
+#endif*/
 
 /////////////////////////////////////////////////////////////////
 // ---------------------- AV PACKETS ------------------------  // 
@@ -147,24 +157,39 @@ typedef struct {
 /////////////////////////////////////////////////////////////////
 // ---------------------- GSE PACKETS ---------------------- // 
 
+// AV UPLINK PACKET
 typedef struct __attribute__((__packed__)) {
-	uint8_t fillingN2O;
-	uint8_t vent;
-} GSE_cmd_status;
+	uint8_t order_id;
+	uint8_t order_value;
+} gse_uplink_t;
 #ifdef __cplusplus
-const uint32_t GSE_cmd_status_size = sizeof(GSE_cmd_status);
+const size_t gse_uplink_size = sizeof(gse_uplink_t);
 #endif
 
 typedef struct __attribute__((__packed__)) {
-	float tankPressure;
-	float tankTemperature;
-	float fillingPressure;
-    GSE_cmd_status status;
-	bool disconnectActive;
-	uint32_t loadcell_raw;
-} PacketGSE_downlink;
+	uint8_t GQN_NC1; //Nitrogen and Ethanol disconnect actuation
+	uint8_t GQN_NC2; //LOX disconnect actuation
+	uint8_t GQN_NC3; // reserved
+	uint8_t GQN_NC4; // reserved
+
+	uint8_t GQN_NC5; // Low mass flow anti-freeze lox disconnect
+	uint8_t GPN_NC1; // Controls the activation of the pressure booster
+
+	uint8_t GPN_NC2; // Control the opening of the high pressure bottle
+	uint8_t GVN_NC;  // Vents the tube before disconnect
+	uint8_t GFE_NC;  // Controls the filling of ethanol along with the pump
+	uint8_t GFO_NCC; // Controls LOX filling	
+	uint8_t GDO_NCC; // Vent the tube before disconnect
+	uint8_t PC_OLC;  // Trigger Lox disconnect and purge the tube of LOX 
+
+	float GP1;		 // Nitrogen pressure in the filling line
+	float GP2;		 // LOX pressure in the deware
+	float GP3;		 // Pressure in the low-pressure side of the gas booster
+	float GP4;		 // Pressure before the pneumatic valve
+	float GP5;		 // Pressure in the ethanol filling line
+} gse_downlink_t;
 #ifdef __cplusplus
-const uint32_t packetGSE_downlink_size = sizeof(PacketGSE_downlink);
+const uint32_t gse_downlink_size = sizeof(gse_downlink_t);
 #endif
 
 /*

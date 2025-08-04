@@ -1,4 +1,3 @@
-/*
 #include <iostream>
 #include <chrono>
 #include "Protocol.h"
@@ -20,19 +19,19 @@ int main() {
     av_downlink_t packet(encode_downlink(data));
     av_downlink_unpacked result(decode_downlink(packet));
 
-    std::cout << "\t\tInitial\t\tCompressed\tDecompressed\tDelta\n"
+    std::cout << "\t\tInitial\t\tCompressed\tDecompressed\tDelta (%)\n"
               << "packet_nbr:\t" << data.packet_nbr << "\t\t" << packet.packet_nbr << "\t\t"
-              << result.packet_nbr << "\t\t" << result.packet_nbr - data.packet_nbr << "\n"
+              << result.packet_nbr << "\t\t" << (result.packet_nbr - data.packet_nbr) / data.packet_nbr * 100 << "\n"
               << "gnss_lon:\t" << data.gnss_lon << "\t" << packet.gnss_lon << "\t\t"
-              << result.gnss_lon << "\t\t" << result.gnss_lon - data.gnss_lon << "\n"
+              << result.gnss_lon << "\t\t" << (result.gnss_lon - data.gnss_lon) / data.gnss_lon * 100 << "\n"
               << "gnss_alt:\t" << data.gnss_alt << "\t\t" << packet.gnss_alt << "\t\t"
-              << result.gnss_alt << "\t\t" << result.gnss_alt - data.gnss_alt << "\n"
+              << result.gnss_alt << "\t\t" << (result.gnss_alt - data.gnss_alt) / data.gnss_alt * 100 << "\n"
               << "N2_pressure:\t" << data.N2_pressure << "\t\t" << packet.N2_pressure
-              << "\t\t" << result.N2_pressure << "\t\t" << result.N2_pressure-data.N2_pressure << "\n"
+              << "\t\t" << result.N2_pressure << "\t\t" << (result.N2_pressure - data.N2_pressure) / data.N2_pressure * 100 << "\n"
               << "fuel_level:\t" << data.fuel_level << "\t\t" << packet.fuel_level << "\t\t"
-              << result.fuel_level << "\t\t" << result.fuel_level - data.fuel_level << "\n"
+              << result.fuel_level << "\t\t" << (result.fuel_level - data.fuel_level) / data.fuel_level * 100 << "\n"
               << "N2_temp:\t" << data.N2_temp << "\t\t" << packet.N2_temp << "\t\t"
-              << result.N2_temp << "\t\t" << result.N2_temp - data.N2_temp << "\n\n";
+              << result.N2_temp << "\t\t" << (result.N2_temp - data.N2_temp) / data.N2_temp * 100 << "\n\n";
 
     const unsigned initial_size(sizeof(data));
     const unsigned compressed_size(sizeof(packet));
@@ -64,4 +63,4 @@ int main() {
     std::cout << "Encoding time: " << encoding_time << " us\n"
               << "Decoding time: " << decoding_time << " us\n";
 }
-*/
+
