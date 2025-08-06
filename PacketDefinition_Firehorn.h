@@ -35,6 +35,7 @@ enum CAPSULE_ID {
 	AV_TELEMETRY = 8,
 	GSE_TELEMETRY,
 	GSC_CMD, // uplink from GS
+	ABORT_BOARD,
 };
 
 enum CMD_ID {
