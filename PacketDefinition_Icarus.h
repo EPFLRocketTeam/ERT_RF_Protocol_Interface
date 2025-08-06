@@ -193,9 +193,9 @@ typedef struct __attribute__((__packed__)) {
 	uint32_t loadcell2;
 	uint32_t loadcell3;
 	uint32_t loadcell4;
-} PacketGSE_downlink;
+} gse_downlink_t;
 #ifdef __cplusplus
-const uint32_t packetGSE_downlink_size = sizeof(PacketGSE_downlink);
+const size_t gse_downlink_size = sizeof(gse_downlink_t);
 #endif
 
 /////////////////////////////////////////////////////////////////
