@@ -29,6 +29,7 @@ enum CAPSULE_ID {
 	AV_TELEMETRY = 8,
 	GSE_TELEMETRY,
 	HOPPER_TELEMETRY,
+	ABORT_BOARD,
 	GS_CMD, // uplink from GS
 	//////////////////////////////////
 	// Tracker
