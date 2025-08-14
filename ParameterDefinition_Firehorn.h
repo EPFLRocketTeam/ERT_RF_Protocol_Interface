@@ -10,7 +10,7 @@
 #define DEFAULT_CRC                 true   
 
 // -------- UPLINK -------- // 
-#define UPLINK_FREQUENCY            865.34E6
+#define UPLINK_FREQUENCY            864.34E6
 #define UPLINK_POWER                DEFAULT_TX_POWER
 #define UPLINK_BW                   DEFAULT_BW
 #define UPLINK_SF                   DEFAULT_SF
