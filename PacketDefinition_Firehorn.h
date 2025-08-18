@@ -16,6 +16,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////
 
 /* Engine state valves map (0: open, 1: closed) */
+#define ENGINE_STATE_VENT_N2	(1 << 6)
 #define ENGINE_STATE_VENT_LOX	(1 << 5)
 #define ENGINE_STATE_VENT_FUEL	(1 << 4)
 #define ENGINE_STATE_P_LOX	(1 << 3)
@@ -123,7 +124,7 @@ typedef struct __attribute__((__packed__)) {
 	uint8_t  hpb_voltage  		 : 7;   // bbbbb.bb             | 0,26     | 0.25 | V
 	int16_t  av_fc_temp 	  	 : 9;   // integer              | -200,100 | 1    | °C
 	int16_t  ambient_temp		 : 9;   // integer              | -200,100 | 1    | °C
-	uint8_t  engine_state 		 : 6;   // binary states of the valves
+	uint8_t  engine_state 		 : 7;   // binary states of the valves
 	uint8_t  av_state     		 : 4;   // FSM state
 	uint8_t  cam_rec             : 3;   // Cameras recording state
 } av_downlink_t;
