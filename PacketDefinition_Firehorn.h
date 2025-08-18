@@ -53,6 +53,7 @@ enum CMD_ID {
 	AV_CMD_MAIN_FUEL,
 	AV_CMD_VENT_LOX,
 	AV_CMD_VENT_FUEL,
+	AV_CMD_VENT_N2,
 	AV_CMD_PRESSURIZE,
 	/* GSE commands left untouched, just replaced N20 with LOX */
 	GSE_CMD_IDLE,
