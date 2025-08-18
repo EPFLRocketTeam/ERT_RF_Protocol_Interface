@@ -18,8 +18,8 @@
 /* Engine state valves map (0: open, 1: closed) */
 #define ENGINE_STATE_VENT_LOX	(1 << 5)
 #define ENGINE_STATE_VENT_FUEL	(1 << 4)
-#define ENGINE_STATE_IGN_LOX	(1 << 3)
-#define ENGINE_STATE_IGN_FUEL	(1 << 2)
+#define ENGINE_STATE_P_LOX	(1 << 3)
+#define ENGINE_STATE_P_FUEL	(1 << 2)
 #define ENGINE_STATE_MAIN_LOX	(1 << 1)
 #define ENGINE_STATE_MAIN_FUEL	(1 << 0)
 
@@ -46,8 +46,8 @@ enum CMD_ID {
 	AV_CMD_IGNITION,
 	AV_CMD_ABORT,
 	AV_CMD_MANUAL_DEPLOY,
-	AV_CMD_IGNITER_LOX,
-	AV_CMD_IGNITER_FUEL,
+	AV_CMD_P_LOX,
+	AV_CMD_P_FUEL,
 	AV_CMD_MAIN_LOX,
 	AV_CMD_MAIN_FUEL,
 	AV_CMD_VENT_LOX,
