@@ -44,21 +44,25 @@ enum CAPSULE_ID {
 };
 
 enum CMD_ID {
-	HOPPER_CMD_SERVO_N2O = 3,
-	HOPPER_CMD_SERVO_FUEL,
+	HOPPER_CMD_MAIN_N2O = 3,
+	HOPPER_CMD_MAIN_FUEL,
 	HOPPER_CMD_VENT_N2O,
 	HOPPER_CMD_VENT_FUEL,
 	HOPPER_CMD_N2_SOL,
+    HOPPER_CMD_N2O_SOL,
+	HOPPER_CMD_FUEL_SOL,
 	HOPPER_CMD_GIMBALL_X,
 	HOPPER_CMD_GIMBALL_Y,
 	HOPPER_CMD_CALIBRATE,
 	HOPPER_CMD_PRESSURIZE,
 	HOPPER_CMD_ARM,
+    HOPPER_CMD_DISARM,
 	HOPPER_CMD_LAUNCH,
 	HOPPER_CMD_ABORT,
 	HOPPER_CMD_ID_CONFIG,
-	HOPPER_CMD_WET_MASS,
-	
+    HOPPER_CMD_TARE,
+    HOPPER_CMD_HOMING_GIMBAL,
+    HOPPER_CMD_HOMING_MAIN_VALVES,
 
 	GSE_CMD_FILLING_N2O,
 	GSE_CMD_VENT,
@@ -94,7 +98,9 @@ typedef struct __attribute__((__packed__)) {
     uint8_t N2_solenoid;
     uint8_t N2O_main;
     uint8_t ETH_main;
-    
+    uint8_t N2O_sol;
+    uint8_t ETH_sol;
+
 	uint32_t gnss_lon; //Data with RTK correction
     uint32_t gnss_lat; //Data with RTK correction
     uint8_t sat_nbr; //gnss : number of fixed satellite
@@ -113,20 +119,21 @@ typedef struct __attribute__((__packed__)) {
     uint16_t kalman_roll;
     uint8_t gimbal_x;
     uint8_t gimbal_y;
+    uint8_t wet_mass;
     
 	uint8_t HV_voltage;
     uint8_t LV_voltage;
     uint8_t AV_temp;
     uint8_t ID_config;
-    uint8_t AV_state; // AV Power-up / Idle / Initialisation / Pressurization / Armed / Motor Fire-up / Automatic Flight / Forced Landing / ABORT
-    uint8_t Fire_up_state; // Allumage Igniter / Check Igniter / Allumage Chambres / Check Chambres / Ready to Fly 
+    uint8_t AV_state; // AV Power-up / Idle / Initialisation / Pressurization / Armed / Motor Fire-up / Automatic Flight / Forced Landing / ABORT 
 } av_downlink_t;
 
 #ifdef __cplusplus
 const uint32_t av_downlink_size = sizeof(av_downlink_t);
 #endif
 
-
+/*
+-------------------------------------------- OBSOLETE -----------------------------------
 // AV UPLINK PACKET
 typedef struct __attribute__((__packed__)) {
     
@@ -157,7 +164,7 @@ typedef struct __attribute__((__packed__)) {
 #ifdef __cplusplus
 const uint32_t AV_uplink_packet_size = sizeof(AV_uplink_packet);
 #endif
-
+*/
 
 typedef struct __attribute__((__packed__)) {
 	uint8_t order_id;    // from CMD_ID
