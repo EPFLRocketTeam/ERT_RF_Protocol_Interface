@@ -92,7 +92,7 @@ typedef struct __attribute__((__packed__)) {
     
 	uint16_t N2O_pressure;
     uint16_t ETH_pressure;
-    uint8_t N2O_temp;
+    uint16_t N2O_temp;
     uint8_t N2O_vent;
     uint8_t ETH_vent;
     uint8_t N2_solenoid;
