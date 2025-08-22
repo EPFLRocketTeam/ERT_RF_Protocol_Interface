@@ -125,7 +125,7 @@ typedef struct __attribute__((__packed__)) {
     uint8_t LV_voltage;
     uint8_t AV_temp;
     uint8_t ID_config;
-    uint8_t AV_state; // AV Power-up / Idle / Initialisation / Pressurization / Armed / Motor Fire-up / Automatic Flight / Forced Landing / ABORT 
+    uint8_t AV_state;
 } av_downlink_t;
 
 #ifdef __cplusplus
