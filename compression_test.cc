@@ -7,17 +7,17 @@ using namespace std::chrono;
 int main() {
     std::cout << "DOWNLINK PACKET (DE)COMPRESSION TEST\n\n";
 
-    av_downlink_unpacked data;
+    av_downlink_unpacked_t data;
 
     data.packet_nbr = 384400;
     data.gnss_lon = -78.9537;
     data.gnss_alt = 150.6504;
     data.N2_pressure = 200.3847;
-    data.fuel_level = 10.4536;
+    data.lpb_voltage = 3.8536;
     data.N2_temp = -100.3245;
 
     av_downlink_t packet(encode_downlink(data));
-    av_downlink_unpacked result(decode_downlink(packet));
+    av_downlink_unpacked_t result(decode_downlink(packet));
 
     std::cout << "\t\tInitial\t\tCompressed\tDecompressed\tDelta (%)\n"
               << "packet_nbr:\t" << data.packet_nbr << "\t\t" << packet.packet_nbr << "\t\t"
@@ -28,8 +28,8 @@ int main() {
               << result.gnss_alt << "\t\t" << (result.gnss_alt - data.gnss_alt) / data.gnss_alt * 100 << "\n"
               << "N2_pressure:\t" << data.N2_pressure << "\t\t" << packet.N2_pressure
               << "\t\t" << result.N2_pressure << "\t\t" << (result.N2_pressure - data.N2_pressure) / data.N2_pressure * 100 << "\n"
-              << "fuel_level:\t" << data.fuel_level << "\t\t" << packet.fuel_level << "\t\t"
-              << result.fuel_level << "\t\t" << (result.fuel_level - data.fuel_level) / data.fuel_level * 100 << "\n"
+              << "lpb_voltage:\t" << data.lpb_voltage << "\t\t" << packet.lpb_voltage << "\t\t"
+              << result.lpb_voltage << "\t\t" << (result.lpb_voltage - data.lpb_voltage) / data.lpb_voltage * 100 << "\n"
               << "N2_temp:\t" << data.N2_temp << "\t\t" << packet.N2_temp << "\t\t"
               << result.N2_temp << "\t\t" << (result.N2_temp - data.N2_temp) / data.N2_temp * 100 << "\n\n";
 
@@ -51,7 +51,7 @@ int main() {
         encoding_time += duration_cast<microseconds>(end - start).count();
 
         start = steady_clock::now();
-        av_downlink_unpacked result(decode_downlink(packet));
+        av_downlink_unpacked_t result(decode_downlink(packet));
         end = steady_clock::now();
 
         decoding_time += duration_cast<microseconds>(end - start).count();
