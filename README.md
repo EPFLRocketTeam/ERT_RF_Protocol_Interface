@@ -19,15 +19,16 @@ By default, it will create a folder name "ERT_RF_Protocol_Interface". You can ad
 
 Then in your C++ code, you can simply do:
 ```cpp
-#include <ERT_RF_Protocol_Interface/PacketDefinition.h>
+#include <ERT_RF_Protocol_Interface/Protocol.h>
 ```
 Now you can have access to the *struct* definitions in your code, see the [example](#how-to-properly-use-packet-structure) at the end. 
 
 ### How to get the last modifications ?
-You will need to run git pull but from the submodule directory
+From your project source directory, you can run:
 ```
-git pull
+git submodule update --remote
 ```
+This will pull and checkout your submodule to the branch specified in your `.gitmodules` file.
 
 ### How to push code to it ?
 Once you made some modifications to the code of this submodule, you need to go in the submodule folder (ERT_RF_Protocol_Interface), then you can run `git status` to see if some changes are seen. If yes you need to add this files, commit with a message and finally push.
@@ -43,6 +44,7 @@ Note that as it is a private repository, you will need to connect to your accoun
 ### How to connect to Github via SSH key
 TODO
 
+<!---
 ### How to create a GitHub token ? [DEPRACATED]
 You can find some infos [here](https://docs.github.com/fr/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) or
 
@@ -65,6 +67,7 @@ $ git clone https://github.com/USERNAME/REPO.git
 Username: YOUR_USERNAME
 Password: YOUR_TOKEN
 ```
+-->
 _______________________________________________________
 Some useful links:
 * Git command cheat sheet https://education.github.com/git-cheat-sheet-education.pdf
@@ -94,5 +97,43 @@ void send_packet_content(PacketAV_downlink &packetAV_downlink) { // you can pass
     Serial.write(&packetAV_downlink, packetAV_downlink_size); // with write(uint8_t* byte_array, size_t size) 
     LoRa.write(&packetAV_downlink, packetAV_downlink_size);
     udp.broadcastTo(&packetAV_downlink, packetAV_downlink_size, 1234); // UDP broadcast on port 1234
+}
+```
+
+### How to use the downlink packet compression and decompression (Firehorn)
+In order to increase the downlink frequency, there are now two downlink structures.<br>
+- `av_downlink_t` has the same name as before, and will be sent as a packet by radio, received and parsed by GS with Capsule.<br>
+- The new struct `av_downlink_unpacked_t` uses the same types as `av_downlink_t` but is not packed into bitfields.<br>
+
+Here is how to use the compression on the Tx side:<br>
+```cpp
+void send_downlink() {
+    av_downlink_unpacked_t data;
+
+    // Replace with your internal variables
+    data.packet_nbr = 384461;
+    data.gnss_lon = -9.138279;
+    data.gnss_lat = 38.713138;
+    data.gnss_alt = 2394;
+    data.N2_pressure = 322;
+    data.N2_temp = 45;
+    data.fuel_pressure = 59;
+    data.LOX_temp = -197;
+    data.engine_state = 0b11001101;
+    data.lpb_voltage = 3.8756;
+    data.lpb_current = 2.83;
+    data.hpb_voltage = 25.08;
+    data.hpb_current = 20.33;
+
+    // Compress the data into a smaller packet
+    send_packet(encode_downlink(data));
+}
+```
+
+And how to decompress the packet on the Rx side:<br>
+```cpp
+void receive_downlink(const av_downlink_t& packet) {
+    av_downlink_unpacked_t downlink_data(decode_downlink(packet));
+    // Parse the received data...
 }
 ```
