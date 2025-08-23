@@ -163,42 +163,6 @@ typedef struct __attribute__((__packed__)) {
 const uint32_t av_downlink_size = sizeof(av_downlink_t);
 #endif
 
-/*
--------------------------------------------- OBSOLETE
------------------------------------
-// AV UPLINK PACKET
-typedef struct __attribute__((__packed__)) {
-
-        uint32_t packet_nbr;
-
-        uint8_t gimbal_x;
-    uint8_t gimbal_y;
-        uint8_t N2O_vent;
-    uint8_t ETH_vent;
-    uint8_t N2_solenoid;
-        uint8_t N2O_main;
-    uint8_t ETH_main;
-
-    uint8_t ID_config; // ID de la config de vol voulue
-
-        uint8_t cmd_init;
-    uint8_t cmd_pressurize;
-    uint8_t cmd_arm;
-    uint8_t cmd_fire;
-    uint8_t cmd_end;
-    uint8_t cmd_forced;
-    uint8_t cmd_abort;
-
-    uint8_t hopper_wet_mass_launch; // (From Launch Pad -> Filling Station ->
-Telem)
-
-} AV_uplink_packet;
-
-#ifdef __cplusplus
-const uint32_t AV_uplink_packet_size = sizeof(AV_uplink_packet);
-#endif
-*/
-
 typedef struct __attribute__((__packed__)) {
   uint8_t order_id;    // from CMD_ID
   uint8_t order_value; // only ACTIVE or INACTIVE  	254 other possibilities
@@ -235,61 +199,88 @@ typedef struct __attribute__((__packed__)) {
   uint32_t loadcell2;
   uint32_t loadcell3;
   uint32_t loadcell4;
+} fs_downlink_t;
+#ifdef __cplusplus
+const size_t fs_downlink_size = sizeof(fs_downlink_t);
+#endif
+
+typedef struct __attribute__((__packed__)) {
+	uint8_t GQN_NC1; //Nitrogen and Ethanol disconnect actuation
+	uint8_t GQN_NC2; //LOX disconnect actuation
+	uint8_t GQN_NC3; // reserved
+	uint8_t GQN_NC4; // reserved
+
+	uint8_t GQN_NC5; // Low mass flow anti-freeze lox disconnect
+	uint8_t GPN_NC1; // Controls the activation of the pressure booster
+
+	uint8_t GPN_NC2; // Control the opening of the high pressure bottle
+	uint8_t GVN_NC;  // Vents the tube before disconnect
+	uint8_t GFE_NC;  // Controls the filling of ethanol along with the pump
+	uint8_t GFO_NCC; // Controls LOX filling	
+	uint8_t GDO_NCC; // Vent the tube before disconnect
+	uint8_t PC_OLC;  // Trigger Lox disconnect and purge the tube of LOX 
+
+	float GP1;		 // Nitrogen pressure in the filling line
+	float GP2;		 // LOX pressure in the deware
+	float GP3;		 // Pressure in the low-pressure side of the gas booster
+	float GP4;		 // Pressure before the pneumatic valve
+	float GP5;		 // Pressure in the ethanol filling line
 } gse_downlink_t;
 #ifdef __cplusplus
-const size_t gse_downlink_size = sizeof(gse_downlink_t);
+const uint32_t gse_downlink_size = sizeof(gse_downlink_t);
 #endif
+
 
 /////////////////////////////////////////////////////////////////
 // ---------------------- BINOC PACKETS ---------------------- //
 
-typedef struct __attribute__((__packed__)) {
-  float azm;
-  float elv;
-} PacketBinocAttitude;
-#ifdef __cplusplus
-const uint32_t packetBinocAttitudeSize = sizeof(PacketBinocAttitude);
-#endif
-
-typedef struct __attribute__((__packed__)) {
-  float lon;
-  float lat;
-  float alt;
-} PacketBinocPosition;
-#ifdef __cplusplus
-const uint32_t packetBinocPositionSize = sizeof(PacketBinocPosition);
-#endif
-
-typedef struct __attribute__((__packed__)) {
-  bool isInView;
-  bool isCalibrated;
-} PacketBinocStatus;
-#ifdef __cplusplus
-const uint32_t packetBinocStatusSize = sizeof(PacketBinocStatus);
-#endif
-
-typedef struct __attribute__((__packed__)) {
-  PacketBinocAttitude attitude;
-  PacketBinocPosition position;
-  PacketBinocStatus status;
-} PacketBinocGlobalStatus;
-#ifdef __cplusplus
-const uint32_t packetBinocGlobalStatusSize = sizeof(PacketBinocGlobalStatus);
-#endif
-
+/*typedef struct __attribute__((__packed__)) {*/
+/*  float azm;*/
+/*  float elv;*/
+/*} PacketBinocAttitude;*/
+/*#ifdef __cplusplus*/
+/*const uint32_t packetBinocAttitudeSize = sizeof(PacketBinocAttitude);*/
+/*#endif*/
+/**/
+/*typedef struct __attribute__((__packed__)) {*/
+/*  float lon;*/
+/*  float lat;*/
+/*  float alt;*/
+/*} PacketBinocPosition;*/
+/*#ifdef __cplusplus*/
+/*const uint32_t packetBinocPositionSize = sizeof(PacketBinocPosition);*/
+/*#endif*/
+/**/
+/*typedef struct __attribute__((__packed__)) {*/
+/*  bool isInView;*/
+/*  bool isCalibrated;*/
+/*} PacketBinocStatus;*/
+/*#ifdef __cplusplus*/
+/*const uint32_t packetBinocStatusSize = sizeof(PacketBinocStatus);*/
+/*#endif*/
+/**/
+/*typedef struct __attribute__((__packed__)) {*/
+/*  PacketBinocAttitude attitude;*/
+/*  PacketBinocPosition position;*/
+/*  PacketBinocStatus status;*/
+/*} PacketBinocGlobalStatus;*/
+/*#ifdef __cplusplus*/
+/*const uint32_t packetBinocGlobalStatusSize = sizeof(PacketBinocGlobalStatus);*/
+/*#endif*/
+/**/
 /////////////////////////////////////////////////////////////////
 // ---------------------- TRACKER PACKETS ---------------------- //
 
-typedef struct __attribute__((__packed__)) {
-  float azm;
-  float elv;
-  int mode;
-  float cutoffFreq;
-  unsigned maxTimeWindow;
-  unsigned timeStamp;
-} PacketTrackerCmd;
-#ifdef __cplusplus
-const uint32_t packetTrackerCmdSize = sizeof(PacketTrackerCmd);
-#endif
-
+/*typedef struct __attribute__((__packed__)) {*/
+/*  float azm;*/
+/*  float elv;*/
+/*  int mode;*/
+/*  float cutoffFreq;*/
+/*  unsigned maxTimeWindow;*/
+/*  unsigned timeStamp;*/
+/*} PacketTrackerCmd;*/
+/*#ifdef __cplusplus*/
+/*const uint32_t packetTrackerCmdSize = sizeof(PacketTrackerCmd);*/
+/*#endif*/
+/**/
 #endif /* PACKET_NORDEND_H */
