@@ -19,8 +19,8 @@
 #define ENGINE_STATE_VENT_N2	(1 << 6)
 #define ENGINE_STATE_VENT_LOX	(1 << 5)
 #define ENGINE_STATE_VENT_FUEL	(1 << 4)
-#define ENGINE_STATE_P_LOX	(1 << 3)
-#define ENGINE_STATE_P_FUEL	(1 << 2)
+#define ENGINE_STATE_P_LOX	    (1 << 3)
+#define ENGINE_STATE_P_FUEL	    (1 << 2)
 #define ENGINE_STATE_MAIN_LOX	(1 << 1)
 #define ENGINE_STATE_MAIN_FUEL	(1 << 0)
 
@@ -107,25 +107,28 @@ const size_t av_uplink_size = sizeof(av_uplink_t);
 
 // AV DOWNLINK PACKET
 typedef struct __attribute__((__packed__)) {
-	//	Type	Name	         :	bits;	Representation | Range | Resolution | Unit
+	//	Type	Name	         : bits;   Representation          | Range    | Res. | Unit
 	uint32_t packet_nbr    		 : 19;
-	int32_t	 gnss_lon      		 : 19;  // bbbbbbbbb.bbbbbbbbbb | -180,180 | 1e-3 | °
-	int32_t	 gnss_lat     		 : 19;  // bbbbbbbbb.bbbbbbbbbb | -180,180 | 1e-3 | °
-	uint16_t gnss_alt     		 : 10;  // integer              | 0,10000  | 10   | m
-	int8_t 	 gnss_vertical_speed : 8;   // integer              | 0,1600   | 10   | km/h
-	uint16_t N2_pressure  		 : 10;  // P-NCO | bbbbbbbbb.b  | 0,400    | 0.5  | bar
-	uint16_t fuel_pressure		 : 10;  // P-ETA | bbbbbbbbb.b  | 0,400    | 0.5  | bar
-	uint16_t LOX_pressure 		 : 10;  // P-OTA | bbbbbbbbb.b  | 0,400    | 0.5  | bar
-	uint8_t  fuel_level   		 : 7;   // L-ETA | bbbbb.bb     | 0,24     | 0.25 | L
-	uint8_t  LOX_level    		 : 7;   // L-OTA | bbbbb.bb     | 0,24     | 0.25 | L
-	int16_t  N2_temp      		 : 9;   // T-NCO | integer      | -200,100 | 1    | °C
-	int16_t  LOX_temp     		 : 9;   // T-OTA | integer      | -200,100 | 1    | °C
-	int16_t  LOX_inj_temp 		 : 9;   // T-OIN | integer      | -200,100 | 1    | °C
-	uint8_t  lpb_voltage  		 : 7;   // bbbbb.bb             | 0,26     | 0.25 | V
-	uint8_t  hpb_voltage  		 : 7;   // bbbbb.bb             | 0,26     | 0.25 | V
-	int16_t  av_fc_temp 	  	 : 9;   // integer              | -200,100 | 1    | °C
-	int16_t  ambient_temp		 : 9;   // integer              | -200,100 | 1    | °C
-	uint8_t  engine_state 		 : 7;   // binary states of the valves
+	int32_t	 gnss_lon      		 : 20;  // b bbbbbbbb.bbbbbbbb bbb | -180,180 | 5e-4 | °
+	int32_t	 gnss_lat     		 : 20;  // b bbbbbbbb.bbbbbbbb bbb | -180,180 | 5e-4 | °
+	uint16_t gnss_alt     		 : 9;   // b bbbbbbbb              | 0,4000   | 10   | m
+	int16_t  gnss_vertical_speed : 9;   //   bbbbbbbb              | -350,350 | 2    | m/s
+	uint8_t  N2_pressure  		 : 8;   //   bbbbbbbb              | 0,450    | 2    | bar
+    uint8_t  N2_temp             : 5;   //      bbbbb              | 20,80    | 2    | °C
+	uint8_t  fuel_pressure		 : 6;   //     bbbbbb              | 0,100    | 2    | bar
+	uint8_t  LOX_pressure 		 : 6;   //     bbbbbb              | 0,100    | 2    | bar
+	int8_t   LOX_temp     		 : 8;   //   bbbbbbbb              | -200,80  | 2    | °C
+    uint8_t  LOX_inj_pressure    : 6;   //     bbbbbb              | 0,100    | 2    | bar
+	int8_t   LOX_inj_temp 		 : 8;   //   bbbbbbbb              | -200,80  | 2    | °C
+    uint8_t  fuel_inj_pressure   : 6;   //     bbbbbb              | 0,100    | 2    | bar
+    uint8_t  chamber_pressure    : 8;   //   bbbbbbbb              | 0,450    | 2    | bar
+	uint8_t  engine_state 		 : 8;   // binary states of the valves
+	uint8_t  lpb_voltage  		 : 6;   //        bbb.bbb          | 0,5      | 0.1  | V
+    uint8_t  lpb_current         : 6;   //        bbb.bbb          | 0,4      | 0.1  | A
+	uint16_t hpb_voltage  		 : 9;   //     bbbbbb.bbb          | 0,26     | 0.1  | V
+    uint8_t  hpb_current         : 6;   //      bbbbb.b            | 0,30     | 0.5  | A
+	uint8_t  av_fc_temp 	  	 : 5;   //      bbbbb              | 20,80    | 2    | °C
+	uint8_t  ambient_temp 	  	 : 5;   //      bbbbb              | 20,80    | 2    | °C
 	uint8_t  av_state     		 : 4;   // FSM state
 	uint8_t  cam_rec             : 3;   // Cameras recording state
 } av_downlink_t;
@@ -138,24 +141,27 @@ typedef struct {
 	uint32_t packet_nbr;
 	float 	 gnss_lon;
 	float    gnss_lat;
-	float    gnss_alt;
-	int8_t   gnss_vertical_speed;
-	float    N2_pressure;
-	float    fuel_pressure;
-	float    LOX_pressure;
-	float    fuel_level;
-	float    LOX_level;
-	int16_t  N2_temp;
+	uint16_t gnss_alt;
+	int16_t  gnss_vertical_speed; // m/s
+	uint16_t N2_pressure;
+    uint8_t  N2_temp;
+	uint8_t  fuel_pressure;
+	uint8_t  LOX_pressure;
 	int16_t  LOX_temp;
-	int16_t  LOX_inj_temp;
-	float    lpb_voltage;
-	float    hpb_voltage;
-	int16_t  av_fc_temp;
-	int16_t  ambient_temp;
+    uint8_t  LOX_inj_pressure;
+	int32_t  LOX_inj_temp;
+    uint8_t  fuel_inj_pressure;
+	uint16_t chamber_pressure;
 	uint8_t  engine_state;
+	float    lpb_voltage;
+    float    lpb_current;
+	float    hpb_voltage;
+    float    hpb_current;
+	int8_t   av_fc_temp;
+	int8_t   ambient_temp;
 	uint8_t  av_state;
 	uint8_t  cam_rec;
-} av_downlink_unpacked;
+} av_downlink_unpacked_t;
 
 /////////////////////////////////////////////////////////////////
 // ---------------------- GSE PACKETS ---------------------- // 
