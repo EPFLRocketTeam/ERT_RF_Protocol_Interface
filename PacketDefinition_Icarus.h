@@ -112,7 +112,6 @@ const uint32_t packetTemplateSize = sizeof(PacketTemplate);
 
 // AV DOWNLINK PACKET
 typedef struct __attribute__((__packed__)) {
-
   uint32_t packet_nbr;
 
   uint16_t N2O_pressure;
@@ -157,6 +156,7 @@ typedef struct __attribute__((__packed__)) {
   uint8_t
       AV_state; // AV Power-up / Idle / Initialisation / Pressurization / Armed
                 // / Motor Fire-up / Automatic Flight / Forced Landing / ABORT
+
 } av_downlink_t;
 
 #ifdef __cplusplus
