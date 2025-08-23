@@ -15,7 +15,7 @@ inline av_downlink_t encode_downlink(const av_downlink_unpacked_t& unpacked_data
     packet.packet_nbr = unpacked_data.packet_nbr;
 
     packet.gnss_lon = ((int32_t)unpacked_data.gnss_lon << 11)
-                    + abs((unpacked_data.gnss_lon - (int32_t)unpacked_data.gnss_lon) * 2000);
+                    + abs((unpacked_data.gnss_lon - (int32_t)unpacked_data.gnss_lon) * 2048);
 
     packet.gnss_lat = ((int32_t)unpacked_data.gnss_lat << 11)
                     + abs((unpacked_data.gnss_lat - (int32_t)unpacked_data.gnss_lat) * 2000);
@@ -45,16 +45,16 @@ inline av_downlink_t encode_downlink(const av_downlink_unpacked_t& unpacked_data
     packet.engine_state = unpacked_data.engine_state;
 
     packet.lpb_voltage = ((uint8_t)unpacked_data.lpb_voltage << 3)
-                       + (unpacked_data.lpb_voltage - (uint8_t)unpacked_data.lpb_voltage) * 10;
+                       + (unpacked_data.lpb_voltage - (uint8_t)unpacked_data.lpb_voltage) * 8;
 
     packet.lpb_current = ((uint8_t)unpacked_data.lpb_current << 3)
-                       + (unpacked_data.lpb_current - (uint8_t)unpacked_data.lpb_current) * 10;
+                       + (unpacked_data.lpb_current - (uint8_t)unpacked_data.lpb_current) * 8;
 
     packet.hpb_voltage = ((uint8_t)unpacked_data.hpb_voltage << 3)
-                       + (unpacked_data.hpb_voltage - (uint8_t)unpacked_data.hpb_voltage) * 10;
+                       + (unpacked_data.hpb_voltage - (uint8_t)unpacked_data.hpb_voltage) * 8;
 
-    packet.hpb_current = ((uint8_t)unpacked_data.hpb_current << 3)
-                       + (unpacked_data.hpb_current - (uint8_t)unpacked_data.hpb_current) * 10;
+    packet.hpb_current = ((uint8_t)unpacked_data.hpb_current << 1)
+                       + (unpacked_data.hpb_current - (uint8_t)unpacked_data.hpb_current) * 2;
 
     packet.av_fc_temp = unpacked_data.av_fc_temp / 2;
 
@@ -78,7 +78,7 @@ inline av_downlink_unpacked_t decode_downlink(const av_downlink_t& packet) {
     unpacked_data.packet_nbr = packet.packet_nbr;
 
     unpacked_data.gnss_lon = (packet.gnss_lon >> 11)
-                           + (1 - 2 * (packet.gnss_lon < 0)) * (packet.gnss_lon & 0x07FF) / 2000.0;
+                           + (1 - 2 * (packet.gnss_lon < 0)) * (packet.gnss_lon & 0x07FF) / 2048.0;
 
     unpacked_data.gnss_lat = (packet.gnss_lat >> 11)
                            + (1 - 2 * (packet.gnss_lat < 0)) * (packet.gnss_lat & 0x07FF) / 2000.0;
@@ -112,16 +112,16 @@ inline av_downlink_unpacked_t decode_downlink(const av_downlink_t& packet) {
     unpacked_data.engine_state = packet.engine_state;
 
     unpacked_data.lpb_voltage = (packet.lpb_voltage >> 3)
-                              + (packet.lpb_voltage & 0x03) * 0.1;
+                              + (packet.lpb_voltage & 0x07) * 0.125;
 
     unpacked_data.lpb_current = (packet.lpb_current >> 3)
-                              + (packet.lpb_current & 0x03) * 0.1;
+                              + (packet.lpb_current & 0x07) * 0.125;
                         
     unpacked_data.hpb_voltage = (packet.hpb_voltage >> 3)
-                              + (packet.hpb_voltage & 0x03) * 0.1;
+                              + (packet.hpb_voltage & 0x07) * 0.125;
 
-    unpacked_data.hpb_current = (packet.hpb_current >> 3)
-                              + (packet.hpb_current & 0x03) * 0.1;
+    unpacked_data.hpb_current = (packet.hpb_current >> 1)
+                              + (packet.hpb_current & 0x01) * 0.5;
 
     unpacked_data.av_fc_temp = packet.av_fc_temp;
 

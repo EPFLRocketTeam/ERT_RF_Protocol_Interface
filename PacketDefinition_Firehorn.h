@@ -125,7 +125,7 @@ typedef struct __attribute__((__packed__)) {
 	uint8_t  engine_state 		 : 8;   // binary states of the valves
 	uint8_t  lpb_voltage  		 : 6;   //        bbb.bbb          | 0,5      | 0.1  | V
     uint8_t  lpb_current         : 6;   //        bbb.bbb          | 0,4      | 0.1  | A
-	uint16_t hpb_voltage  		 : 9;   //      bbbbb.bbbb         | 0,26     | 0.1  | V
+	uint16_t hpb_voltage  		 : 9;   //     bbbbbb.bbb          | 0,26     | 0.1  | V
     uint8_t  hpb_current         : 6;   //      bbbbb.b            | 0,30     | 0.5  | A
 	uint8_t  av_fc_temp 	  	 : 5;   //      bbbbb              | 20,80    | 2    | °C
 	uint8_t  ambient_temp 	  	 : 5;   //      bbbbb              | 20,80    | 2    | °C
