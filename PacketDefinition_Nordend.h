@@ -279,4 +279,3 @@ const uint32_t packetTrackerCmdSize = sizeof(PacketTrackerCmd);
 #endif
 
 #endif /* PACKET_NORDEND_H */
-
