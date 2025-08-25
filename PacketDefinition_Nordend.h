@@ -23,30 +23,30 @@
 
 // /!\ Flash again the MCU Mainboard
 enum CAPSULE_ID {
-    //////////////////////////////////
+	//////////////////////////////////
     // Rocket & GSE
     AV_TELEMETRY = 8,
     GSE_TELEMETRY,
-    GS_CMD, // uplink from GS
-    //////////////////////////////////
-    // Tracker
-    BINOC_ATTITUDE,
-    BINOC_POSITION,
-    BINOC_STATUS,
-    BINOC_GLOBAL_STATUS,
-    //////////////////////////////////
-    TRACKER_CMD,
-    //////////////////////////////////
-    CALIBRATE_TELEMETRY
+	GS_CMD, // uplink from GS
+	//////////////////////////////////
+	// Tracker
+	BINOC_ATTITUDE,
+	BINOC_POSITION,
+	BINOC_STATUS,
+	BINOC_GLOBAL_STATUS,
+	//////////////////////////////////
+	TRACKER_CMD,
+	//////////////////////////////////
+	CALIBRATE_TELEMETRY
 };
 
 enum CMD_ID {
 	AV_CMD_SERVO_N2O = 3,
-	AV_CMD_SERVO_FUEL,
+    AV_CMD_SERVO_FUEL,
 	AV_CMD_VENT_N2O,
 	AV_CMD_VENT_FUEL,
 	GSE_CMD_FILLING_N2O,
-	GSE_CMD_VENT,
+    GSE_CMD_VENT,
 	GSE_CMD_DISCONNECT,
 	AV_CMD_ARM,
 	AV_CMD_PRESSURIZE,
@@ -278,4 +278,4 @@ typedef struct __attribute__((__packed__)) {
 const uint32_t packetTrackerCmdSize = sizeof(PacketTrackerCmd);
 #endif
 
-#endif
+#endif /* PACKET_NORDEND_H */

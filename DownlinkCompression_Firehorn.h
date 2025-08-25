@@ -3,7 +3,6 @@
 
 #include <cmath>
 #include "PacketDefinition_Firehorn.h"
-#include "cmath"
 
 /**
  * @brief Encodes (compresses) AV downlink data to reduce the packet size and meet the 10Hz req.
