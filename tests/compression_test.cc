@@ -3,7 +3,7 @@
 #include "Protocol.h"
 
 using namespace std::chrono;
-
+/*
 int main() {
     std::cout << "DOWNLINK PACKET (DE)COMPRESSION TEST\n\n";
 
@@ -96,3 +96,4 @@ int main() {
     std::cout << "Encoding time: " << encoding_time << " us\n"
               << "Decoding time: " << decoding_time << " us\n";
 }
+*/
