@@ -17,7 +17,7 @@
 #define UPLINK_CR                   DEFAULT_CR
 #define UPLINK_PREAMBLE_LEN         DEFAULT_PREAMBLE_LENGTH
 #define UPLINK_CRC                  DEFAULT_CRC
-#define UPLINK_INVERSE_IQ           true
+#define UPLINK_INVERSE_IQ           false
 
 // -------- AV_DOWNLINK -------- // 
 #define AV_DOWNLINK_FREQUENCY       866.34E6
@@ -27,7 +27,7 @@
 #define AV_DOWNLINK_CR              DEFAULT_CR
 #define AV_DOWNLINK_PREAMBLE_LEN    DEFAULT_PREAMBLE_LENGTH
 #define AV_DOWNLINK_CRC             DEFAULT_CRC
-#define AV_DOWNLINK_INVERSE_IQ      true
+#define AV_DOWNLINK_INVERSE_IQ      false
 
 // -------- GSE_DOWNLINK -------- // 
 #define GSE_DOWNLINK_FREQUENCY      868.67E6
