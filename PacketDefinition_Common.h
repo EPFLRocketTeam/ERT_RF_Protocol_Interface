@@ -24,9 +24,11 @@ enum CAPSULE_ID {
 };
 
 typedef struct __attribute__((__packed__)) {
-    char[16] name;
-    uint8_t rssi;
+    char name[16];
+    int rssi;
+	float snr;
 } gsc_internal_t;
+
 #ifdef __cplusplus
 const uint32_t gsc_internal_size = sizeof(gsc_internal_t);
 #endif
