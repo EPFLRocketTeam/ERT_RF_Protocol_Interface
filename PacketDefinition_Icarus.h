@@ -20,26 +20,15 @@
 
 ///////////////////////////////////////////////////////////////////////////////////////
 
-// /!\ Flash again the MCU Mainboard
 enum CAPSULE_ID {
-  //////////////////////////////////
-  // Rocket & GSE
-  AV_TELEMETRY = 8,
-  GSE_TELEMETRY,
-  HOPPER_TELEMETRY,
-  ABORT_BOARD,
-  GS_CMD, // uplink from GS
-  //////////////////////////////////
-  // Tracker
-  BINOC_ATTITUDE,
-  BINOC_POSITION,
-  BINOC_STATUS,
-  BINOC_GLOBAL_STATUS,
-  //////////////////////////////////
-  TRACKER_CMD,
-  //////////////////////////////////
-  CALIBRATE_TELEMETRY
+	GSC_CMD = 8, 			// uplink from GSC
+	GSC_INTERNAL = 9,		// internal ping for GSC HW		
+	GSE_TELEMETRY = 10, 	// downlink from GSE
+
+	HOPPER_TELEMETRY = 12,		// downlink form AV
+	ABORT_BOARD = 13,		// abort commands
 };
+
 
 enum CMD_ID {
   HOPPER_CMD_MAIN_N2O = 3,
@@ -92,7 +81,6 @@ enum CMD_ID {
 	GSE_CMD_TOGGLE_26,
 	GSE_CMD_TOGGLE_27,
 	GSE_CMD_TOGGLE_28,
-
 };
 
 /////////////////////////////////////////////////////////////////

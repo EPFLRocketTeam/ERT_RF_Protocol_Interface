@@ -31,12 +31,12 @@
 
 // This enum is used by the motherboard and the radioboard's softwares
 enum CAPSULE_ID {
-	//////////////////////////////////
-	// Rocket & GSE
-	AV_TELEMETRY = 8,
-	GSE_TELEMETRY,
-	GSC_CMD, // uplink from GS
-	ABORT_BOARD,
+	GSC_CMD = 8, 			// uplink from GSC
+	GSC_INTERNAL = 9,		// internal ping for GSC HW		
+	GSE_TELEMETRY = 10, 	// downlink from GSE
+
+	AV_TELEMETRY = 12,		// downlink form AV
+	ABORT_BOARD = 13,		// abort commands
 };
 
 enum CMD_ID {
