@@ -1,35 +1,10 @@
+///////////////////////////////////////////////////////////////////////////////////////                                                                                                                                             
+//  Packet definitions for Nordend Project 2023
+//
+//  Charlotte Heibig & Lionel Isoz & Yohan Hadji & Iacopo Sprenger
 ///////////////////////////////////////////////////////////////////////////////////////
-//
-//                                                                                                                                                            
-//	RRRRRRRRRRRRRRRRR   FFFFFFFFFFFFFFFFFFFFFFBBBBBBBBBBBBBBBBB           GGGGGGGGGGGGG
-//	R::::::::::::::::R  F::::::::::::::::::::FB::::::::::::::::B       GGG::::::::::::G
-//	R::::::RRRRRR:::::R F::::::::::::::::::::FB::::::BBBBBB:::::B    GG:::::::::::::::G
-//	RR:::::R     R:::::RFF::::::FFFFFFFFF::::FBB:::::B     B:::::B  G:::::GGGGGGGG::::G
-//	  R::::R     R:::::R  F:::::F       FFFFFF  B::::B     B:::::B G:::::G       GGGGGG
-//	  R::::R     R:::::R  F:::::F               B::::B     B:::::BG:::::G              
-//	  R::::RRRRRR:::::R   F::::::FFFFFFFFFF     B::::BBBBBB:::::B G:u:::G              
-//	  R::::o::::::::RR    F:::::::::::::::F     B:::::::::::::BB  G:::::G    GGGGGGGGGG
-//	  R::::RRRRRR:::::R   F::::::a::::::::F     B::::BBBBBB:::::B G:::::G    G::::::::G
-//	  R::::R     R:::::R  F::::::FFFFFFFFFF     B::::B     B:::::BG:::::G    GGGGG::::G
-//	  R::::R     R:::::R  F:::::F               B::::B     B:::::BG:::::G        G::::G
-//	  R::::R     R:::::R  F:::::F               B::::B     B:::::B G:::::G       G::::G
-//	RR:::::R     R:::::RFF:::::::FF           BB:::::BBBBBB::::::B  G:::::GGGGGGGG::::G
-//	R::::::R     R:::::RF::::::::FF           B::::::s::::::::::B    GG:::::::::::::::G
-//	R::::::R     R:::::RF::::::::FF           B::::::::::::::::B       GGG::::::GGG:::G
-//	RRRRRRRR     RRRRRRRFFFFFFFFFFF           BBBBBBBBBBBBBBBBB           GGGGGG   GGGG
-//                                                                                                                                                                   
-//  Interface header file for communication protocol 
-//
-//  EPFL Rocket Team
-//
-//  Created by
-//  	Charlotte Heibig & Lionel Isoz & Yohan Hadji & Iacopo Sprenger
-//  for Nordend project, on 26.07.2023
-//
-//  Updated for Firehorn project
-///////////////////////////////////////////////////////////////////////////////////////
-#ifndef PACKET_H
-#define PACKET_H
+#ifndef PACKET_NORDEND_H
+#define PACKET_NORDEND_H
 
 #include <stdint.h> // for uint8_t
 #include <stddef.h> // for size_t
@@ -49,9 +24,9 @@
 // /!\ Flash again the MCU Mainboard
 enum CAPSULE_ID {
 	//////////////////////////////////
-	// Rocket & GSE
-	AV_TELEMETRY = 8,
-	GSE_TELEMETRY,
+    // Rocket & GSE
+    AV_TELEMETRY = 8,
+    GSE_TELEMETRY,
 	GS_CMD, // uplink from GS
 	//////////////////////////////////
 	// Tracker
@@ -66,37 +41,19 @@ enum CAPSULE_ID {
 };
 
 enum CMD_ID {
-	AV_CMD_CALIBRATE = 3,
-	AV_CMD_RECOVER,
-	AV_CMD_ARM,
-	AV_CMD_IGNITION,
-	AV_CMD_ABORT,
-	AV_CMD_MANUAL_DEPLOY,
-	AV_CMD_IGNITER_LOX,
-	AV_CMD_IGNITER_FUEL,
-	AV_CMD_MAIN_LOX,
-	AV_CMD_MAIN_FUEL,
-	AV_CMD_VENT_LOX,
+	AV_CMD_SERVO_N2O = 3,
+    AV_CMD_SERVO_FUEL,
+	AV_CMD_VENT_N2O,
 	AV_CMD_VENT_FUEL,
+	GSE_CMD_FILLING_N2O,
+    GSE_CMD_VENT,
+	GSE_CMD_DISCONNECT,
+	AV_CMD_ARM,
 	AV_CMD_PRESSURIZE,
-	/* GSE commands left untouched, just replaced N20 with LOX */
-	GSE_CMD_FILLING_LOX,
-	GSE_CMD_VENT,
-	GSE_CMD_DISCONNECT
-};
-
-// AV FSM states
-enum class FLIGHTMODE {
-	INIT = 0,
-	CALIBRATION,
-	ERROR_GROUND,
-	MANUAL,
-	ARMED,
-	THRUST_SEQUENCE,
-	ASCENT,
-	DESCENT,
-	LANDED,
-	ERROR_FLIGHT
+	AV_CMD_ABORT,
+	AV_CMD_RECOVER,
+	AV_CMD_IGNITION,
+	AV_CMD_MAN_PRESSURE
 };
 
 
@@ -115,61 +72,130 @@ const uint32_t packetTemplateSize = sizeof(PacketTemplate);
 // ---------------------- AV PACKETS ------------------------  // 
 /////////////////////////////////////////////////////////////////
 
+
 typedef struct __attribute__((__packed__)) {
-	uint8_t igniter_LOX;    // V3
-	uint8_t igniter_fuel;   // V4
-	uint8_t main_LOX;       // V5
-	uint8_t main_fuel;      // V6
-	uint8_t vent_LOX;       // V1
-	uint8_t vent_fuel;      // V2
-	/* Commented out because didn't know what to do with it
+	uint8_t servo_N2O;
+	uint8_t servo_fuel;
+	uint8_t vent_N2O;
+	uint8_t vent_fuel;
 	uint8_t pressurize;
 	uint8_t purge;
 	uint8_t reserve;
-	*/
 } engine_state_t;
 #ifdef __cplusplus
 const uint32_t engine_state_size = sizeof(engine_state_t);
 #endif
 
 // AV UPLINK PACKET
+
+
 typedef struct __attribute__((__packed__)) {
-	uint8_t order_id;    // from CMD_ID
-	uint8_t order_value; // only ACTIVE or INACTIVE  	254 other possibilities unconsidered
+	uint32_t prefix;
+	uint8_t order_id; // from CMD_ID
+	uint8_t order_value;  // only ACTIVE or INACTIVE  	254 other possibilities unconsidered
 } av_uplink_t;
 #ifdef __cplusplus
 const size_t av_uplink_size = sizeof(av_uplink_t);
 #endif
 
 // AV DOWNLINK PACKET
+
 typedef struct __attribute__((__packed__)) {
-	uint32_t packet_nbr;
+	uint32_t prefix;
+    uint32_t packet_nbr;
 	uint32_t timestamp;
-	float	 gnss_lon;   // dd.dddddd
-	float	 gnss_lat;   // dd.dddddd
-	float	 gnss_alt;   // m
-	float	 gnss_lon_r; // dd.dddddd
-	float	 gnss_lat_r; // dd.dddddd
-	float	 gnss_alt_r; // m
-	float 	 gnss_vertical_speed; // m/s
-	/* Engine sensors */
-	float    N2_pressure;       // P1
-	float    fuel_pressure;     // P2
-	float    LOX_pressure;      // P3
-	float    fuel_level;        // L1
-	float    LOX_level;         // L2
-	float    engine_temp;       // T1
-	float    igniter_pressure;  // P4
-	float    LOX_inj_pressure;  // P5
-	float    fuel_inj_pressure; // P6
-	float    chamber_pressure;  // P7
-	engine_state_t engine_state; // binary states of the valves
-	uint8_t  av_state; // flightmode
+	// float    acc_z; // g
+	// float    acc_hg_z; // g (high g)
+	// float    baro_press; //hPa
+	// float    baro_temp; //C
+	// float    baro_press_r; //hPa
+	float	 gnss_lon; //dd.dddddd
+	float	 gnss_lat; //dd.dddddd
+	float	 gnss_alt; //m
+	float	 gnss_lon_r; //dd.dddddd
+	float	 gnss_lat_r; //dd.dddddd
+	float	 gnss_alt_r; //m
+	float 	 gnss_vertical_speed; //m/s
+	float    N2O_pressure;
+    float    tank_temp;
+    float    fuel_pressure;
+    float    chamber_pressure;
+	uint8_t  av_state; //enum
+	engine_state_t engine_state; //binaries states of the valves
+    //AV_cmd_status engine_state;
 	uint8_t  gnss_choice;
 } av_downlink_t;
 #ifdef __cplusplus
 const uint32_t av_downlink_size = sizeof(av_downlink_t);
 #endif
+
+typedef enum {
+	MIAOU_RF = 0x65,
+	MIAOU_GNSS = 0x69
+}miaou_transfer_type;
+
+typedef struct __attribute__((__packed__)) {
+	float	longitude;
+	float	latitude;
+	float	altitude;
+	float   speed;
+	float 	hdop;
+	uint32_t time;
+} av_miaou_gnss_t;
+#ifdef __cplusplus
+const size_t av_miaou_gnss_size = sizeof(av_miaou_gnss_t);
+#endif
+
+
+//CAUTION COPIED FROM od/data_types.h
+typedef enum control_state_copy
+{
+	/** Wait for arming or calibration */
+	AV_CONTROL_IDLE,
+	/** Calibrate sensors and actuators */
+	AV_CONTROL_CALIBRATION,
+	/** Manual Servo movement */
+	AV_CONTROL_MANUAL_OPERATION,
+	/** System is armed and ready to pressure*/
+	AV_CONTROL_ARMED,
+	/** system is pressured */
+	AV_CONTROL_PRESSURED,
+	/** fire igniter */
+	AV_CONTROL_IGNITER,
+	/** partially open valves*/
+	AV_CONTROL_IGNITION,
+	/** fully open valves */
+	AV_CONTROL_THRUST,
+	/** close ethanol valve */
+	AV_CONTROL_SHUTDOWN,
+	/** glide */
+	AV_CONTROL_GLIDE,
+	/** Descent */
+	AV_CONTROL_DESCENT,
+	/** Safe state */
+	AV_CONTROL_SAFE,
+	/** system error*/
+	AV_CONTROL_ERROR,
+	/** User triggered abort */
+	AV_CONTROL_ABORT
+} control_state_copy_t;
+
+enum FLIGHTMODE {
+  INITIALIZE_MODE = 0, 
+  READYSTEADY_MODE,
+  CALIBRATION_MODE,
+  MANUAL_MODE,
+  ARMED_MODE,
+  PRESSURED_MODE,
+  IGNITER_MODE,
+  IGNITION_MODE,
+  THRUST_MODE,
+  SHUTDOWN_MODE, 
+  ASCENT_MODE, 
+  DESCENT_MODE, 
+  GLIDING_MODE,
+  ABORT_MODE
+};
 
 /////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -252,4 +278,4 @@ typedef struct __attribute__((__packed__)) {
 const uint32_t packetTrackerCmdSize = sizeof(PacketTrackerCmd);
 #endif
 
-#endif /* PACKET_H */
+#endif /* PACKET_NORDEND_H */
