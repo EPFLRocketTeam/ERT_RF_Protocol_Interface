@@ -19,17 +19,19 @@ enum CAPSULE_ID {
 	GSC_INTERNAL = 9,		// internal ping for GSC HW		
 	GSE_TELEMETRY = 10, 	// downlink from GSE
 
-	AV_TELEMETRY = 12,		// downlink form AV
+	HOPPER_TELEMETRY = 12,	// downlink form I-AV
+	AV_TELEMETRY = 12,		// downlink form C-AV
 	ABORT_BOARD = 13,		// abort commands
 };
 
-typedef struct __attribute__((__packed__)) {
-    char name[16];
-    int rssi;
-	float snr;
-} gsc_internal_t;
-
 #ifdef __cplusplus
+extern "C" {
+	typedef struct __attribute__((__packed__)) {
+		char name[16];
+		int rssi;
+		float snr;
+	} gsc_internal_t;
+}
 const uint32_t gsc_internal_size = sizeof(gsc_internal_t);
 #endif
 
