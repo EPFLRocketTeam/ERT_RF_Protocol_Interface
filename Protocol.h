@@ -15,4 +15,9 @@
 #include "DownlinkCompression_Firehorn.h"
 #endif /* RF_PROTOCOL_FIREHORN */
 
+#ifdef RF_PROTOCOL_ICARUS
+#include "PacketDefinition_Icarus.h"
+#include "ParameterDefinition_Icarus.h"
+#endif /* RF_PROTOCOL_ICARUS */
+
 #endif /* RF_PROTOCOL_H_ */

@@ -261,4 +261,4 @@ const uint32_t gse_downlink_size = sizeof(gse_downlink_t);
 /*const uint32_t packetTrackerCmdSize = sizeof(PacketTrackerCmd);*/
 /*#endif*/
 /**/
-#endif /* PACKET_ICARUS_H */
+#endif /* PACKET_NORDEND_H */
