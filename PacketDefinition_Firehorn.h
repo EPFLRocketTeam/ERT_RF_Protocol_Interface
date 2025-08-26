@@ -45,6 +45,7 @@ enum CMD_ID {
 	AV_CMD_VENT_FUEL,
 	AV_CMD_VENT_N2,
 	AV_CMD_PRESSURIZE,
+    AV_CMD_BYPASS_DPR_CHECK,
 	/* GSE commands left untouched, just replaced N20 with LOX */
 	GSE_CMD_IDLE,
 	GSE_CMD_ARM,
