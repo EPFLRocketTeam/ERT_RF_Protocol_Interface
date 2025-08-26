@@ -1,6 +1,9 @@
 #ifndef RF_PROTOCOL_H_
 #define RF_PROTOCOL_H_
 
+#include "PacketDefinition_Common.h"
+
+
 #ifdef RF_PROTOCOL_NORDEND
 #include "PacketDefinition_Nordend.h"
 #include "ParameterDefinition_Nordend.h"

@@ -29,16 +29,6 @@
 #define CAMERA_REC_AIRFRAME_UP  (1 << 1)
 #define CAMERA_REC_AIRFRAME_DN  (1 << 0)
 
-// This enum is used by the motherboard and the radioboard's softwares
-enum CAPSULE_ID {
-	GSC_CMD = 8, 			// uplink from GSC
-	GSC_INTERNAL = 9,		// internal ping for GSC HW		
-	GSE_TELEMETRY = 10, 	// downlink from GSE
-
-	AV_TELEMETRY = 12,		// downlink form AV
-	ABORT_BOARD = 13,		// abort commands
-};
-
 enum CMD_ID {
 	NO_PACKET = 0,
 	AV_CMD_CALIBRATE = 3,
