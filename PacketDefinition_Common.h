@@ -22,12 +22,15 @@ enum CAPSULE_ID {
 	HOPPER_TELEMETRY = 12,	// downlink form I-AV
 	AV_TELEMETRY = 12,		// downlink form C-AV
 	ABORT_BOARD = 13,		// abort commands
+
+	GSC_INTERNAL_UPLINK = 21,
+	GSC_INTERNAL_VEHICLE_DOWNLINK = 22,
+	GSC_INTERNAL_GSE_DOWNLINK = 23,
 };
 
 #ifdef __cplusplus
 extern "C" {
 	typedef struct __attribute__((__packed__)) {
-		char name[16];
 		int rssi;
 		float snr;
 	} gsc_internal_t;
