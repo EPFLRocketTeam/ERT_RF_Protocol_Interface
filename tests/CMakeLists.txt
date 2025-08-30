@@ -1,0 +1,2 @@
+add_executable(downlink_compression_test downlink_compression_test.cc)
+target_include_directories(downlink_compression_test PRIVATE ${CMAKE_SOURCE_DIR})
