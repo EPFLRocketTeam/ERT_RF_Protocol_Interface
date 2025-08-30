@@ -31,7 +31,8 @@ enum CAPSULE_ID {
 #ifdef __cplusplus
 extern "C" {
 	typedef struct __attribute__((__packed__)) {
-		int rssi;
+		uint32_t timestamp;
+		int32_t rssi;
 		float snr;
 	} gsc_internal_t;
 }
