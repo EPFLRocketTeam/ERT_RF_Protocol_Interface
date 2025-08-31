@@ -123,7 +123,9 @@ inline av_downlink_unpacked_t decode_downlink(const av_downlink_t& packet) {
     unpacked_data.hpb_current = (packet.hpb_current >> 1)
                               + (packet.hpb_current & 0x01) * 0.5;
 
-    unpacked_data.av_fc_temp = packet.av_fc_temp;
+    unpacked_data.av_fc_temp = packet.av_fc_temp / 2;
+
+    unpacked_data.ambient_temp = packet.ambient_temp / 2;
 
     unpacked_data.av_state = packet.av_state;
 
