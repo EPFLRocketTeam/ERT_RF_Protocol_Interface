@@ -1,0 +1,7 @@
+[
+{
+  "directory": "/home/ert/2024_C_GS_SOFTWARE/ERT_RF_Protocol_Interface/build/tests",
+  "command": "/usr/bin/c++ -DRF_PROTOCOL_FIREHORN -I/home/ert/2024_C_GS_SOFTWARE/ERT_RF_Protocol_Interface  -o CMakeFiles/downlink_compression_test.dir/downlink_compression_test.cc.o -c /home/ert/2024_C_GS_SOFTWARE/ERT_RF_Protocol_Interface/tests/downlink_compression_test.cc",
+  "file": "/home/ert/2024_C_GS_SOFTWARE/ERT_RF_Protocol_Interface/tests/downlink_compression_test.cc"
+}
+]
