@@ -28,16 +28,23 @@ enum CAPSULE_ID {
 	GSC_INTERNAL_GSE_DOWNLINK = 23,
 };
 
+typedef struct __attribute__((__packed__)) {
+	uint64_t timestamp;
+	int32_t rssi;
+	float snr;
+} gsc_internal_t;
+
 #ifdef __cplusplus
-extern "C" {
-	typedef struct __attribute__((__packed__)) {
-		uint64_t timestamp;
-		int32_t rssi;
-		float snr;
-		uint8_t error;
-	} gsc_internal_t;
-}
 const uint32_t gsc_internal_size = sizeof(gsc_internal_t);
+#endif
+
+typedef struct __attribute__((__packed__)) {
+	uint64_t timestamp;
+	uint8_t error;
+} gsc_internal_error_t;
+
+#ifdef __cplusplus
+const uint32_t gsc_internal_error_size = sizeof(gsc_internal_error_t);
 #endif
 
 #endif
