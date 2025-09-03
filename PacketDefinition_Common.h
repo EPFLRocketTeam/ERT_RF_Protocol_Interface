@@ -31,9 +31,10 @@ enum CAPSULE_ID {
 #ifdef __cplusplus
 extern "C" {
 	typedef struct __attribute__((__packed__)) {
-		uint32_t timestamp;
+		uint64_t timestamp;
 		int32_t rssi;
 		float snr;
+		uint8_t error;
 	} gsc_internal_t;
 }
 const uint32_t gsc_internal_size = sizeof(gsc_internal_t);
