@@ -1,8 +1,0 @@
-[
-{
-  "directory": "/home/cygne/Devel/ERT/Firehorn/ERT_RF_Protocol_Interface/build/tests",
-  "command": "/usr/bin/c++ -DRF_PROTOCOL_FIREHORN -I/home/cygne/Devel/ERT/Firehorn/ERT_RF_Protocol_Interface  -o CMakeFiles/downlink_compression_test.dir/downlink_compression_test.cc.o -c /home/cygne/Devel/ERT/Firehorn/ERT_RF_Protocol_Interface/tests/downlink_compression_test.cc",
-  "file": "/home/cygne/Devel/ERT/Firehorn/ERT_RF_Protocol_Interface/tests/downlink_compression_test.cc",
-  "output": "tests/CMakeFiles/downlink_compression_test.dir/downlink_compression_test.cc.o"
-}
-]
