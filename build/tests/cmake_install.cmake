@@ -1,4 +1,4 @@
-# Install script for directory: /home/ert/2024_C_GS_SOFTWARE/ERT_RF_Protocol_Interface/tests
+# Install script for directory: /home/cygne/Devel/ERT/Firehorn/ERT_RF_Protocol_Interface/tests
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

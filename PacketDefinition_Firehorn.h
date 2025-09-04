@@ -104,8 +104,8 @@ typedef struct __attribute__((__packed__)) {
 	int16_t  gnss_vertical_speed : 9;   //   bbbbbbbb              | -350,350 | 2    | m/s
 	uint8_t  N2_pressure  		 : 8;   //   bbbbbbbb              | 0,450    | 2    | bar
     uint8_t  N2_temp             : 5;   //      bbbbb              | 20,80    | 2    | °C
-	uint8_t  fuel_pressure		 : 6;   //     bbbbbb              | 0,100    | 2    | bar
-	uint8_t  LOX_pressure 		 : 6;   //     bbbbbb              | 0,100    | 2    | bar
+	uint16_t fuel_pressure		 : 10;  //    bbbbbbb.bbb          | 0,100    | 0.1  | bar
+	uint16_t LOX_pressure 		 : 10;  //    bbbbbbb.bbb          | 0,100    | 0.1  | bar
 	int8_t   LOX_temp     		 : 8;   //   bbbbbbbb              | -200,80  | 2    | °C
     uint8_t  LOX_inj_pressure    : 6;   //     bbbbbb              | 0,100    | 2    | bar
 	int8_t   LOX_inj_temp 		 : 8;   //   bbbbbbbb              | -200,80  | 2    | °C
@@ -134,8 +134,8 @@ typedef struct {
 	int16_t  gnss_vertical_speed; // m/s
 	uint16_t N2_pressure;
     uint8_t  N2_temp;
-	uint8_t  fuel_pressure;
-	uint8_t  LOX_pressure;
+	float    fuel_pressure;
+	float    LOX_pressure;
 	int16_t  LOX_temp;
     uint8_t  LOX_inj_pressure;
 	int32_t  LOX_inj_temp;

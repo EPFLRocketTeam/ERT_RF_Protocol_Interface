@@ -8,11 +8,15 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/ert/2024_C_GS_SOFTWARE/ERT_RF_Protocol_Interface/tests/downlink_compression_test.cc" "tests/CMakeFiles/downlink_compression_test.dir/downlink_compression_test.cc.o" "gcc" "tests/CMakeFiles/downlink_compression_test.dir/downlink_compression_test.cc.o.d"
+  "/home/cygne/Devel/ERT/Firehorn/ERT_RF_Protocol_Interface/tests/downlink_compression_test.cc" "tests/CMakeFiles/downlink_compression_test.dir/downlink_compression_test.cc.o" "gcc" "tests/CMakeFiles/downlink_compression_test.dir/downlink_compression_test.cc.o.d"
   )
 
-# Targets to which this target links.
-set(CMAKE_TARGET_LINKED_INFO_FILES
+# Targets to which this target links which contain Fortran sources.
+set(CMAKE_Fortran_TARGET_LINKED_INFO_FILES
+  )
+
+# Targets to which this target links which contain Fortran sources.
+set(CMAKE_Fortran_TARGET_FORWARD_LINKED_INFO_FILES
   )
 
 # Fortran module output directory.

@@ -1,4 +1,4 @@
-# Install script for directory: /home/ert/2024_C_GS_SOFTWARE/ERT_RF_Protocol_Interface
+# Install script for directory: /home/cygne/Devel/ERT/Firehorn/ERT_RF_Protocol_Interface
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -44,7 +44,7 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/home/ert/2024_C_GS_SOFTWARE/ERT_RF_Protocol_Interface/build/tests/cmake_install.cmake")
+  include("/home/cygne/Devel/ERT/Firehorn/ERT_RF_Protocol_Interface/build/tests/cmake_install.cmake")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT)
@@ -55,5 +55,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/ert/2024_C_GS_SOFTWARE/ERT_RF_Protocol_Interface/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/cygne/Devel/ERT/Firehorn/ERT_RF_Protocol_Interface/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
