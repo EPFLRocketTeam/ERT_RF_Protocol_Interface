@@ -105,13 +105,13 @@ typedef struct __attribute__((__packed__)) {
 	int16_t  gnss_vertical_speed : 9;   //   bbbbbbbb              | -350,350 | 2    | m/s
 	uint8_t  N2_pressure  		 : 8;   //   bbbbbbbb              | 0,450    | 2    | bar
     uint8_t  N2_temp             : 5;   //      bbbbb              | 20,80    | 2    | °C
-	uint8_t  fuel_pressure		 : 6;   //     bbbbbb              | 0,100    | 2    | bar
-	uint8_t  LOX_pressure 		 : 6;   //     bbbbbb              | 0,100    | 2    | bar
+	uint16_t fuel_pressure		 : 10;  //    bbbbbbb.bbb          | 0,100    | 0.1  | bar
+	uint16_t LOX_pressure 		 : 10;  //    bbbbbbb.bbb          | 0,100    | 0.1  | bar
 	int8_t   LOX_temp     		 : 8;   //   bbbbbbbb              | -200,80  | 2    | °C
-    uint8_t  LOX_inj_pressure    : 6;   //     bbbbbb              | 0,100    | 2    | bar
+    uint16_t  LOX_inj_pressure    : 10;   //   bbbbbbb.bbb              | 0,100    | 0.1    | bar
 	int8_t   LOX_inj_temp 		 : 8;   //   bbbbbbbb              | -200,80  | 2    | °C
-    uint8_t  fuel_inj_pressure   : 6;   //     bbbbbb              | 0,100    | 2    | bar
-    uint8_t  chamber_pressure    : 8;   //   bbbbbbbb              | 0,450    | 2    | bar
+    uint16_t  fuel_inj_pressure   : 10;   //     bbbbbbb.bbb               | 0,100    | 2    | bar
+    uint16_t  chamber_pressure    : 10;   //   bbbbbbb.bbb               | 0,450    | 2    | bar
 	uint8_t  engine_state 		 : 8;   // binary states of the valves
 	uint8_t  lpb_voltage  		 : 6;   //        bbb.bbb          | 0,5      | 0.1  | V
     uint8_t  lpb_current         : 6;   //        bbb.bbb          | 0,4      | 0.1  | A
@@ -135,13 +135,13 @@ typedef struct {
 	int16_t  gnss_vertical_speed; // m/s
 	uint16_t N2_pressure;
     uint8_t  N2_temp;
-	uint8_t  fuel_pressure;
-	uint8_t  LOX_pressure;
+	float    fuel_pressure;
+	float    LOX_pressure;
 	int16_t  LOX_temp;
-    uint8_t  LOX_inj_pressure;
+    float  LOX_inj_pressure;
 	int32_t  LOX_inj_temp;
-    uint8_t  fuel_inj_pressure;
-	uint16_t chamber_pressure;
+    float  fuel_inj_pressure;
+	float chamber_pressure;
 	uint8_t  engine_state;
 	float    lpb_voltage;
     float    lpb_current;

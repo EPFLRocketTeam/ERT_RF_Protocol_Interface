@@ -15,7 +15,7 @@ int main() {
     data.gnss_alt = 2394;
     data.N2_pressure = 322;
     data.N2_temp = 45;
-    data.fuel_pressure = 59;
+    data.fuel_pressure = 59.451;
     data.LOX_temp = -197;
     data.engine_state = 0b11001101;
     data.lpb_voltage = 3.8756;
@@ -45,8 +45,8 @@ int main() {
               << "N2_temp:\t" << (int)data.N2_temp << "\t\t" << packet.N2_temp << "\t\t"
               << (int)result.N2_temp << "\t\t" << (result.N2_temp - data.N2_temp) / (float)data.N2_temp * 100 << "\n"
 
-              << "fuel_pressure:\t" << (int)data.fuel_pressure << "\t\t" << packet.fuel_pressure << "\t\t"
-              << (int)result.fuel_pressure << "\t\t" << (result.fuel_pressure - data.fuel_pressure) / (float)data.fuel_pressure * 100 << "\n"
+              << "fuel_pressure:\t" << data.fuel_pressure << "\t\t" << packet.fuel_pressure << "\t\t"
+              << result.fuel_pressure << "\t\t" << (result.fuel_pressure - data.fuel_pressure) / (float)data.fuel_pressure * 100 << "\n"
 
               << "LOX_temp:\t" << data.LOX_temp << "\t\t" << packet.LOX_temp << "\t\t"
               << result.LOX_temp << "\t\t" << (result.LOX_temp - data.LOX_temp) / (float)data.LOX_temp * 100 << "\n"

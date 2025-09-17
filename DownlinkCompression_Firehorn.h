@@ -15,10 +15,10 @@ inline av_downlink_t encode_downlink(const av_downlink_unpacked_t& unpacked_data
     packet.packet_nbr = unpacked_data.packet_nbr;
 
     packet.gnss_lon = ((int32_t)unpacked_data.gnss_lon << 11)
-                    + abs((unpacked_data.gnss_lon - (int32_t)unpacked_data.gnss_lon) * 2048);
+                    + std::abs((unpacked_data.gnss_lon - (int32_t)unpacked_data.gnss_lon) * 2048);
 
     packet.gnss_lat = ((int32_t)unpacked_data.gnss_lat << 11)
-                    + abs((unpacked_data.gnss_lat - (int32_t)unpacked_data.gnss_lat) * 2000);
+                    + std::abs((unpacked_data.gnss_lat - (int32_t)unpacked_data.gnss_lat) * 2000);
 
     packet.gnss_alt = (uint16_t)unpacked_data.gnss_alt / 10;
 
@@ -28,19 +28,24 @@ inline av_downlink_t encode_downlink(const av_downlink_unpacked_t& unpacked_data
 
     packet.N2_temp = unpacked_data.N2_temp / 2;
 
-    packet.fuel_pressure = unpacked_data.fuel_pressure / 2;
+    packet.fuel_pressure = ((uint16_t)unpacked_data.fuel_pressure << 3)
+                         + (unpacked_data.fuel_pressure - (uint16_t)unpacked_data.fuel_pressure) * 8;
             
-    packet.LOX_pressure = unpacked_data.LOX_pressure / 2;
+    packet.LOX_pressure = ((uint16_t)unpacked_data.LOX_pressure << 3)
+                        + (unpacked_data.LOX_pressure - (uint16_t)unpacked_data.LOX_pressure) * 8;
                 
     packet.LOX_temp = unpacked_data.LOX_temp / 2;
 
-    packet.LOX_inj_pressure = unpacked_data.LOX_inj_pressure / 2;
+    packet.LOX_inj_pressure = ((uint16_t)unpacked_data.LOX_inj_pressure << 3)
+                         + (unpacked_data.LOX_inj_pressure - (uint16_t)unpacked_data.LOX_inj_pressure) * 8;
 
     packet.LOX_inj_temp = unpacked_data.LOX_inj_temp / 2;
 
-    packet.fuel_inj_pressure = unpacked_data.fuel_inj_pressure / 2;
+    packet.fuel_inj_pressure = ((uint16_t)unpacked_data.fuel_inj_pressure << 3)
+                         + (unpacked_data.fuel_inj_pressure - (uint16_t)unpacked_data.fuel_inj_pressure) * 8;
 
-    packet.chamber_pressure = unpacked_data.chamber_pressure / 2;
+    packet.chamber_pressure = ((uint16_t)unpacked_data.chamber_pressure << 3)
+                         + (unpacked_data.chamber_pressure - (uint16_t)unpacked_data.chamber_pressure) * 8;
 
     packet.engine_state = unpacked_data.engine_state;
 
@@ -89,25 +94,35 @@ inline av_downlink_unpacked_t decode_downlink(const av_downlink_t& packet) {
 
     unpacked_data.N2_pressure = packet.N2_pressure * 2;
                             
-    unpacked_data.fuel_pressure = packet.fuel_pressure * 2;
+    unpacked_data.fuel_pressure = (packet.fuel_pressure >> 3)
+                                + (packet.fuel_pressure & 0x07) * 0.125;
+    
+    unpacked_data.fuel_pressure = round(unpacked_data.fuel_pressure * 10.0) / 10.0;
 
-    unpacked_data.LOX_pressure = packet.LOX_pressure * 2;
+    unpacked_data.LOX_pressure = (packet.LOX_pressure >> 3)
+                               + (packet.LOX_pressure & 0x07) * 0.125;
+
+    unpacked_data.LOX_pressure = round(unpacked_data.LOX_pressure * 10.0) / 10.0;
 
     unpacked_data.N2_temp = packet.N2_temp * 2;
 
-    unpacked_data.fuel_pressure = packet.fuel_pressure * 2;
-
-    unpacked_data.LOX_pressure = packet.LOX_pressure * 2;
-
     unpacked_data.LOX_temp = packet.LOX_temp * 2;
 
-    unpacked_data.LOX_inj_pressure = packet.LOX_inj_pressure * 2;
+    unpacked_data.LOX_inj_pressure = (packet.LOX_inj_pressure >> 3)
+                               + (packet.LOX_inj_pressure & 0x07) * 0.125;
+
+    unpacked_data.LOX_inj_pressure = round(unpacked_data.LOX_inj_pressure * 10.0) / 10.0;
+
 
     unpacked_data.LOX_inj_temp = packet.LOX_inj_temp * 2;
 
-    unpacked_data.fuel_inj_pressure = packet.fuel_inj_pressure * 2;
+    unpacked_data.fuel_inj_pressure = (packet.fuel_inj_pressure >> 3)
+                               + (packet.fuel_inj_pressure & 0x07) * 0.125;
+    unpacked_data.fuel_inj_pressure = round(unpacked_data.fuel_inj_pressure * 10.0) / 10.0;
 
-    unpacked_data.chamber_pressure = packet.chamber_pressure * 2;
+    unpacked_data.chamber_pressure = (packet.chamber_pressure >> 3)
+                               + (packet.chamber_pressure & 0x07) * 0.125;
+    unpacked_data.chamber_pressure = round(unpacked_data.chamber_pressure * 10.0) / 10.0;
 
     unpacked_data.engine_state = packet.engine_state;
 
