@@ -68,7 +68,8 @@ enum CMD_ID {
 	GSE_CMD_TOGGLE_GDO,
 	GSE_CMD_TOGGLE_PC,
 	GSE_CMD_TOGGLE_PR,
-	GSE_CMD_TOGGLE_PUMP,};
+	GSE_CMD_TOGGLE_PUMP,
+};
 
 
 /////////////////////////////////////////////////////////////////
