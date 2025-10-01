@@ -6,6 +6,7 @@
 #ifndef PACKET_FIREHORN_H
 #define PACKET_FIREHORN_H
 
+#include <cstdint>
 #include <stdint.h> // for uint8_t
 #include <stddef.h> // for size_t
 #include <stdbool.h>
@@ -181,6 +182,7 @@ typedef struct __attribute__((__packed__)) {
 	uint8_t GFO_NCC; // Controls LOX filling	
 	uint8_t GDO_NCC; // Vent the tube before disconnect
 	uint8_t PC_OLC;  // Trigger Lox disconnect and purge the tube of LOX 
+	uint8_t PUMP;    // Pump status
 
 	float GP1;		 // Nitrogen pressure in the filling line
 	float GP2;		 // LOX pressure in the deware
