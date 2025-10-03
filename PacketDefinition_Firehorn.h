@@ -32,11 +32,14 @@
 
 enum CMD_ID {
 	NO_PACKET = 0,
+	/*FC FSM*/
 	AV_CMD_CALIBRATE = 3,
 	AV_CMD_RECOVER,
 	AV_CMD_ARM,
-	AV_CMD_IGNITION,
+	AV_CMD_PRESSURIZE,
+	AV_CMD_LAUNCH,
 	AV_CMD_ABORT,
+	/* FC MANUAL*/
 	AV_CMD_P_LOX,
 	AV_CMD_P_FUEL,
 	AV_CMD_MAIN_LOX,
@@ -44,14 +47,12 @@ enum CMD_ID {
 	AV_CMD_VENT_LOX,
 	AV_CMD_VENT_FUEL,
 	AV_CMD_VENT_N2,
-	AV_CMD_PRESSURIZE,
-    AV_CMD_BYPASS_DPR_CHECK,
-	/* GSE commands left untouched, just replaced N20 with LOX */
+	/* GSE FSM*/
 	GSE_CMD_IDLE,
 	GSE_CMD_ARM,
 	GSE_CMD_CALIBRATE,
 	GSE_CMD_PASSIVATE,
-
+	/* GSE Manual */
 	GSE_CMD_SERVO_1,
 	GSE_CMD_SERVO_2,
 	GSE_CMD_TOGGLE_GQN1,
@@ -70,7 +71,6 @@ enum CMD_ID {
 	GSE_CMD_TOGGLE_PR,
 	GSE_CMD_TOGGLE_PUMP,
 };
-
 
 /////////////////////////////////////////////////////////////////
 // Here is a template for writing new packet structures 
