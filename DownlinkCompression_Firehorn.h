@@ -27,6 +27,7 @@ inline av_downlink_t encode_downlink(const av_downlink_unpacked_t& unpacked_data
     packet.N2_pressure = unpacked_data.N2_pressure / 2;
 
     packet.N2_temp = unpacked_data.N2_temp / 2;
+    packet.N2_PT1000_temp = unpacked_data.N2_temp / 2;
 
     packet.fuel_pressure = unpacked_data.fuel_pressure / 2;
             
@@ -98,6 +99,7 @@ inline av_downlink_unpacked_t decode_downlink(const av_downlink_t& packet) {
     unpacked_data.LOX_pressure = packet.LOX_pressure * 2;
 
     unpacked_data.N2_temp = packet.N2_temp * 2;
+    unpacked_data.N2_PT1000_temp = packet.N2_PT1000_temp * 2;
 
     unpacked_data.fuel_pressure = packet.fuel_pressure * 2;
 
