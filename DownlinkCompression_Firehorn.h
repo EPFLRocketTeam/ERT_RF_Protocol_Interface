@@ -36,8 +36,6 @@ inline av_downlink_t encode_downlink(const av_downlink_unpacked_t& unpacked_data
 
     packet.LOX_inj_pressure = unpacked_data.LOX_inj_pressure / 2;
 
-    packet.LOX_inj_temp = unpacked_data.LOX_inj_temp / 2;
-
     packet.fuel_inj_pressure = unpacked_data.fuel_inj_pressure / 2;
 
     packet.chamber_pressure = unpacked_data.chamber_pressure / 2;
@@ -64,9 +62,9 @@ inline av_downlink_t encode_downlink(const av_downlink_unpacked_t& unpacked_data
 
     packet.cam_rec = unpacked_data.cam_rec;
 
-
     packet.LOX_cap_fls_0 =  unpacked_data.LOX_cap_fls_0 / 2;	
     packet.LOX_fls_10 = unpacked_data.LOX_fls_10 / 2;	
+    packet.LOX_fls_50 = unpacked_data.LOX_fls_50 / 2;
     packet.LOX_fls_80 = unpacked_data.LOX_fls_80 / 2;	
     packet.LOX_fls_90 = unpacked_data.LOX_fls_90 / 2;	    
 
@@ -109,8 +107,6 @@ inline av_downlink_unpacked_t decode_downlink(const av_downlink_t& packet) {
 
     unpacked_data.LOX_inj_pressure = packet.LOX_inj_pressure * 2;
 
-    unpacked_data.LOX_inj_temp = packet.LOX_inj_temp * 2;
-
     unpacked_data.fuel_inj_pressure = packet.fuel_inj_pressure * 2;
 
     unpacked_data.chamber_pressure = packet.chamber_pressure * 2;
@@ -137,6 +133,7 @@ inline av_downlink_unpacked_t decode_downlink(const av_downlink_t& packet) {
 
     unpacked_data.LOX_cap_fls_0 =  packet.LOX_cap_fls_0 * 2;	
     unpacked_data.LOX_fls_10 = packet.LOX_fls_10 * 2;	
+    unpacked_data.LOX_fls_50 = packet.LOX_fls_50 * 2;
     unpacked_data.LOX_fls_80 = packet.LOX_fls_80 * 2;	
     unpacked_data.LOX_fls_90 = packet.LOX_fls_90 * 2;	
 

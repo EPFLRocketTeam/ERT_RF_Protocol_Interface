@@ -109,12 +109,11 @@ typedef struct __attribute__((__packed__)) {
 	uint8_t  LOX_pressure 		 : 6;   //     bbbbbb              | 0,100    | 2    | bar
 	int8_t   LOX_temp     		 : 8;   //   bbbbbbbb              | -200,80  | 2    | °C
     uint8_t  LOX_inj_pressure    : 6;   //     bbbbbb              | 0,100    | 2    | bar
-	int8_t   LOX_inj_temp 		 : 8;   //   bbbbbbbb              | -200,80  | 2    | °C
-	int8_t 	 LOX_cap_fls_0;		 : 8;	//   bbbbbbbb              | -200,80  | 2    | °C
-	int8_t 	 LOX_fls_10;		 : 8;	//   bbbbbbbb              | -200,80  | 2    | °C
-	int8_t 	 LOX_fls_50;		 : 8;	//   bbbbbbbb              | -200,80  | 2    | °C
-	int8_t 	 LOX_fls_80;		 : 8;	//   bbbbbbbb              | -200,80  | 2    | °C
-	int8_t 	 LOX_fls_90;		 : 8;	//   bbbbbbbb              | -200,80  | 2    | °C
+	int8_t 	 LOX_cap_fls_0		 : 8;	//   bbbbbbbb              | -200,80  | 2    | °C
+	int8_t 	 LOX_fls_10          : 8;	//   bbbbbbbb              | -200,80  | 2    | °C
+	int8_t 	 LOX_fls_50          : 8;	//   bbbbbbbb              | -200,80  | 2    | °C
+	int8_t 	 LOX_fls_80          : 8;	//   bbbbbbbb              | -200,80  | 2    | °C
+	int8_t 	 LOX_fls_90          : 8;	//   bbbbbbbb              | -200,80  | 2    | °C
     uint8_t  fuel_inj_pressure   : 6;   //     bbbbbb              | 0,100    | 2    | bar
     uint8_t  chamber_pressure    : 8;   //   bbbbbbbb              | 0,450    | 2    | bar
 	uint8_t  engine_state 		 : 8;   // binary states of the valves
@@ -156,11 +155,11 @@ typedef struct {
 	int8_t   ambient_temp;
 	uint8_t  av_state;
 	uint8_t  cam_rec;
-	float LOX_cap_fls_0;
-	float LOX_fls_10;	
-	float LOX_fls_50;	
-	float LOX_fls_80;	
-	float LOX_fls_90;	
+	float    LOX_cap_fls_0;
+	float    LOX_fls_10;	
+	float    LOX_fls_50;	
+	float    LOX_fls_80;	
+	float    LOX_fls_90;	
 } av_downlink_unpacked_t;
 
 /////////////////////////////////////////////////////////////////
