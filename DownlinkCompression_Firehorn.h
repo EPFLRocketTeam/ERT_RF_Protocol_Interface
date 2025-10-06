@@ -110,8 +110,6 @@ inline av_downlink_unpacked_t decode_downlink(const av_downlink_t& packet) {
     unpacked_data.N2_temp = packet.N2_temp * 2;
     unpacked_data.N2_PT1000_temp = packet.N2_PT1000_temp * 2;
 
-    unpacked_data.fuel_pressure = packet.fuel_pressure * 2;
-
     unpacked_data.LOX_inj_pressure = (packet.LOX_inj_pressure >> 3)
                                + (packet.LOX_inj_pressure & 0x07) * 0.125;
     unpacked_data.LOX_inj_pressure = round(unpacked_data.LOX_inj_pressure * 10.0) / 10.0;
@@ -156,3 +154,4 @@ inline av_downlink_unpacked_t decode_downlink(const av_downlink_t& packet) {
 }
 
 #endif /* DOWNLINK_COMPRESSION_FIREHORN_H */
+
