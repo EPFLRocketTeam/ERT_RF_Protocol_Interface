@@ -40,9 +40,18 @@ enum CMD_ID {
   HOPPER_CMD_TARE,
   HOPPER_CMD_HOMING_GIMBAL,
   HOPPER_CMD_HOMING_MAIN_VALVES,
+  HOPPER_CMD_HOMING_X,
+  HOPPER_CMD_HOMING_Y,
+  HOPPER_CMD_HOMING_MAIN_FUEL,
+  HOPPER_CMD_HOMING_MAIN_N2O,
   HOPPER_CMD_IGNITER,
   HOPPER_CMD_IGNITER_VALVE_FUEL,
   HOPPER_CMD_IGNITER_VALVE_N2O,
+
+  HOPPER_CMD_SPARE1,
+  HOPPER_CMD_SPARE2,
+  HOPPER_CMD_SPARE3,
+
 
   GSE_CMD_FILLING_N2O,
   GSE_CMD_VENT,
@@ -94,6 +103,10 @@ typedef struct __attribute__((__packed__)) {
   uint32_t packet_nbr;
 
   uint16_t N2O_pressure;
+  uint16_t o_line_pressure;
+  uint16_t e_line_pressure;
+  uint16_t e_inj_pressure;
+  uint16_t o_inj_pressure;
   uint16_t ETH_pressure;
   uint16_t N2O_temp;
   uint8_t N2O_vent;
@@ -117,6 +130,13 @@ typedef struct __attribute__((__packed__)) {
   uint16_t acc_x;    // raw acc
   uint16_t acc_y;    // raw acc
   uint16_t acc_z;    // raw acc
+  uint16_t temp1;
+  uint16_t temp2;
+  uint16_t temp3;
+  uint16_t loadcell1;
+  uint16_t loadcell2;
+  uint16_t loadcell3;
+  uint16_t loadcell4;
   uint16_t baro;
   uint16_t kalman_pos_x;
   uint16_t kalman_pos_y;
