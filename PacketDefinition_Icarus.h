@@ -112,6 +112,8 @@ typedef struct __attribute__((__packed__)) {
   uint8_t N2O_vent;
   uint8_t ETH_vent;
   uint8_t N2_solenoid;
+  uint8_t N2O_current;
+  uint8_t ETH_current;
   uint8_t N2O_main;
   uint8_t ETH_main;
   uint8_t N2O_sol;
