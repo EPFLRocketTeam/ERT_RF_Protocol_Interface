@@ -130,8 +130,8 @@ typedef struct __attribute__((__packed__)) {
 	uint16_t LOX_pressure 		   : 10;  //        bbbbbb.bbb          | 0,100    | 0.1  | bar
 	int8_t   LOX_temp     		   : 8;   //      bbbbbbbb              | -200,80  | 2    | °C
 #if defined FLS_CONFIG && FLS_CONFIG == FLS_CAPA
-	uint16_t fuel_fls_capa         : 11;  //       bbbbbbb.bbbb         | 0,1000   | 0.5  | pF
-	uint16_t LOX_fls_capa          : 11;  //       bbbbbbb.bbbb         | 0,1000   | 0.5  | pF
+	uint16_t fuel_fls_capa         : 11;  //    bbbbbbbbbb.b            | 0,1000   | 0.5  | pF
+	uint16_t LOX_fls_capa          : 11;  //    bbbbbbbbbb.b            | 0,1000   | 0.5  | pF
 #elif defined FLS_CONFIG && FLS_CONFIG == FLS_DIFF
 	uint16_t fuel_fls_diff_bot     : 10;  //       bbbbbbb.bbb          | 0,100    | 0.1  | bar
 	uint16_t LOX_fls_diff_bot      : 10;  //       bbbbbbb.bbb          | 0,100    | 0.1  | bar

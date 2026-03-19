@@ -19,7 +19,7 @@ int main() {
     data.fuel_pressure = 59.19;
     data.LOX_temp = -197.12;
 #if defined FLS_CONFIG && FLS_CONFIG == FLS_CAPA
-    data.LOX_fls_capa = 543.7345;
+    data.LOX_fls_capa = 994.7345;
 #elif defined FLS_CONFIG && FLS_CONFIG == FLS_DIFF
     data.fuel_fls_diff = 65.27
 #elif FLS_CONFIG == FLS_TEMP

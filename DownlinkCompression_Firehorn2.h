@@ -46,11 +46,11 @@ inline av_downlink_t encode_downlink(const av_downlink_unpacked_t& unpacked_data
     packet.LOX_temp = (int8_t)(unpacked_data.LOX_temp / 2);
     
 #if defined FLS_CONFIG && FLS_CONFIG == FLS_CAPA
-    packet.fuel_fls_capa = ((uint16_t)unpacked_data.fuel_fls_capa << 4)
-                         + (unpacked_data.fuel_fls_capa - (uint16_t)unpacked_data.fuel_fls_capa) * 16;
+    packet.fuel_fls_capa = ((uint16_t)unpacked_data.fuel_fls_capa << 1)
+                         + (unpacked_data.fuel_fls_capa - (uint16_t)unpacked_data.fuel_fls_capa) * 2;
     
-    packet.LOX_fls_capa = ((uint16_t)unpacked_data.LOX_fls_capa << 4)
-                         + (unpacked_data.LOX_fls_capa - (uint16_t)unpacked_data.LOX_fls_capa) * 16;
+    packet.LOX_fls_capa = ((uint16_t)unpacked_data.LOX_fls_capa << 1)
+                         + (unpacked_data.LOX_fls_capa - (uint16_t)unpacked_data.LOX_fls_capa) * 2;
 #elif defined FLS_CONFIG && FLS_CONFIG == FLS_DIFF
     packet.fuel_fls_diff = ((uint16_t)unpacked_data.fuel_fls_diff << 3)
                          + (unpacked_data.fuel_fls_diff - (uint16_t)unpacked_data.fuel_fls_diff) * 8;
@@ -170,11 +170,11 @@ inline av_downlink_unpacked_t decode_downlink(const av_downlink_t& packet) {
     unpacked_data.LOX_temp = packet.LOX_temp * 2;
     
 #if defined FLS_CONFIG && FLS_CONFIG == FLS_CAPA
-    unpacked_data.fuel_fls_capa = (packet.fuel_fls_capa >> 4)
-                               + (packet.fuel_fls_capa & 0x0F) * 0.0625;
+    unpacked_data.fuel_fls_capa = (packet.fuel_fls_capa >> 1)
+                               + (packet.fuel_fls_capa & 0x01) * 0.5;
     
-    unpacked_data.LOX_fls_capa = (packet.LOX_fls_capa >> 4)
-                               + (packet.LOX_fls_capa & 0x0F) * 0.0625;
+    unpacked_data.LOX_fls_capa = (packet.LOX_fls_capa >> 1)
+                               + (packet.LOX_fls_capa & 0x01) * 0.5;
 #elif defined FLS_CONFIG && FLS_CONFIG == FLS_DIFF
     unpacked_data.fuel_fls_diff = (packet.fuel_fls_diff >> 3)
                                + (packet.fuel_fls_diff & 0x07) * 0.125;
