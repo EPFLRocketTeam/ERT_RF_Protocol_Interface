@@ -2,7 +2,7 @@
 
 // Default RF parameters
 #define DEFAULT_TX_POWER            20  // dBm   max 20dBm
-#define DEFAULT_BW                  125E3  // kHz
+#define DEFAULT_BW                  125E3  // Hz
 #define DEFAULT_SF                  8          
 #define DEFAULT_CR                  7
 
@@ -22,9 +22,9 @@
 // -------- AV_DOWNLINK -------- // 
 #define AV_DOWNLINK_FREQUENCY       866.34E6
 #define AV_DOWNLINK_POWER           DEFAULT_TX_POWER
-#define AV_DOWNLINK_BW              DEFAULT_BW
-#define AV_DOWNLINK_SF              DEFAULT_SF
-#define AV_DOWNLINK_CR              DEFAULT_CR
+#define AV_DOWNLINK_BW              250E3
+#define AV_DOWNLINK_SF              7
+#define AV_DOWNLINK_CR              3
 #define AV_DOWNLINK_PREAMBLE_LEN    DEFAULT_PREAMBLE_LENGTH
 #define AV_DOWNLINK_CRC             DEFAULT_CRC
 #define AV_DOWNLINK_INVERSE_IQ      false
