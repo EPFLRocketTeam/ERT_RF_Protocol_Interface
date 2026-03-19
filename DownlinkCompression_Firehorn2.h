@@ -18,10 +18,10 @@ inline av_downlink_t encode_downlink(const av_downlink_unpacked_t& unpacked_data
     packet.av_timestamp = unpacked_data.av_timestamp;
 
     packet.gnss_lon = ((int32_t)unpacked_data.gnss_lon << 11)
-                    + abs((unpacked_data.gnss_lon - (int32_t)unpacked_data.gnss_lon) * 2048);
+                    + abs((int32_t)((unpacked_data.gnss_lon - (int32_t)unpacked_data.gnss_lon) * 2048));
 
     packet.gnss_lat = ((int32_t)unpacked_data.gnss_lat << 11)
-                    + abs((unpacked_data.gnss_lat - (int32_t)unpacked_data.gnss_lat) * 2048);
+                    + abs((int32_t)((unpacked_data.gnss_lat - (int32_t)unpacked_data.gnss_lat) * 2048));
 
     packet.gnss_alt = (uint16_t)(unpacked_data.gnss_alt / 10);
 
@@ -46,7 +46,17 @@ inline av_downlink_t encode_downlink(const av_downlink_unpacked_t& unpacked_data
     packet.LOX_temp = (int8_t)(unpacked_data.LOX_temp / 2);
     
 #if defined FLS_CONFIG && FLS_CONFIG == FLS_CAPA
+    packet.fuel_fls_capa = ((uint16_t)unpacked_data.fuel_fls_capa << 4)
+                         + (unpacked_data.fuel_fls_capa - (uint16_t)unpacked_data.fuel_fls_capa) * 16;
+    
+    packet.LOX_fls_capa = ((uint16_t)unpacked_data.LOX_fls_capa << 4)
+                         + (unpacked_data.LOX_fls_capa - (uint16_t)unpacked_data.LOX_fls_capa) * 16;
 #elif defined FLS_CONFIG && FLS_CONFIG == FLS_DIFF
+    packet.fuel_fls_diff = ((uint16_t)unpacked_data.fuel_fls_diff << 3)
+                         + (unpacked_data.fuel_fls_diff - (uint16_t)unpacked_data.fuel_fls_diff) * 8;
+    
+    packet.LOX_fls_diff = ((uint16_t)unpacked_data.LOX_fls_diff << 3)
+                         + (unpacked_data.LOX_fls_diff - (uint16_t)unpacked_data.LOX_fls_diff) * 8;
 #elif FLS_CONFIG == FLS_TEMP
     packet.LOX_fls_temp_1 = (int8_t)(unpacked_data.LOX_fls_temp_1 / 2);
     packet.LOX_fls_temp_2 = (int8_t)(unpacked_data.LOX_fls_temp_2 / 2);
@@ -72,33 +82,33 @@ inline av_downlink_t encode_downlink(const av_downlink_unpacked_t& unpacked_data
     packet.solenoid_valves_state = (uint8_t)unpacked_data.solenoid_valves_state;
     
 #if defined DPR_CONFIG && DPR_CONFIG == DPR_BALL_VALVE
-    packet.fuel_ball_valve_state = (uint8_t)(unpacked_data.fuel_ball_valve_state / 10);
-    packet.LOX_ball_valve_state = (uint8_t)(unpacked_data.LOX_ball_valve_state / 10);
+    packet.fuel_ball_valve_state = (uint8_t)unpacked_data.fuel_ball_valve_state;
+    packet.LOX_ball_valve_state = (uint8_t)unpacked_data.LOX_ball_valve_state;
 #endif
     
-    packet.lpb_voltage = ((uint8_t)unpacked_data.lpb_voltage << 3)
-                       + (unpacked_data.lpb_voltage - (uint8_t)unpacked_data.lpb_voltage) * 8;
+    packet.lpb_voltage = ((uint8_t)unpacked_data.lpb_voltage << 4)
+                       + (unpacked_data.lpb_voltage - (uint8_t)unpacked_data.lpb_voltage) * 16;
 
-    packet.lpb_current = ((int8_t)unpacked_data.lpb_current << 3)
-                       + abs((unpacked_data.lpb_current - (int8_t)unpacked_data.lpb_current) * 8);
+    packet.lpb_current = ((int8_t)unpacked_data.lpb_current << 4)
+                       + abs((int8_t)((unpacked_data.lpb_current - (int8_t)unpacked_data.lpb_current) * 16));
 
-    packet.vout_5v_voltage = ((uint8_t)unpacked_data.vout_5v_voltage << 3)
-                       + (unpacked_data.vout_5v_voltage - (uint8_t)unpacked_data.vout_5v_voltage) * 8;
+    packet.vout_5v_voltage = ((uint8_t)unpacked_data.vout_5v_voltage << 4)
+                       + (unpacked_data.vout_5v_voltage - (uint8_t)unpacked_data.vout_5v_voltage) * 16;
 
-    packet.vout_5v_current = ((uint8_t)unpacked_data.vout_5v_current << 3)
-                       + (unpacked_data.vout_5v_current - (uint8_t)unpacked_data.vout_5v_current) * 8;
+    packet.vout_5v_current = ((uint8_t)unpacked_data.vout_5v_current << 4)
+                       + (unpacked_data.vout_5v_current - (uint8_t)unpacked_data.vout_5v_current) * 16;
     
     packet.hpb_main_voltage = ((uint8_t)unpacked_data.hpb_main_voltage << 3)
                        + (unpacked_data.hpb_main_voltage - (uint8_t)unpacked_data.hpb_main_voltage) * 8;
     
     packet.hpb_main_current = ((int32_t)unpacked_data.hpb_main_current << 3)
-                       + abs((unpacked_data.hpb_main_current - (int32_t)unpacked_data.hpb_main_current) * 8);
+                       + abs((int8_t)((unpacked_data.hpb_main_current - (int32_t)unpacked_data.hpb_main_current) * 8));
     
     packet.hpb_backup_voltage = ((uint8_t)unpacked_data.hpb_backup_voltage << 3)
                        + (unpacked_data.hpb_backup_voltage - (uint8_t)unpacked_data.hpb_backup_voltage) * 8;
     
     packet.hpb_backup_current = ((int8_t)unpacked_data.hpb_backup_current << 3)
-                       + abs((unpacked_data.hpb_backup_current - (int8_t)unpacked_data.hpb_backup_current) * 8);
+                       + abs((int8_t)((unpacked_data.hpb_backup_current - (int8_t)unpacked_data.hpb_backup_current) * 8));
     
     packet.vout_24v_voltage = ((uint8_t)unpacked_data.vout_24v_voltage << 3)
                        + (unpacked_data.vout_24v_voltage - (uint8_t)unpacked_data.vout_24v_voltage) * 8;
@@ -187,25 +197,25 @@ inline av_downlink_unpacked_t decode_downlink(const av_downlink_t& packet) {
     unpacked_data.solenoid_valves_state = packet.solenoid_valves_state;
 
 #if defined DPR_CONFIG && DPR_CONFIG == DPR_BALL_VALVE
-    unpacked_data.fuel_ball_valve_state = packet.fuel_ball_valve_state * 10;
-    unpacked_data.LOX_ball_valve_state = packet.LOX_ball_valve_state * 10;
+    unpacked_data.fuel_ball_valve_state = packet.fuel_ball_valve_state;
+    unpacked_data.LOX_ball_valve_state = packet.LOX_ball_valve_state;
 #endif
 
-    unpacked_data.lpb_voltage = (packet.lpb_voltage >> 3)
-                           + (packet.lpb_voltage & 0x07) * 0.125;
-    unpacked_data.lpb_voltage = round(unpacked_data.lpb_voltage * 10.0) / 10.0;
+    unpacked_data.lpb_voltage = (packet.lpb_voltage >> 4)
+                           + (packet.lpb_voltage & 0x0F) * 0.0625;
+    unpacked_data.lpb_voltage = round(unpacked_data.lpb_voltage * 100.0) / 100.0;
     
-    unpacked_data.lpb_current = (packet.lpb_current >> 3)
-                           + (1 - 2 * (packet.lpb_current < 0)) * (packet.lpb_current & 0x07) * 0.125;
-    //unpacked_data.lpb_current = round(unpacked_data.lpb_current * 10.0) / 10.0;
+    unpacked_data.lpb_current = (packet.lpb_current >> 4)
+                           + (1 - 2 * (packet.lpb_current < 0)) * (packet.lpb_current & 0x0F) * 0.0625;
+    unpacked_data.lpb_current = round(unpacked_data.lpb_current * 100.0) / 100.0;
     
-    unpacked_data.vout_5v_voltage = (packet.vout_5v_voltage >> 3)
-                           + (packet.vout_5v_voltage & 0x07) * 0.125;
-    unpacked_data.vout_5v_voltage = round(unpacked_data.vout_5v_voltage * 10.0) / 10.0;
+    unpacked_data.vout_5v_voltage = (packet.vout_5v_voltage >> 4)
+                           + (packet.vout_5v_voltage & 0x0F) * 0.0625;
+    unpacked_data.vout_5v_voltage = round(unpacked_data.vout_5v_voltage * 100.0) / 100.0;
     
-    unpacked_data.vout_5v_current = (packet.vout_5v_current >> 3)
-                           + (packet.vout_5v_current & 0x07) * 0.125;
-    unpacked_data.vout_5v_current = round(unpacked_data.vout_5v_current * 10.0) / 10.0;
+    unpacked_data.vout_5v_current = (packet.vout_5v_current >> 4)
+                           + (packet.vout_5v_current & 0x0F) * 0.0625;
+    unpacked_data.vout_5v_current = round(unpacked_data.vout_5v_current * 100.0) / 100.0;
     
     unpacked_data.hpb_main_voltage = (packet.hpb_main_voltage >> 3)
                            + (packet.hpb_main_voltage & 0x07) * 0.125;
