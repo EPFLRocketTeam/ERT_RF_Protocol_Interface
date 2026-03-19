@@ -3,8 +3,8 @@
 //
 //  Cyprien Lacassagne (SE C-AV C-EGS)
 ///////////////////////////////////////////////////////////////////////////////////////
-#ifndef PACKET_FIREHORN_H
-#define PACKET_FIREHORN_H
+#ifndef PACKET_DEFINITION_FIREHORN2_H
+#define PACKET_DEFINITION_FIREHORN2_H
 
 #include <cstdint>
 #include <stdint.h> // for uint8_t

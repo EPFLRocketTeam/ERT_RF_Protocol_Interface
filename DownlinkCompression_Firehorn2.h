@@ -1,9 +1,9 @@
-#ifndef DOWNLINK_COMPRESSION_FIREHORN_H
-#define DOWNLINK_COMPRESSION_FIREHORN_H
+#ifndef DOWNLINK_COMPRESSION_FIREHORN_2_H
+#define DOWNLINK_COMPRESSION_FIREHORN_2_H
 
 #include <cmath>
 #include <cstdint>
-#include "PacketDefinition_Firehorn.h"
+#include "PacketDefinition_Firehorn2.h"
 
 /**
  * @brief Encodes (compresses) AV downlink data to reduce the packet size and meet the 10Hz req.
@@ -242,5 +242,5 @@ inline av_downlink_unpacked_t decode_downlink(const av_downlink_t& packet) {
     return unpacked_data;
 }
 
-#endif /* DOWNLINK_COMPRESSION_FIREHORN_H */
+#endif /* DOWNLINK_COMPRESSION_FIREHORN_2_H */
 
