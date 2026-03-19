@@ -170,7 +170,17 @@ inline av_downlink_unpacked_t decode_downlink(const av_downlink_t& packet) {
     unpacked_data.LOX_temp = packet.LOX_temp * 2;
     
 #if defined FLS_CONFIG && FLS_CONFIG == FLS_CAPA
+    unpacked_data.fuel_fls_capa = (packet.fuel_fls_capa >> 4)
+                               + (packet.fuel_fls_capa & 0x0F) * 0.0625;
+    
+    unpacked_data.LOX_fls_capa = (packet.LOX_fls_capa >> 4)
+                               + (packet.LOX_fls_capa & 0x0F) * 0.0625;
 #elif defined FLS_CONFIG && FLS_CONFIG == FLS_DIFF
+    unpacked_data.fuel_fls_diff = (packet.fuel_fls_diff >> 3)
+                               + (packet.fuel_fls_diff & 0x07) * 0.125;
+    
+    unpacked_data.LOX_fls_diff = (packet.LOX_fls_diff >> 3)
+                               + (packet.LOX_fls_diff & 0x07) * 0.125;
 #elif FLS_CONFIG == FLS_TEMP
     unpacked_data.LOX_fls_temp_1 = packet.LOX_fls_temp_1 * 2;
     unpacked_data.LOX_fls_temp_2 = packet.LOX_fls_temp_2 * 2;
