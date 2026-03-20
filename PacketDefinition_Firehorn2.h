@@ -12,36 +12,55 @@
 #define ACTIVE 					0xAC // 0xAC for ACtive 
 #define INACTIVE 				0xDE // 0xDE for DEsactive
 
-///////////////////////////////////////////////////////////////////////////////////////
-// DPR Configuration
+////////////////////////////////////////////////////////////////
+// ---------------------- AV MACROS ------------------------  // 
+/* DPR Configuration */
 #define DPR_SOLENOID    0
 #define DPR_BALL_VALVE  1
 #define DPR_CONFIG      DPR_BALL_VALVE
 
-// FLS Configuration
+/* FLS Configuration */
 #define FLS_CAPA        0
 #define FLS_DIFF        1
 #define FLS_TEMP        2
 #define FLS_CONFIG      FLS_TEMP
-///////////////////////////////////////////////////////////////////////////////////////
 
-/* Engine state valves map (0: open, 1: closed) */
+/* AV valves state map (0: open, 1: closed) */
 #if defined DPR_CONFIG && DPR_CONFIG == DPR_SOLENOID
-#define SOLENOID_VALVE_PRES_LOX     (1 << 6)
-#define SOLENOID_VALVE_PRES_FUEL    (1 << 5)
+#define AV_VALVE_DPR_LOX    (1 << 6)
+#define AV_VALVE_DPR_FUEL   (1 << 5)
 #elif defined DPR_CONFIG && DPR_CONFIG == DPR_BALL_VALVE
-#define SOLENOID_VALVE_SDPR_N2      (1 << 5)
+#define AV_VALVE_SDPR_N2    (1 << 5)
 #endif /* DPR_CONFIG */
-#define SOLENOID_VALVE_VENT_N2	    (1 << 4)
-#define SOLENOID_VALVE_VENT_LOX	    (1 << 3)
-#define SOLENOID_VALVE_VENT_FUEL	(1 << 2)
-#define SOLENOID_VALVE_MAIN_LOX	    (1 << 1)
-#define SOLENOID_VALVE_MAIN_FUEL	(1 << 0)
+#define AV_VALVE_VENT_N2	(1 << 4)
+#define AV_VALVE_VENT_LOX	(1 << 3)
+#define AV_VALVE_VENT_FUEL	(1 << 2)
+#define AV_VALVE_MAIN_LOX	(1 << 1)
+#define AV_VALVE_MAIN_FUEL	(1 << 0)
 
 /* Cameras recording map (0: rec OFF, 1: rec ON) */
-#define CAMERA_REC_SEPMEC       (1 << 2)
-#define CAMERA_REC_AEROCOVER_UP (1 << 1)
-#define CAMERA_REC_AEROCOVER_DN (1 << 0)
+#define AV_CAMERA_SEPMEC    (1 << 2)
+#define AV_CAMERA_AERO_TOP  (1 << 1)
+#define AV_CAMERA_AERO_BOT  (1 << 0)
+
+// ---------------------- GSE MACROS -----------------------  //
+/* GSE valves state map (0: open, 1: closed) */
+#define GSE_VALVE_GQD1_NC   (1 << 14)   // Quick Disconnect
+#define GSE_VALVE_GQD2_NC   (1 << 13)   // Quick Disconnect
+#define GSE_VALVE_GQD3_NC   (1 << 12)   // Quick Disconnect
+#define GSE_VALVE_GQD4_NC   (1 << 11)   // Quick Disconnect
+#define GSE_VALVE_GQD5_NC   (1 << 10)   // Quick Disconnect
+#define GSE_VALVE_GQD6_NC   (1 << 9)    // Quick Disconnect
+#define GSE_VALVE_GPN_NC    (1 << 8)    // Controls the opening of the high pressure N2 bottle
+#define GSE_VALVE_GVN_NO    (1 << 7)    // Vents the N2 tube before disconnect
+#define GSE_VALVE_GPA_NC    (1 << 6)    // Controls the activation of the pressure booster
+#define GSE_VALVE_GVA_NC    (1 << 5)    // Vents the pneumatic system
+#define GSE_VALVE_GFO_NCC   (1 << 4)    // Controls LOX filling    
+#define GSE_VALVE_GDO_NCC   (1 << 3)    // Vents the tube before disconnect
+#define GSE_VALVE_GFD_NC    (1 << 2)    // Low mass flow anti-freeze LOX filling line
+#define GSE_VALVE_GDD_NC    (1 << 1)    // Low mass flow anti-freeze LOX disconnect
+#define GSE_VALVE_GFE_NC    (1 << 0)    // Controls the filling of ethanol along with the pump
+////////////////////////////////////////////////////////////////
 
 enum CMD_ID {
 	NO_PACKET = 0,
@@ -53,8 +72,8 @@ enum CMD_ID {
 	AV_CMD_LAUNCH,
 	AV_CMD_ABORT,
 	/* FC MANUAL*/
-	AV_CMD_PRES_LOX,    // Valid for both solenoid and ball-valve DPR config.
-	AV_CMD_PRES_FUEL,   // Valid for both solenoid and ball-valve DPR config.
+	AV_CMD_DPR_LOX,    // Valid for both solenoid and ball-valve DPR config.
+	AV_CMD_DPR_FUEL,   // Valid for both solenoid and ball-valve DPR config.
 	AV_CMD_MAIN_LOX,
 	AV_CMD_MAIN_FUEL,
 	AV_CMD_VENT_LOX,
@@ -71,20 +90,21 @@ enum CMD_ID {
 	/* GSE Manual */
 	GSE_CMD_SERVO_1,
 	GSE_CMD_SERVO_2,
-	GSE_CMD_TOGGLE_GQN1,
-	GSE_CMD_TOGGLE_GQN2,
-	GSE_CMD_TOGGLE_GQN3,
-	GSE_CMD_TOGGLE_GQN4,
-	GSE_CMD_TOGGLE_GQN5,
-	GSE_CMD_TOGGLE_GQN6,
+	GSE_CMD_TOGGLE_GQD1,
+	GSE_CMD_TOGGLE_GQD2,
+	GSE_CMD_TOGGLE_GQD3,
+	GSE_CMD_TOGGLE_GQD4,
+	GSE_CMD_TOGGLE_GQD5,
+	GSE_CMD_TOGGLE_GQD6,
 	GSE_CMD_TOGGLE_GPN,
-	GSE_CMD_TOGGLE_GPA,
 	GSE_CMD_TOGGLE_GVN,
-	GSE_CMD_TOGGLE_GFE,
+	GSE_CMD_TOGGLE_GPA,
+	GSE_CMD_TOGGLE_GVA,
 	GSE_CMD_TOGGLE_GFO,
 	GSE_CMD_TOGGLE_GDO,
-	GSE_CMD_TOGGLE_PC,
-	GSE_CMD_TOGGLE_PR,
+	GSE_CMD_TOGGLE_GFD,
+	GSE_CMD_TOGGLE_GDD,
+	GSE_CMD_TOGGLE_GFE,
 	GSE_CMD_TOGGLE_PUMP,
 };
 
@@ -150,11 +170,11 @@ typedef struct __attribute__((__packed__)) {
     uint16_t chamber_pressure      : 10;  //       bbbbbbb.bbb          | 0,100    | 0.1  | bar
     uint8_t  chamber_temp          : 7;   //       bbbbbbb              | 0,200    | 2    | °C
 #if defined DPR_CONFIG && DPR_CONFIG == DPR_SOLENOID
-	uint8_t  solenoid_valves_state : 7;   // binary states of the solenoid valves
+	uint8_t  valves_state          : 7;   // binary states of the solenoid valves
 #elif defined DPR_CONFIG && DPR_CONFIG ==  DPR_BALL_VALVE
-    uint8_t  solenoid_valves_state : 6;   // binary states of the solenoid valves inc. SDPR_N2
-	uint8_t  fuel_ball_valve_state : 7;   //       bbbbbbb              | 0,90     | 1    | °
-	uint8_t  LOX_ball_valve_state  : 7;   //       bbbbbbb              | 0,90     | 1    | °
+    uint8_t  valves_state          : 6;   // binary states of the solenoid valves inc. SDPR_N2
+	uint8_t  valve_dpr_fuel        : 7;   //       bbbbbbb              | 0,90     | 1    | °
+	uint8_t  valve_dpr_LOX         : 7;   //       bbbbbbb              | 0,90     | 1    | °
 #endif /* DPR_CONFIG */
 	uint8_t  lpb_voltage  		   : 7;   //           bbb.bbbb         | 0,5      | 0.05 | V
     int8_t   lpb_current           : 8;   //          bbbb.bbbb         | -4,4     | 0.05 | A
@@ -211,10 +231,10 @@ typedef struct {
 	float    LOX_inj_pressure;
 	float    chamber_pressure;
 	float    chamber_temp;
-	uint8_t  solenoid_valves_state;
+	uint8_t  valves_state;
 #if defined DPR_CONFIG && DPR_CONFIG ==  DPR_BALL_VALVE
-	float    fuel_ball_valve_state;
-	float    LOX_ball_valve_state;
+	float    valve_dpr_fuel;
+	float    valve_dpr_LOX;
 #endif /* DPR_CONFIG */
 	float    lpb_voltage;
 	float    lpb_current;
@@ -244,23 +264,9 @@ typedef struct __attribute__((__packed__)) {
 const size_t gse_uplink_size = sizeof(gse_uplink_t);
 #endif
 
-typedef struct __attribute__((__packed__)) {
-	uint8_t GQN_NC1; //Nitrogen and Ethanol disconnect actuation
-	uint8_t GQN_NC2; //LOX disconnect actuation
-	uint8_t GQN_NC3; // reserved
-	uint8_t GQN_NC4; // reserved
-
-	uint8_t GQN_NC5; // Low mass flow anti-freeze lox disconnect
-	uint8_t GPN_NC1; // Controls the activation of the pressure booster
-
-	uint8_t GPN_NC2; // Control the opening of the high pressure bottle
-	uint8_t GVN_NC;  // Vents the tube before disconnect
-	uint8_t GFE_NC;  // Controls the filling of ethanol along with the pump
-	uint8_t GFO_NCC; // Controls LOX filling	
-	uint8_t GDO_NCC; // Vent the tube before disconnect
-	uint8_t PC_OLC;  // Trigger Lox disconnect and purge the tube of LOX 
+typedef struct __attribute__((__packed__)) {	
+	uint16_t valves_state; // binary state of the valves
 	uint8_t PUMP;    // Pump status
-
 	float GP1;		 // Nitrogen pressure in the filling line
 	float GP2;		 // LOX pressure in the deware
 	float GP3;		 // Pressure in the low-pressure side of the gas booster

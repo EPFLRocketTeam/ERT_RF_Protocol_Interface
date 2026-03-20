@@ -25,11 +25,11 @@ int main() {
 #elif FLS_CONFIG == FLS_TEMP
     data.LOX_fls_temp_1 = -159.74;
 #endif
-    data.solenoid_valves_state = 0b01001101;
+    data.valves_state = 0b01001101;
 #if defined DPR_CONFIG && DPR_CONFIG ==  DPR_BALL_VALVE
-    data.solenoid_valves_state &= ~(1 << 6);
-    data.solenoid_valves_state |= SOLENOID_VALVE_SDPR_N2;
-    data.fuel_ball_valve_state = 45.1;
+    data.valves_state &= ~(1 << 6);
+    data.valves_state |= AV_VALVE_SDPR_N2;
+    data.valve_dpr_fuel = 80.1;
 #endif
     data.lpb_voltage = 3.74;
     data.lpb_current = -1.17;
@@ -79,12 +79,12 @@ int main() {
               << result.LOX_fls_temp_1 << "\t\t" << (result.LOX_fls_temp_1 - data.LOX_fls_temp_1) / (float)data.LOX_fls_temp_1 * 100 << "\n"
 #endif
               
-              << "solenoid_valves_state:\t" << (int)data.solenoid_valves_state << "\t\t" << (int)packet.solenoid_valves_state << "\t\t"
-              << (int)result.solenoid_valves_state << "\t\t" << (result.solenoid_valves_state - data.solenoid_valves_state) / (float)data.solenoid_valves_state * 100 << "\n"
+              << "valves_state:\t\t" << (int)data.valves_state << "\t\t" << (int)packet.valves_state << "\t\t"
+              << (int)result.valves_state << "\t\t" << (result.valves_state - data.valves_state) / (float)data.valves_state * 100 << "\n"
 
 #if defined DPR_CONFIG && DPR_CONFIG ==  DPR_BALL_VALVE
-              << "fuel_ball_valve_state:\t" << (int)data.fuel_ball_valve_state << "\t\t" << (int)packet.fuel_ball_valve_state << "\t\t"
-              << (int)result.fuel_ball_valve_state << "\t\t" << (result.fuel_ball_valve_state - data.fuel_ball_valve_state) / (float)data.fuel_ball_valve_state * 100 << "\n"
+              << "valve_dpr_fuel:\t\t" << data.valve_dpr_fuel << "\t\t" << (int)packet.valve_dpr_fuel << "\t\t"
+              << (int)result.valve_dpr_fuel << "\t\t" << (result.valve_dpr_fuel - data.valve_dpr_fuel) / (float)data.valve_dpr_fuel * 100 << "\n"
 #endif
               
               << "lpb_voltage:\t\t" << data.lpb_voltage << "\t\t" << (int)packet.lpb_voltage << "\t\t"

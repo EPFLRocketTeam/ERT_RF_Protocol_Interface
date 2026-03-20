@@ -79,11 +79,11 @@ inline av_downlink_t encode_downlink(const av_downlink_unpacked_t& unpacked_data
 
     packet.chamber_temp = (uint8_t)(unpacked_data.chamber_temp / 2);
     
-    packet.solenoid_valves_state = (uint8_t)unpacked_data.solenoid_valves_state;
+    packet.valves_state = (uint8_t)unpacked_data.valves_state;
     
 #if defined DPR_CONFIG && DPR_CONFIG == DPR_BALL_VALVE
-    packet.fuel_ball_valve_state = (uint8_t)unpacked_data.fuel_ball_valve_state;
-    packet.LOX_ball_valve_state = (uint8_t)unpacked_data.LOX_ball_valve_state;
+    packet.valve_dpr_fuel = (uint8_t)unpacked_data.valve_dpr_fuel;
+    packet.valve_dpr_LOX = (uint8_t)unpacked_data.valve_dpr_LOX;
 #endif
     
     packet.lpb_voltage = ((uint8_t)unpacked_data.lpb_voltage << 4)
@@ -204,11 +204,11 @@ inline av_downlink_unpacked_t decode_downlink(const av_downlink_t& packet) {
                                + (packet.chamber_pressure & 0x07) * 0.125;
     unpacked_data.chamber_pressure = round(unpacked_data.chamber_pressure * 10.0) / 10.0;
 
-    unpacked_data.solenoid_valves_state = packet.solenoid_valves_state;
+    unpacked_data.valves_state = packet.valves_state;
 
 #if defined DPR_CONFIG && DPR_CONFIG == DPR_BALL_VALVE
-    unpacked_data.fuel_ball_valve_state = packet.fuel_ball_valve_state;
-    unpacked_data.LOX_ball_valve_state = packet.LOX_ball_valve_state;
+    unpacked_data.valve_dpr_fuel = packet.valve_dpr_fuel;
+    unpacked_data.valve_dpr_LOX = packet.valve_dpr_LOX;
 #endif
 
     unpacked_data.lpb_voltage = (packet.lpb_voltage >> 4)
