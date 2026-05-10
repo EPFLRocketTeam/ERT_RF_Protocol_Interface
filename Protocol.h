@@ -8,7 +8,7 @@
 #include "ParameterDefinition_Nordend.h"
 #endif /* RF_PROTOCOL_NORDEND */
 
-#ifdef RF_PROTOCOL_FIREHORN_2
+#ifdef RF_PROTOCOL_FIREHORN
 #include "PacketDefinition_Firehorn2.h"
 #include "ParameterDefinition_Firehorn2.h"
 #include "DownlinkCompression_Firehorn2.h"
