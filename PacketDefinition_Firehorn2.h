@@ -27,21 +27,28 @@
 
 /* AV valves state map (0: open, 1: closed) */
 #if defined DPR_CONFIG && DPR_CONFIG == DPR_SOLENOID
-#define AV_VALVE_DPR_LOX    (1 << 6)
-#define AV_VALVE_DPR_FUEL   (1 << 5)
+#define AV_VALVE_DPR_LOX    (1 << 6)    // PO-nc
+#define AV_VALVE_DPR_FUEL   (1 << 5)    // PE-nc
 #elif defined DPR_CONFIG && DPR_CONFIG == DPR_BALL_VALVE
-#define AV_VALVE_SDPR_N2    (1 << 5)
+#define AV_VALVE_SDPR_LOX   (1 << 6)    // SPO-nc
+#define AV_VALVE_SDPR_FUEL  (1 << 5)    // SPE-nc
 #endif /* DPR_CONFIG */
-#define AV_VALVE_VENT_N2	(1 << 4)
-#define AV_VALVE_VENT_LOX	(1 << 3)
-#define AV_VALVE_VENT_FUEL	(1 << 2)
-#define AV_VALVE_MAIN_LOX	(1 << 1)
-#define AV_VALVE_MAIN_FUEL	(1 << 0)
+#define AV_VALVE_VENT_N2	(1 << 4)    // VN-nc
+#define AV_VALVE_VENT_LOX	(1 << 3)    // VO-no
+#define AV_VALVE_VENT_FUEL	(1 << 2)    // VE-no
+#define AV_VALVE_MAIN_LOX	(1 << 1)    // MO-nc
+#define AV_VALVE_MAIN_FUEL	(1 << 0)    // ME-nc
 
 /* Cameras recording map (0: rec OFF, 1: rec ON) */
 #define AV_CAMERA_SEPMEC    (1 << 2)
 #define AV_CAMERA_AERO_TOP  (1 << 1)
 #define AV_CAMERA_AERO_BOT  (1 << 0)
+
+/* Pyro channels map (0: open circuit, 1 : continuity) */
+#define AV_PYRO_CH4         (1 << 3)
+#define AV_PYRO_CH3         (1 << 2)
+#define AV_PYRO_CH2         (1 << 1)
+#define AV_PYRO_CH1         (1 << 0)
 
 // ---------------------- GSE MACROS -----------------------  //
 /* GSE valves state map (0: open, 1: closed) */
@@ -172,7 +179,7 @@ typedef struct __attribute__((__packed__)) {
 #if defined DPR_CONFIG && DPR_CONFIG == DPR_SOLENOID
 	uint8_t  valves_state          : 7;   // binary states of the solenoid valves
 #elif defined DPR_CONFIG && DPR_CONFIG ==  DPR_BALL_VALVE
-    uint8_t  valves_state          : 6;   // binary states of the solenoid valves inc. SDPR_N2
+    uint8_t  valves_state          : 7;   // binary states of the solenoid valves inc. SDPR_XXX
 	uint8_t  valve_dpr_fuel        : 7;   //       bbbbbbb              | 0,90     | 1    | °
 	uint8_t  valve_dpr_LOX         : 7;   //       bbbbbbb              | 0,90     | 1    | °
 #endif /* DPR_CONFIG */
@@ -188,8 +195,9 @@ typedef struct __attribute__((__packed__)) {
     uint8_t  vout_24v_current      : 8;   //         bbbbb.bbb          | 0,20     | 0.1  | A
 	uint8_t  av_fc_temp 	  	   : 6;   //        bbbbbb              | 0,80     | 2    | °C
 	uint8_t  ambient_temp 	  	   : 6;   //        bbbbbb              | 0,80     | 2    | °C
-	uint8_t  av_state     		   : 4;   // FSM state
+	uint8_t  av_state     		   : 4;   // FC FSM state
 	uint8_t  cam_rec               : 3;   // Cameras recording state
+	uint8_t  pyro_status           : 4;   // Pyro channels continuity status
 } av_downlink_t;
 #ifdef __cplusplus
 const uint32_t av_downlink_size = sizeof(av_downlink_t);
@@ -250,6 +258,7 @@ typedef struct {
 	float    ambient_temp;
 	uint8_t  av_state;
 	uint8_t  cam_rec;
+	uint8_t  pyro_status;
 } av_downlink_unpacked_t;
 
 /////////////////////////////////////////////////////////////////

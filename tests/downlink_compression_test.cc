@@ -28,7 +28,9 @@ int main() {
     data.valves_state = 0b01001101;
 #if defined DPR_CONFIG && DPR_CONFIG ==  DPR_BALL_VALVE
     data.valves_state &= ~(1 << 6);
-    data.valves_state |= AV_VALVE_SDPR_N2;
+    data.valves_state |= AV_VALVE_SDPR_LOX;
+    data.valves_state &= ~(1 << 5);
+    data.valves_state |= AV_VALVE_SDPR_FUEL;
     data.valve_dpr_fuel = 80.1;
 #endif
     data.lpb_voltage = 3.74;
@@ -36,6 +38,7 @@ int main() {
     data.hpb_main_voltage = 25.2;
     data.hpb_main_current = -4.33;
     data.hpb_backup_current = 17.33;
+    data.pyro_status = AV_PYRO_CH1 | AV_PYRO_CH4;
 
     av_downlink_t packet(encode_downlink(data));
     av_downlink_unpacked_t result(decode_downlink(packet));
@@ -100,7 +103,10 @@ int main() {
               << result.hpb_main_current << "\t\t" << (result.hpb_main_current - data.hpb_main_current) / (float)data.hpb_main_current * 100 << "\n"
               
               << "hpb_backup_current:\t" << data.hpb_backup_current << "\t\t" << (int)packet.hpb_backup_current << "\t\t"
-              << result.hpb_backup_current << "\t\t" << (result.hpb_backup_current - data.hpb_backup_current) / (float)data.hpb_backup_current * 100 << "\n";
+              << result.hpb_backup_current << "\t\t" << (result.hpb_backup_current - data.hpb_backup_current) / (float)data.hpb_backup_current * 100 << "\n"
+
+              << "pyro_status:\t\t" << (int)data.pyro_status << "\t\t" << (int)packet.pyro_status << "\t\t"
+              << (int)result.pyro_status << "\t\t" << (result.pyro_status - data.pyro_status) / (float)data.pyro_status * 100 << "\n";
 
     const unsigned initial_size(sizeof(data));
     const unsigned compressed_size(sizeof(packet));
