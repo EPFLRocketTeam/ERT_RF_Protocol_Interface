@@ -31,9 +31,13 @@ inline av_downlink_t encode_downlink(const av_downlink_unpacked_t& unpacked_data
     
     packet.agl_altitude = (uint16_t)unpacked_data.agl_altitude;
 
-    packet.N2_pressure = (uint8_t)(unpacked_data.N2_pressure / 2);
+    packet.N2_pressure_1 = (uint8_t)(unpacked_data.N2_pressure_1 / 2);
 
-    packet.N2_temp = (uint8_t)(unpacked_data.N2_temp / 2);
+    packet.N2_temp_1 = (uint8_t)(unpacked_data.N2_temp_1 / 2);
+
+    packet.N2_pressure_2 = (uint8_t)(unpacked_data.N2_pressure_2 / 2);
+
+    packet.N2_temp_2 = (uint8_t)(unpacked_data.N2_temp_2 / 2);
 
     packet.fuel_pressure = ((uint16_t)unpacked_data.fuel_pressure << 3)
                          + (unpacked_data.fuel_pressure - (uint16_t)unpacked_data.fuel_pressure) * 8;
@@ -155,9 +159,13 @@ inline av_downlink_unpacked_t decode_downlink(const av_downlink_t& packet) {
     
     unpacked_data.agl_altitude = packet.agl_altitude;
 
-    unpacked_data.N2_pressure = packet.N2_pressure * 2;
+    unpacked_data.N2_pressure_1 = packet.N2_pressure_1 * 2;
     
-    unpacked_data.N2_temp = packet.N2_temp * 2;
+    unpacked_data.N2_temp_1 = packet.N2_temp_1 * 2;
+
+    unpacked_data.N2_pressure_2 = packet.N2_pressure_2 * 2;
+    
+    unpacked_data.N2_temp_2 = packet.N2_temp_2 * 2;
                             
     unpacked_data.fuel_pressure = (packet.fuel_pressure >> 3)
                                 + (packet.fuel_pressure & 0x07) * 0.125;

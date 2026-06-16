@@ -150,8 +150,10 @@ typedef struct __attribute__((__packed__)) {
 	int16_t  vertical_speed        : 9;   //    b bbbbbbbb              | -350,350 | 2    | m/s
 	uint8_t  absolute_speed        : 8;   //      bbbbbbbb              | 0,350    | 2    | m/s
 	uint16_t agl_altitude          : 12;  // bbbb bbbbbbbb              | 0,4000   | 1    | m	
-	uint8_t  N2_pressure  		   : 8;   //      bbbbbbbb              | 0,450    | 2    | bar
-    uint8_t  N2_temp               : 6;   //         bbbbb              | 0,80     | 2    | °C
+	uint8_t  N2_pressure_1         : 8;   //      bbbbbbbb              | 0,450    | 2    | bar
+    uint8_t  N2_temp_1             : 6;   //         bbbbb              | 0,80     | 2    | °C
+   	uint8_t  N2_pressure_2         : 8;   //      bbbbbbbb              | 0,450    | 2    | bar
+    uint8_t  N2_temp_2             : 6;   //         bbbbb              | 0,80     | 2    | °C
 	uint16_t fuel_pressure		   : 10;  //        bbbbbb.bbb          | 0,100    | 0.1  | bar
 	uint8_t  fuel_temp             : 6;   //        bbbbbb              | 0,80     | 2    | °C
 	uint16_t LOX_pressure 		   : 10;  //        bbbbbb.bbb          | 0,100    | 0.1  | bar
@@ -213,8 +215,10 @@ typedef struct {
 	float    vertical_speed; // m/s
 	float    absolute_speed; // m/s
 	float    agl_altitude;
-	float    N2_pressure;
-    float    N2_temp;
+	float    N2_pressure_1;
+    float    N2_temp_1;
+   	float    N2_pressure_2;
+    float    N2_temp_2;
 	float    fuel_pressure;
 	float    fuel_temp;
 	float    LOX_pressure;

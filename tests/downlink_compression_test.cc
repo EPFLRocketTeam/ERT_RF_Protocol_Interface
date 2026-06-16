@@ -14,8 +14,8 @@ int main() {
     data.gnss_lat = 38.713138;
     data.gnss_alt = 2394.633520;
     data.absolute_speed = 111.111;
-    data.N2_pressure = 322.347;
-    data.N2_temp = 45.981;
+    data.N2_pressure_1 = 322.347;
+    data.N2_temp_1 = 45.981;
     data.fuel_pressure = 59.19;
     data.LOX_temp = -197.12;
 #if defined FLS_CONFIG && FLS_CONFIG == FLS_CAPA
@@ -59,11 +59,11 @@ int main() {
               << "absolute_speed:\t\t" << data.absolute_speed << "\t\t" << packet.absolute_speed << "\t\t"
               << result.absolute_speed << "\t\t" << (result.absolute_speed - data.absolute_speed) / (float)data.absolute_speed * 100 << "\n"
 
-              << "N2_pressure:\t\t" << data.N2_pressure << "\t\t" << (int)packet.N2_pressure << "\t\t"
-              << result.N2_pressure << "\t\t" << (result.N2_pressure - data.N2_pressure) / (float)data.N2_pressure * 100 << "\n"
+              << "N2_pressure_1:\t\t" << data.N2_pressure_1 << "\t\t" << (int)packet.N2_pressure_1 << "\t\t"
+              << result.N2_pressure_1 << "\t\t" << (result.N2_pressure_1 - data.N2_pressure_1) / (float)data.N2_pressure_1 * 100 << "\n"
 
-              << "N2_temp:\t\t" << data.N2_temp << "\t\t" << packet.N2_temp << "\t\t"
-              << result.N2_temp << "\t\t" << (result.N2_temp - data.N2_temp) / (float)data.N2_temp * 100 << "\n"
+              << "N2_temp_1:\t\t" << data.N2_temp_1 << "\t\t" << packet.N2_temp_1 << "\t\t"
+              << result.N2_temp_1 << "\t\t" << (result.N2_temp_1 - data.N2_temp_1) / (float)data.N2_temp_1 * 100 << "\n"
 
               << "fuel_pressure:\t\t" << data.fuel_pressure << "\t\t" << packet.fuel_pressure << "\t\t"
               << result.fuel_pressure << "\t\t" << (result.fuel_pressure - data.fuel_pressure) / (float)data.fuel_pressure * 100 << "\n"
