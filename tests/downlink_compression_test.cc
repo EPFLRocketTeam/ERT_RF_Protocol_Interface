@@ -25,11 +25,11 @@ int main() {
 #elif FLS_CONFIG == FLS_TEMP
     data.LOX_fls_temp_1 = -159.74;
 #endif
-    data.valves_state = 0b01001101;
+    data.valves_state = 0b001101;
 #if defined DPR_CONFIG && DPR_CONFIG ==  DPR_BALL_VALVE
-    data.valves_state &= ~(1 << 6);
-    data.valves_state |= AV_VALVE_SDPR_LOX;
     data.valves_state &= ~(1 << 5);
+    data.valves_state |= AV_VALVE_SDPR_LOX;
+    data.valves_state &= ~(1 << 4);
     data.valves_state |= AV_VALVE_SDPR_FUEL;
     data.valve_dpr_fuel = 80.1;
 #endif

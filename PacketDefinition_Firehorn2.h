@@ -27,13 +27,12 @@
 
 /* AV valves state map (0: open, 1: closed) */
 #if defined DPR_CONFIG && DPR_CONFIG == DPR_SOLENOID
-#define AV_VALVE_DPR_LOX    (1 << 6)    // PO-nc
-#define AV_VALVE_DPR_FUEL   (1 << 5)    // PE-nc
+#define AV_VALVE_DPR_LOX    (1 << 5)    // PO-nc
+#define AV_VALVE_DPR_FUEL   (1 << 4)    // PE-nc
 #elif defined DPR_CONFIG && DPR_CONFIG == DPR_BALL_VALVE
-#define AV_VALVE_SDPR_LOX   (1 << 6)    // SPO-nc
-#define AV_VALVE_SDPR_FUEL  (1 << 5)    // SPE-nc
+#define AV_VALVE_SDPR_LOX   (1 << 5)    // SPO-nc
+#define AV_VALVE_SDPR_FUEL  (1 << 4)    // SPE-nc
 #endif /* DPR_CONFIG */
-#define AV_VALVE_VENT_N2	(1 << 4)    // VN-nc
 #define AV_VALVE_VENT_LOX	(1 << 3)    // VO-no
 #define AV_VALVE_VENT_FUEL	(1 << 2)    // VE-no
 #define AV_VALVE_MAIN_LOX	(1 << 1)    // MO-nc
@@ -85,9 +84,9 @@ enum CMD_ID {
 	AV_CMD_MAIN_FUEL,
 	AV_CMD_VENT_LOX,
 	AV_CMD_VENT_FUEL,
-	AV_CMD_VENT_N2,
 #if defined DPR_CONFIG && DPR_CONFIG == DPR_BALL_VALVE
-    AV_CMD_SDPR_N2,
+    AV_CMD_SDPR_LOX,
+    AV_CMD_SDPR_FUEL,
 #endif
 	/* GSE FSM*/
 	GSE_CMD_IDLE,
@@ -159,10 +158,8 @@ typedef struct __attribute__((__packed__)) {
 	uint16_t LOX_pressure 		   : 10;  //        bbbbbb.bbb          | 0,100    | 0.1  | bar
 	int8_t   LOX_temp     		   : 8;   //      bbbbbbbb              | -200,80  | 2    | °C
 #if defined FLS_CONFIG && FLS_CONFIG == FLS_CAPA
-	uint16_t fuel_fls_capa         : 11;  //    bbbbbbbbbb.b            | 0,1000   | 0.5  | pF
 	uint16_t LOX_fls_capa          : 11;  //    bbbbbbbbbb.b            | 0,1000   | 0.5  | pF
 #elif defined FLS_CONFIG && FLS_CONFIG == FLS_DIFF
-	uint16_t fuel_fls_diff_bot     : 10;  //       bbbbbbb.bbb          | 0,100    | 0.1  | bar
 	uint16_t LOX_fls_diff_bot      : 10;  //       bbbbbbb.bbb          | 0,100    | 0.1  | bar
 #elif FLS_CONFIG == FLS_TEMP
 	int8_t   LOX_fls_temp_1		   : 8;   //      bbbbbbbb              | -200,80  | 2    | °C
@@ -181,7 +178,7 @@ typedef struct __attribute__((__packed__)) {
 #if defined DPR_CONFIG && DPR_CONFIG == DPR_SOLENOID
 	uint8_t  valves_state          : 7;   // binary states of the solenoid valves
 #elif defined DPR_CONFIG && DPR_CONFIG ==  DPR_BALL_VALVE
-    uint8_t  valves_state          : 7;   // binary states of the solenoid valves inc. SDPR_XXX
+    uint8_t  valves_state          : 6;   // binary states of the solenoid valves inc. SDPR_XXX
 	uint8_t  valve_dpr_fuel        : 7;   //       bbbbbbb              | 0,90     | 1    | °
 	uint8_t  valve_dpr_LOX         : 7;   //       bbbbbbb              | 0,90     | 1    | °
 #endif /* DPR_CONFIG */
@@ -224,10 +221,8 @@ typedef struct {
 	float    LOX_pressure;
 	float    LOX_temp;
 #if defined FLS_CONFIG && FLS_CONFIG == FLS_CAPA
-	float    fuel_fls_capa;
 	float    LOX_fls_capa;
 #elif defined FLS_CONFIG && FLS_CONFIG == FLS_DIFF
-	float    fuel_fls_diff_bot;
 	float    LOX_fls_diff_bot;
 #elif FLS_CONFIG == FLS_TEMP
 	float    LOX_fls_temp_1;
