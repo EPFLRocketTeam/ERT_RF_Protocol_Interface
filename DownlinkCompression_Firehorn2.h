@@ -79,10 +79,8 @@ inline av_downlink_t encode_downlink(const av_downlink_unpacked_t& unpacked_data
     
     packet.valves_state = (uint8_t)unpacked_data.valves_state;
     
-#if defined DPR_CONFIG && DPR_CONFIG == DPR_BALL_VALVE
     packet.valve_dpr_fuel = (uint8_t)unpacked_data.valve_dpr_fuel;
     packet.valve_dpr_LOX = (uint8_t)unpacked_data.valve_dpr_LOX;
-#endif
     
     packet.lpb_voltage = ((uint8_t)unpacked_data.lpb_voltage << 4)
                        + (unpacked_data.lpb_voltage - (uint8_t)unpacked_data.lpb_voltage) * 16;
@@ -204,10 +202,8 @@ inline av_downlink_unpacked_t decode_downlink(const av_downlink_t& packet) {
 
     unpacked_data.valves_state = packet.valves_state;
 
-#if defined DPR_CONFIG && DPR_CONFIG == DPR_BALL_VALVE
     unpacked_data.valve_dpr_fuel = packet.valve_dpr_fuel;
     unpacked_data.valve_dpr_LOX = packet.valve_dpr_LOX;
-#endif
 
     unpacked_data.lpb_voltage = (packet.lpb_voltage >> 4)
                            + (packet.lpb_voltage & 0x0F) * 0.0625;

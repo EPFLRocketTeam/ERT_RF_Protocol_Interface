@@ -26,13 +26,11 @@ int main() {
     data.LOX_fls_temp_1 = -159.74;
 #endif
     data.valves_state = 0b001101;
-#if defined DPR_CONFIG && DPR_CONFIG ==  DPR_BALL_VALVE
     data.valves_state &= ~(1 << 5);
     data.valves_state |= AV_VALVE_SDPR_LOX;
     data.valves_state &= ~(1 << 4);
     data.valves_state |= AV_VALVE_SDPR_FUEL;
     data.valve_dpr_fuel = 80.1;
-#endif
     data.lpb_voltage = 3.74;
     data.lpb_current = -1.17;
     data.hpb_main_voltage = 25.2;
@@ -85,10 +83,8 @@ int main() {
               << "valves_state:\t\t" << (int)data.valves_state << "\t\t" << (int)packet.valves_state << "\t\t"
               << (int)result.valves_state << "\t\t" << (result.valves_state - data.valves_state) / (float)data.valves_state * 100 << "\n"
 
-#if defined DPR_CONFIG && DPR_CONFIG ==  DPR_BALL_VALVE
               << "valve_dpr_fuel:\t\t" << data.valve_dpr_fuel << "\t\t" << (int)packet.valve_dpr_fuel << "\t\t"
               << (int)result.valve_dpr_fuel << "\t\t" << (result.valve_dpr_fuel - data.valve_dpr_fuel) / (float)data.valve_dpr_fuel * 100 << "\n"
-#endif
               
               << "lpb_voltage:\t\t" << data.lpb_voltage << "\t\t" << (int)packet.lpb_voltage << "\t\t"
               << result.lpb_voltage << "\t\t" << (result.lpb_voltage - data.lpb_voltage) / (float)data.lpb_voltage * 100 << "\n"

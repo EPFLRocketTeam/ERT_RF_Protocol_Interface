@@ -14,11 +14,6 @@
 
 ////////////////////////////////////////////////////////////////
 // ---------------------- AV MACROS ------------------------  // 
-/* DPR Configuration */
-#define DPR_SOLENOID    0
-#define DPR_BALL_VALVE  1
-#define DPR_CONFIG      DPR_BALL_VALVE
-
 /* FLS Configuration */
 #define FLS_CAPA        0
 #define FLS_DIFF        1
@@ -26,13 +21,8 @@
 #define FLS_CONFIG      FLS_TEMP
 
 /* AV valves state map (0: open, 1: closed) */
-#if defined DPR_CONFIG && DPR_CONFIG == DPR_SOLENOID
-#define AV_VALVE_DPR_LOX    (1 << 5)    // PO-nc
-#define AV_VALVE_DPR_FUEL   (1 << 4)    // PE-nc
-#elif defined DPR_CONFIG && DPR_CONFIG == DPR_BALL_VALVE
 #define AV_VALVE_SDPR_LOX   (1 << 5)    // SPO-nc
 #define AV_VALVE_SDPR_FUEL  (1 << 4)    // SPE-nc
-#endif /* DPR_CONFIG */
 #define AV_VALVE_VENT_LOX	(1 << 3)    // VO-no
 #define AV_VALVE_VENT_FUEL	(1 << 2)    // VE-no
 #define AV_VALVE_MAIN_LOX	(1 << 1)    // MO-nc
@@ -78,16 +68,14 @@ enum CMD_ID {
 	AV_CMD_LAUNCH,
 	AV_CMD_ABORT,
 	/* FC MANUAL*/
-	AV_CMD_DPR_LOX,    // Valid for both solenoid and ball-valve DPR config.
-	AV_CMD_DPR_FUEL,   // Valid for both solenoid and ball-valve DPR config.
+	AV_CMD_DPR_LOX,
+	AV_CMD_DPR_FUEL,
 	AV_CMD_MAIN_LOX,
 	AV_CMD_MAIN_FUEL,
 	AV_CMD_VENT_LOX,
 	AV_CMD_VENT_FUEL,
-#if defined DPR_CONFIG && DPR_CONFIG == DPR_BALL_VALVE
     AV_CMD_SDPR_LOX,
     AV_CMD_SDPR_FUEL,
-#endif
 	/* GSE FSM*/
 	GSE_CMD_IDLE,
 	GSE_CMD_ARM,
@@ -175,13 +163,9 @@ typedef struct __attribute__((__packed__)) {
     uint16_t LOX_inj_pressure      : 10;  //       bbbbbbb.bbb          | 0,100    | 0.1  | bar
     uint16_t chamber_pressure      : 10;  //       bbbbbbb.bbb          | 0,100    | 0.1  | bar
     uint8_t  chamber_temp          : 7;   //       bbbbbbb              | 0,200    | 2    | °C
-#if defined DPR_CONFIG && DPR_CONFIG == DPR_SOLENOID
-	uint8_t  valves_state          : 7;   // binary states of the solenoid valves
-#elif defined DPR_CONFIG && DPR_CONFIG ==  DPR_BALL_VALVE
     uint8_t  valves_state          : 6;   // binary states of the solenoid valves inc. SDPR_XXX
 	uint8_t  valve_dpr_fuel        : 7;   //       bbbbbbb              | 0,90     | 1    | °
 	uint8_t  valve_dpr_LOX         : 7;   //       bbbbbbb              | 0,90     | 1    | °
-#endif /* DPR_CONFIG */
 	uint8_t  lpb_voltage  		   : 7;   //           bbb.bbbb         | 0,5      | 0.05 | V
     int8_t   lpb_current           : 8;   //          bbbb.bbbb         | -4,4     | 0.05 | A
     uint8_t  vout_5v_voltage       : 7;   //           bbb.bbbb         | 0,5.5    | 0.05 | V
@@ -239,10 +223,8 @@ typedef struct {
 	float    chamber_pressure;
 	float    chamber_temp;
 	uint8_t  valves_state;
-#if defined DPR_CONFIG && DPR_CONFIG ==  DPR_BALL_VALVE
 	float    valve_dpr_fuel;
 	float    valve_dpr_LOX;
-#endif /* DPR_CONFIG */
 	float    lpb_voltage;
 	float    lpb_current;
 	float    vout_5v_voltage;
