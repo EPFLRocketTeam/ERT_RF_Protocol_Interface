@@ -50,15 +50,9 @@ inline av_downlink_t encode_downlink(const av_downlink_unpacked_t& unpacked_data
     packet.LOX_temp = (int8_t)(unpacked_data.LOX_temp / 2);
     
 #if defined FLS_CONFIG && FLS_CONFIG == FLS_CAPA
-    packet.fuel_fls_capa = ((uint16_t)unpacked_data.fuel_fls_capa << 1)
-                         + (unpacked_data.fuel_fls_capa - (uint16_t)unpacked_data.fuel_fls_capa) * 2;
-    
     packet.LOX_fls_capa = ((uint16_t)unpacked_data.LOX_fls_capa << 1)
                          + (unpacked_data.LOX_fls_capa - (uint16_t)unpacked_data.LOX_fls_capa) * 2;
 #elif defined FLS_CONFIG && FLS_CONFIG == FLS_DIFF
-    packet.fuel_fls_diff = ((uint16_t)unpacked_data.fuel_fls_diff << 3)
-                         + (unpacked_data.fuel_fls_diff - (uint16_t)unpacked_data.fuel_fls_diff) * 8;
-    
     packet.LOX_fls_diff = ((uint16_t)unpacked_data.LOX_fls_diff << 3)
                          + (unpacked_data.LOX_fls_diff - (uint16_t)unpacked_data.LOX_fls_diff) * 8;
 #elif FLS_CONFIG == FLS_TEMP
@@ -85,10 +79,8 @@ inline av_downlink_t encode_downlink(const av_downlink_unpacked_t& unpacked_data
     
     packet.valves_state = (uint8_t)unpacked_data.valves_state;
     
-#if defined DPR_CONFIG && DPR_CONFIG == DPR_BALL_VALVE
     packet.valve_dpr_fuel = (uint8_t)unpacked_data.valve_dpr_fuel;
     packet.valve_dpr_LOX = (uint8_t)unpacked_data.valve_dpr_LOX;
-#endif
     
     packet.lpb_voltage = ((uint8_t)unpacked_data.lpb_voltage << 4)
                        + (unpacked_data.lpb_voltage - (uint8_t)unpacked_data.lpb_voltage) * 16;
@@ -180,15 +172,9 @@ inline av_downlink_unpacked_t decode_downlink(const av_downlink_t& packet) {
     unpacked_data.LOX_temp = packet.LOX_temp * 2;
     
 #if defined FLS_CONFIG && FLS_CONFIG == FLS_CAPA
-    unpacked_data.fuel_fls_capa = (packet.fuel_fls_capa >> 1)
-                               + (packet.fuel_fls_capa & 0x01) * 0.5;
-    
     unpacked_data.LOX_fls_capa = (packet.LOX_fls_capa >> 1)
                                + (packet.LOX_fls_capa & 0x01) * 0.5;
 #elif defined FLS_CONFIG && FLS_CONFIG == FLS_DIFF
-    unpacked_data.fuel_fls_diff = (packet.fuel_fls_diff >> 3)
-                               + (packet.fuel_fls_diff & 0x07) * 0.125;
-    
     unpacked_data.LOX_fls_diff = (packet.LOX_fls_diff >> 3)
                                + (packet.LOX_fls_diff & 0x07) * 0.125;
 #elif FLS_CONFIG == FLS_TEMP
@@ -216,10 +202,8 @@ inline av_downlink_unpacked_t decode_downlink(const av_downlink_t& packet) {
 
     unpacked_data.valves_state = packet.valves_state;
 
-#if defined DPR_CONFIG && DPR_CONFIG == DPR_BALL_VALVE
     unpacked_data.valve_dpr_fuel = packet.valve_dpr_fuel;
     unpacked_data.valve_dpr_LOX = packet.valve_dpr_LOX;
-#endif
 
     unpacked_data.lpb_voltage = (packet.lpb_voltage >> 4)
                            + (packet.lpb_voltage & 0x0F) * 0.0625;
