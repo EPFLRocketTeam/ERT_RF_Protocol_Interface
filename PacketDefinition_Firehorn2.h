@@ -156,8 +156,6 @@ typedef struct __attribute__((__packed__)) {
 	int8_t   LOX_fls_temp_4		   : 8;   //      bbbbbbbb              | -200,80  | 2    | °C
 	int8_t   LOX_fls_temp_5		   : 8;   //      bbbbbbbb              | -200,80  | 2    | °C
 	int8_t   LOX_fls_temp_6		   : 8;   //      bbbbbbbb              | -200,80  | 2    | °C
-	int8_t   LOX_fls_temp_7		   : 8;   //      bbbbbbbb              | -200,80  | 2    | °C
-	int8_t   LOX_fls_temp_8		   : 8;   //      bbbbbbbb              | -200,80  | 2    | °C
 #endif /* FLS_CONFIG */
 	uint16_t fuel_inj_pressure     : 10;  //       bbbbbbb.bbb          | 0,100    | 0.1  | bar
     uint16_t LOX_inj_pressure      : 10;  //       bbbbbbb.bbb          | 0,100    | 0.1  | bar
@@ -215,8 +213,6 @@ typedef struct {
 	float    LOX_fls_temp_4;
 	float    LOX_fls_temp_5;
 	float    LOX_fls_temp_6;
-	float    LOX_fls_temp_7;
-	float    LOX_fls_temp_8;
 #endif /* FLS_CONFIG */
     float    fuel_inj_pressure;
 	float    LOX_inj_pressure;

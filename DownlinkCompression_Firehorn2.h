@@ -62,8 +62,6 @@ inline av_downlink_t encode_downlink(const av_downlink_unpacked_t& unpacked_data
     packet.LOX_fls_temp_4 = (int8_t)(unpacked_data.LOX_fls_temp_4 / 2);
     packet.LOX_fls_temp_5 = (int8_t)(unpacked_data.LOX_fls_temp_5 / 2);
     packet.LOX_fls_temp_6 = (int8_t)(unpacked_data.LOX_fls_temp_6 / 2);
-    packet.LOX_fls_temp_7 = (int8_t)(unpacked_data.LOX_fls_temp_7 / 2);
-    packet.LOX_fls_temp_8 = (int8_t)(unpacked_data.LOX_fls_temp_8 / 2);
 #endif /* FLS_CONFIG */
 
     packet.fuel_inj_pressure = ((uint16_t)unpacked_data.fuel_inj_pressure << 3)
@@ -184,8 +182,6 @@ inline av_downlink_unpacked_t decode_downlink(const av_downlink_t& packet) {
     unpacked_data.LOX_fls_temp_4 = packet.LOX_fls_temp_4 * 2;
     unpacked_data.LOX_fls_temp_5 = packet.LOX_fls_temp_5 * 2;
     unpacked_data.LOX_fls_temp_6 = packet.LOX_fls_temp_6 * 2;
-    unpacked_data.LOX_fls_temp_7 = packet.LOX_fls_temp_7 * 2;
-    unpacked_data.LOX_fls_temp_8 = packet.LOX_fls_temp_8 * 2;
 #endif /* FLS_CONFIG */
 
     unpacked_data.fuel_inj_pressure = (packet.fuel_inj_pressure >> 3)
