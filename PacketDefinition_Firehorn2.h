@@ -41,16 +41,15 @@
 
 // ---------------------- GSE MACROS -----------------------  //
 /* GSE valves state map (0: open, 1: closed) */
-#define GSE_VALVE_GQD1_NC   (1 << 14)   // Quick Disconnect
-#define GSE_VALVE_GQD2_NC   (1 << 13)   // Quick Disconnect
-#define GSE_VALVE_GQD3_NC   (1 << 12)   // Quick Disconnect
-#define GSE_VALVE_GQD4_NC   (1 << 11)   // Quick Disconnect
-#define GSE_VALVE_GQD5_NC   (1 << 10)   // Quick Disconnect
-#define GSE_VALVE_GQD6_NC   (1 << 9)    // Quick Disconnect
-#define GSE_VALVE_GPN_NC    (1 << 8)    // Controls the opening of the high pressure N2 bottle
-#define GSE_VALVE_GVN_NO    (1 << 7)    // Vents the N2 tube before disconnect
-#define GSE_VALVE_GPA_NC    (1 << 6)    // Controls the activation of the pressure booster
-#define GSE_VALVE_GVA_NC    (1 << 5)    // Vents the pneumatic system
+#define GSE_VALVE_GQD1_NC   (1 << 13)   // Quick Disconnect
+#define GSE_VALVE_GQD2_NC   (1 << 12)   // Quick Disconnect
+#define GSE_VALVE_GQD3_NC   (1 << 11)   // Quick Disconnect
+#define GSE_VALVE_GQD4_NC   (1 << 10)   // Quick Disconnect
+#define GSE_VALVE_GQD5_NC   (1 << 9)   // Quick Disconnect
+#define GSE_VALVE_GQD6_NC   (1 << 8)    // Quick Disconnect
+#define GSE_VALVE_GPN_NC    (1 << 7)    // Controls the opening of the high pressure N2 bottle
+#define GSE_VALVE_GVN_NO    (1 << 6)    // Vents the N2 tube before disconnect
+#define GSE_VALVE_GPA_NC    (1 << 5)    // Controls the activation of the pressure booster
 #define GSE_VALVE_GFO_NCC   (1 << 4)    // Controls LOX filling    
 #define GSE_VALVE_GDO_NCC   (1 << 3)    // Vents the tube before disconnect
 #define GSE_VALVE_GFD_NC    (1 << 2)    // Low mass flow anti-freeze LOX filling line
@@ -93,13 +92,13 @@ enum CMD_ID {
 	GSE_CMD_TOGGLE_GPN,
 	GSE_CMD_TOGGLE_GVN,
 	GSE_CMD_TOGGLE_GPA,
-	GSE_CMD_TOGGLE_GVA,
 	GSE_CMD_TOGGLE_GFO,
 	GSE_CMD_TOGGLE_GDO,
 	GSE_CMD_TOGGLE_GFD,
 	GSE_CMD_TOGGLE_GDD,
 	GSE_CMD_TOGGLE_GFE,
 	GSE_CMD_TOGGLE_PUMP,
+	GSE_CMD_TOGGLE_ALL_GQD,
 };
 
 /////////////////////////////////////////////////////////////////
