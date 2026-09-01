@@ -1,8 +1,8 @@
-///////////////////////////////////////////////////////////////////////////////////////                                                                                                                                             
+///////////////////////////////////////////////////////////////////////////////////////////                                                                                                                                      
 //  Packet definitions for Firehorn II Project 2025-2026
 //
-//  Cyprien Lacassagne (SE C-AV C-EGS)
-///////////////////////////////////////////////////////////////////////////////////////
+//  Cyprien Lacassagne (SE C-AV C-EGS) & Ikrami Smail (TL C-EGS) & Théo Hollender (TL C-AV)
+///////////////////////////////////////////////////////////////////////////////////////////
 #ifndef PACKET_DEFINITION_FIREHORN2_H
 #define PACKET_DEFINITION_FIREHORN2_H
 
@@ -137,9 +137,9 @@ typedef struct __attribute__((__packed__)) {
 	uint8_t  absolute_speed        : 8;   //      bbbbbbbb              | 0,350    | 2    | m/s
 	uint16_t agl_altitude          : 12;  // bbbb bbbbbbbb              | 0,4000   | 1    | m	
 	uint8_t  HPO_pressure          : 8;   //      bbbbbbbb              | 0,450    | 2    | bar
-    // uint8_t  N2_temp_1          : 6;   //         bbbbb              | 0,80     | 2    | °C
+    uint8_t  HPO_temp              : 6;   //         bbbbb              | 0,80     | 2    | °C
    	uint8_t  HPE_pressure          : 8;   //      bbbbbbbb              | 0,450    | 2    | bar
-    // uint8_t  N2_temp_2          : 6;   //         bbbbb              | 0,80     | 2    | °C
+    uint8_t  HPE_temp              : 6;   //         bbbbb              | 0,80     | 2    | °C
 	uint16_t fuel_pressure		   : 10;  //        bbbbbb.bbb          | 0,100    | 0.1  | bar
 	// uint8_t  fuel_temp          : 6;   //        bbbbbb              | 0,80     | 2    | °C
 	uint16_t LOX_pressure 		   : 10;  //        bbbbbb.bbb          | 0,100    | 0.1  | bar
@@ -154,7 +154,7 @@ typedef struct __attribute__((__packed__)) {
 	int8_t   LOX_fls_temp_3		   : 8;   //      bbbbbbbb              | -200,80  | 2    | °C
 	int8_t   LOX_fls_temp_4		   : 8;   //      bbbbbbbb              | -200,80  | 2    | °C
 	int8_t   LOX_fls_temp_5		   : 8;   //      bbbbbbbb              | -200,80  | 2    | °C
-	// int8_t   LOX_fls_temp_6	   : 8;   //      bbbbbbbb              | -200,80  | 2    | °C
+	int8_t   LOX_fls_temp_6	       : 8;   //      bbbbbbbb              | -200,80  | 2    | °C
 #endif /* FLS_CONFIG */
 	uint16_t fuel_inj_pressure     : 10;  //       bbbbbbb.bbb          | 0,100    | 0.1  | bar
     uint16_t LOX_inj_pressure      : 10;  //       bbbbbbb.bbb          | 0,100    | 0.1  | bar
@@ -194,9 +194,9 @@ typedef struct {
 	float    absolute_speed; // m/s
 	float    agl_altitude;
 	float    HPO_pressure;
-    // float HPO_temp;
+    float    HPO_temp;
    	float    HPE_pressure;
-    // float HPE_temp;
+    float    HPE_temp;
 	float    fuel_pressure;
 	// float fuel_temp;
 	float    LOX_pressure;
@@ -211,7 +211,7 @@ typedef struct {
 	float    LOX_fls_temp_3;
 	float    LOX_fls_temp_4;
 	float    LOX_fls_temp_5;
-	// float    LOX_fls_temp_6;
+	float    LOX_fls_temp_6;
 #endif /* FLS_CONFIG */
     float    fuel_inj_pressure;
 	float    LOX_inj_pressure;
@@ -231,7 +231,7 @@ typedef struct {
 	float    vout_24v_voltage;
 	float    vout_24v_current;
 	float    av_fc_temp;
-	float    ambient_temp; // where ???
+	float    ambient_temp;
 	uint8_t  av_state;
 	uint8_t  cam_rec;
 	uint8_t  pyro_status;

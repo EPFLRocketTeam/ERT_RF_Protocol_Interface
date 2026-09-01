@@ -14,16 +14,16 @@ int main() {
     data.gnss_lat = 38.713138;
     data.gnss_alt = 2394.633520;
     data.absolute_speed = 111.111;
-    data.N2_pressure_1 = 322.347;
-    data.N2_temp_1 = 45.981;
+    data.HPO_pressure = 322.347;
+    data.HPO_temp = 45.981;
     data.fuel_pressure = 59.19;
-    data.LOX_temp = -197.12;
+    data.LOX_fls_temp_1 = -197.12;
 #if defined FLS_CONFIG && FLS_CONFIG == FLS_CAPA
     data.LOX_fls_capa = 994.7345;
 #elif defined FLS_CONFIG && FLS_CONFIG == FLS_DIFF
     data.fuel_fls_diff = 65.27
 #elif FLS_CONFIG == FLS_TEMP
-    data.LOX_fls_temp_1 = -159.74;
+    data.LOX_fls_temp_2 = -159.74;
 #endif
     data.valves_state = 0b001101;
     data.valves_state &= ~(1 << 5);
@@ -57,17 +57,17 @@ int main() {
               << "absolute_speed:\t\t" << data.absolute_speed << "\t\t" << packet.absolute_speed << "\t\t"
               << result.absolute_speed << "\t\t" << (result.absolute_speed - data.absolute_speed) / (float)data.absolute_speed * 100 << "\n"
 
-              << "N2_pressure_1:\t\t" << data.N2_pressure_1 << "\t\t" << (int)packet.N2_pressure_1 << "\t\t"
-              << result.N2_pressure_1 << "\t\t" << (result.N2_pressure_1 - data.N2_pressure_1) / (float)data.N2_pressure_1 * 100 << "\n"
+              << "HPO_pressure:\t\t" << data.HPO_pressure << "\t\t" << (int)packet.HPO_pressure << "\t\t"
+              << result.HPO_pressure << "\t\t" << (result.HPO_pressure - data.HPO_pressure) / (float)data.HPO_pressure * 100 << "\n"
 
-              << "N2_temp_1:\t\t" << data.N2_temp_1 << "\t\t" << packet.N2_temp_1 << "\t\t"
-              << result.N2_temp_1 << "\t\t" << (result.N2_temp_1 - data.N2_temp_1) / (float)data.N2_temp_1 * 100 << "\n"
+              << "HPO_temp:\t\t" << data.HPO_temp << "\t\t" << packet.HPO_temp << "\t\t"
+              << result.HPO_temp << "\t\t" << (result.HPO_temp - data.HPO_temp) / (float)data.HPO_temp * 100 << "\n"
 
               << "fuel_pressure:\t\t" << data.fuel_pressure << "\t\t" << packet.fuel_pressure << "\t\t"
               << result.fuel_pressure << "\t\t" << (result.fuel_pressure - data.fuel_pressure) / (float)data.fuel_pressure * 100 << "\n"
 
-              << "LOX_temp:\t\t" << data.LOX_temp << "\t\t" << packet.LOX_temp << "\t\t"
-              << result.LOX_temp << "\t\t" << (result.LOX_temp - data.LOX_temp) / (float)data.LOX_temp * 100 << "\n"
+              << "LOX_fls_temp_1:\t\t" << data.LOX_fls_temp_1 << "\t\t" << packet.LOX_fls_temp_1 << "\t\t"
+              << result.LOX_fls_temp_1 << "\t\t" << (result.LOX_fls_temp_1 - data.LOX_fls_temp_1) / (float)data.LOX_fls_temp_1 * 100 << "\n"
 
 #if defined FLS_CONFIG && FLS_CONFIG == FLS_CAPA
               << "LOX_fls_capa:\t\t" << data.LOX_fls_capa << "\t\t" << packet.LOX_fls_capa << "\t\t"
@@ -76,8 +76,8 @@ int main() {
               << "fuel_fls_diff:\t\t" << data.fuel_fls_diff << "\t\t" << packet.fuel_fls_diff << "\t\t"
               << result.fuel_fls_diff << "\t\t" << (result.fuel_fls_diff - data.fuel_fls_diff) / (float)data.fuel_fls_diff * 100 << "\n"
 #elif FLS_CONFIG == FLS_TEMP
-              << "LOX_fls_temp_1:\t\t" << data.LOX_fls_temp_1 << "\t\t" << packet.LOX_fls_temp_1 << "\t\t"
-              << result.LOX_fls_temp_1 << "\t\t" << (result.LOX_fls_temp_1 - data.LOX_fls_temp_1) / (float)data.LOX_fls_temp_1 * 100 << "\n"
+              << "LOX_fls_temp_2:\t\t" << data.LOX_fls_temp_2 << "\t\t" << packet.LOX_fls_temp_2 << "\t\t"
+              << result.LOX_fls_temp_2 << "\t\t" << (result.LOX_fls_temp_2 - data.LOX_fls_temp_2) / (float)data.LOX_fls_temp_2 * 100 << "\n"
 #endif
               
               << "valves_state:\t\t" << (int)data.valves_state << "\t\t" << (int)packet.valves_state << "\t\t"
