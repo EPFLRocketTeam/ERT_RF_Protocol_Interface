@@ -31,23 +31,23 @@ inline av_downlink_t encode_downlink(const av_downlink_unpacked_t& unpacked_data
     
     packet.agl_altitude = (uint16_t)unpacked_data.agl_altitude;
 
-    packet.N2_pressure_1 = (uint8_t)(unpacked_data.N2_pressure_1 / 2);
+    packet.HPO_pressure = (uint8_t)(unpacked_data.HPO_pressure / 2);
 
-    packet.N2_temp_1 = (uint8_t)(unpacked_data.N2_temp_1 / 2);
+    // packet.N2_temp_1 = (uint8_t)(unpacked_data.N2_temp_1 / 2);
 
-    packet.N2_pressure_2 = (uint8_t)(unpacked_data.N2_pressure_2 / 2);
+    packet.HPE_pressure = (uint8_t)(unpacked_data.HPE_pressure / 2);
 
-    packet.N2_temp_2 = (uint8_t)(unpacked_data.N2_temp_2 / 2);
+    // packet.N2_temp_2 = (uint8_t)(unpacked_data.N2_temp_2 / 2);
 
     packet.fuel_pressure = ((uint16_t)unpacked_data.fuel_pressure << 3)
                          + (unpacked_data.fuel_pressure - (uint16_t)unpacked_data.fuel_pressure) * 8;
     
-    packet.fuel_temp = (uint8_t)(unpacked_data.fuel_temp / 2);
+    // packet.fuel_temp = (uint8_t)(unpacked_data.fuel_temp / 2);
             
     packet.LOX_pressure = ((uint16_t)unpacked_data.LOX_pressure << 3)
                         + (unpacked_data.LOX_pressure - (uint16_t)unpacked_data.LOX_pressure) * 8;
                 
-    packet.LOX_temp = (int8_t)(unpacked_data.LOX_temp / 2);
+    // packet.LOX_temp = (int8_t)(unpacked_data.LOX_temp / 2);
     
 #if defined FLS_CONFIG && FLS_CONFIG == FLS_CAPA
     packet.LOX_fls_capa = ((uint16_t)unpacked_data.LOX_fls_capa << 1)
@@ -61,9 +61,9 @@ inline av_downlink_t encode_downlink(const av_downlink_unpacked_t& unpacked_data
     packet.LOX_fls_temp_3 = (int8_t)(unpacked_data.LOX_fls_temp_3 / 2);
     packet.LOX_fls_temp_4 = (int8_t)(unpacked_data.LOX_fls_temp_4 / 2);
     packet.LOX_fls_temp_5 = (int8_t)(unpacked_data.LOX_fls_temp_5 / 2);
-    packet.LOX_fls_temp_6 = (int8_t)(unpacked_data.LOX_fls_temp_6 / 2);
-    packet.LOX_fls_temp_7 = (int8_t)(unpacked_data.LOX_fls_temp_7 / 2);
-    packet.LOX_fls_temp_8 = (int8_t)(unpacked_data.LOX_fls_temp_8 / 2);
+    // packet.LOX_fls_temp_6 = (int8_t)(unpacked_data.LOX_fls_temp_6 / 2);
+    // packet.LOX_fls_temp_7 = (int8_t)(unpacked_data.LOX_fls_temp_7 / 2);
+    // packet.LOX_fls_temp_8 = (int8_t)(unpacked_data.LOX_fls_temp_8 / 2);
 #endif /* FLS_CONFIG */
 
     packet.fuel_inj_pressure = ((uint16_t)unpacked_data.fuel_inj_pressure << 3)
@@ -151,25 +151,25 @@ inline av_downlink_unpacked_t decode_downlink(const av_downlink_t& packet) {
     
     unpacked_data.agl_altitude = packet.agl_altitude;
 
-    unpacked_data.N2_pressure_1 = packet.N2_pressure_1 * 2;
+    unpacked_data.HPO_pressure = packet.HPO_pressure * 2;
     
-    unpacked_data.N2_temp_1 = packet.N2_temp_1 * 2;
+    // unpacked_data.N2_temp_1 = packet.N2_temp_1 * 2;
 
-    unpacked_data.N2_pressure_2 = packet.N2_pressure_2 * 2;
+    unpacked_data.HPE_pressure = packet.HPE_pressure * 2;
     
-    unpacked_data.N2_temp_2 = packet.N2_temp_2 * 2;
+    // unpacked_data.N2_temp_2 = packet.N2_temp_2 * 2;
                             
     unpacked_data.fuel_pressure = (packet.fuel_pressure >> 3)
                                 + (packet.fuel_pressure & 0x07) * 0.125;
     unpacked_data.fuel_pressure = round(unpacked_data.fuel_pressure * 10.0) / 10.0;
     
-    unpacked_data.fuel_temp = packet.fuel_temp * 2;
+    // unpacked_data.fuel_temp = packet.fuel_temp * 2;
 
     unpacked_data.LOX_pressure = (packet.LOX_pressure >> 3)
                                + (packet.LOX_pressure & 0x07) * 0.125;
     unpacked_data.LOX_pressure = round(unpacked_data.LOX_pressure * 10.0) / 10.0;
     
-    unpacked_data.LOX_temp = packet.LOX_temp * 2;
+    // unpacked_data.LOX_temp = packet.LOX_temp * 2;
     
 #if defined FLS_CONFIG && FLS_CONFIG == FLS_CAPA
     unpacked_data.LOX_fls_capa = (packet.LOX_fls_capa >> 1)
@@ -183,9 +183,9 @@ inline av_downlink_unpacked_t decode_downlink(const av_downlink_t& packet) {
     unpacked_data.LOX_fls_temp_3 = packet.LOX_fls_temp_3 * 2;
     unpacked_data.LOX_fls_temp_4 = packet.LOX_fls_temp_4 * 2;
     unpacked_data.LOX_fls_temp_5 = packet.LOX_fls_temp_5 * 2;
-    unpacked_data.LOX_fls_temp_6 = packet.LOX_fls_temp_6 * 2;
-    unpacked_data.LOX_fls_temp_7 = packet.LOX_fls_temp_7 * 2;
-    unpacked_data.LOX_fls_temp_8 = packet.LOX_fls_temp_8 * 2;
+    // unpacked_data.LOX_fls_temp_6 = packet.LOX_fls_temp_6 * 2;
+    // unpacked_data.LOX_fls_temp_7 = packet.LOX_fls_temp_7 * 2;
+    // unpacked_data.LOX_fls_temp_8 = packet.LOX_fls_temp_8 * 2;
 #endif /* FLS_CONFIG */
 
     unpacked_data.fuel_inj_pressure = (packet.fuel_inj_pressure >> 3)

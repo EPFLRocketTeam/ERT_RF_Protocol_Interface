@@ -136,14 +136,14 @@ typedef struct __attribute__((__packed__)) {
 	int16_t  vertical_speed        : 9;   //    b bbbbbbbb              | -350,350 | 2    | m/s
 	uint8_t  absolute_speed        : 8;   //      bbbbbbbb              | 0,350    | 2    | m/s
 	uint16_t agl_altitude          : 12;  // bbbb bbbbbbbb              | 0,4000   | 1    | m	
-	uint8_t  N2_pressure_1         : 8;   //      bbbbbbbb              | 0,450    | 2    | bar
-    uint8_t  N2_temp_1             : 6;   //         bbbbb              | 0,80     | 2    | °C
-   	uint8_t  N2_pressure_2         : 8;   //      bbbbbbbb              | 0,450    | 2    | bar
-    uint8_t  N2_temp_2             : 6;   //         bbbbb              | 0,80     | 2    | °C
+	uint8_t  HPO_pressure          : 8;   //      bbbbbbbb              | 0,450    | 2    | bar
+    // uint8_t  N2_temp_1          : 6;   //         bbbbb              | 0,80     | 2    | °C
+   	uint8_t  HPE_pressure          : 8;   //      bbbbbbbb              | 0,450    | 2    | bar
+    // uint8_t  N2_temp_2          : 6;   //         bbbbb              | 0,80     | 2    | °C
 	uint16_t fuel_pressure		   : 10;  //        bbbbbb.bbb          | 0,100    | 0.1  | bar
-	uint8_t  fuel_temp             : 6;   //        bbbbbb              | 0,80     | 2    | °C
+	// uint8_t  fuel_temp          : 6;   //        bbbbbb              | 0,80     | 2    | °C
 	uint16_t LOX_pressure 		   : 10;  //        bbbbbb.bbb          | 0,100    | 0.1  | bar
-	int8_t   LOX_temp     		   : 8;   //      bbbbbbbb              | -200,80  | 2    | °C
+	// int8_t   LOX_temp     	   : 8;   //      bbbbbbbb              | -200,80  | 2    | °C
 #if defined FLS_CONFIG && FLS_CONFIG == FLS_CAPA
 	uint16_t LOX_fls_capa          : 11;  //    bbbbbbbbbb.b            | 0,1000   | 0.5  | pF
 #elif defined FLS_CONFIG && FLS_CONFIG == FLS_DIFF
@@ -154,9 +154,9 @@ typedef struct __attribute__((__packed__)) {
 	int8_t   LOX_fls_temp_3		   : 8;   //      bbbbbbbb              | -200,80  | 2    | °C
 	int8_t   LOX_fls_temp_4		   : 8;   //      bbbbbbbb              | -200,80  | 2    | °C
 	int8_t   LOX_fls_temp_5		   : 8;   //      bbbbbbbb              | -200,80  | 2    | °C
-	int8_t   LOX_fls_temp_6		   : 8;   //      bbbbbbbb              | -200,80  | 2    | °C
-	int8_t   LOX_fls_temp_7		   : 8;   //      bbbbbbbb              | -200,80  | 2    | °C
-	int8_t   LOX_fls_temp_8		   : 8;   //      bbbbbbbb              | -200,80  | 2    | °C
+	// int8_t   LOX_fls_temp_6	   : 8;   //      bbbbbbbb              | -200,80  | 2    | °C
+	// int8_t   LOX_fls_temp_7     : 8;   //      bbbbbbbb              | -200,80  | 2    | °C
+	// int8_t   LOX_fls_temp_8     : 8;   //      bbbbbbbb              | -200,80  | 2    | °C
 #endif /* FLS_CONFIG */
 	uint16_t fuel_inj_pressure     : 10;  //       bbbbbbb.bbb          | 0,100    | 0.1  | bar
     uint16_t LOX_inj_pressure      : 10;  //       bbbbbbb.bbb          | 0,100    | 0.1  | bar
@@ -195,14 +195,14 @@ typedef struct {
 	float    vertical_speed; // m/s
 	float    absolute_speed; // m/s
 	float    agl_altitude;
-	float    N2_pressure_1;
-    float    N2_temp_1;
-   	float    N2_pressure_2;
-    float    N2_temp_2;
+	float    HPO_pressure;
+    // float HPO_temp;
+   	float    HPE_pressure;
+    // float HPE_temp;
 	float    fuel_pressure;
-	float    fuel_temp;
+	// float fuel_temp;
 	float    LOX_pressure;
-	float    LOX_temp;
+	// float LOX_temp;
 #if defined FLS_CONFIG && FLS_CONFIG == FLS_CAPA
 	float    LOX_fls_capa;
 #elif defined FLS_CONFIG && FLS_CONFIG == FLS_DIFF
@@ -213,9 +213,9 @@ typedef struct {
 	float    LOX_fls_temp_3;
 	float    LOX_fls_temp_4;
 	float    LOX_fls_temp_5;
-	float    LOX_fls_temp_6;
-	float    LOX_fls_temp_7;
-	float    LOX_fls_temp_8;
+	// float    LOX_fls_temp_6;
+	// float    LOX_fls_temp_7;
+	// float    LOX_fls_temp_8;
 #endif /* FLS_CONFIG */
     float    fuel_inj_pressure;
 	float    LOX_inj_pressure;
@@ -235,7 +235,7 @@ typedef struct {
 	float    vout_24v_voltage;
 	float    vout_24v_current;
 	float    av_fc_temp;
-	float    ambient_temp;
+	float    ambient_temp; // where ???
 	uint8_t  av_state;
 	uint8_t  cam_rec;
 	uint8_t  pyro_status;
