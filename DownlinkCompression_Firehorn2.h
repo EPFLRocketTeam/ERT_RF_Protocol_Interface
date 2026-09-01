@@ -118,6 +118,8 @@ inline av_downlink_t encode_downlink(const av_downlink_unpacked_t& unpacked_data
 
     packet.cam_rec = unpacked_data.cam_rec; 
 
+    packet.rail_cable_status = unpacked_data.rail_cable_status;
+
     packet.pyro_status = unpacked_data.pyro_status;
 
     return packet;
@@ -248,6 +250,8 @@ inline av_downlink_unpacked_t decode_downlink(const av_downlink_t& packet) {
     unpacked_data.av_state = packet.av_state;
 
     unpacked_data.cam_rec = packet.cam_rec;
+
+    unpacked_data.rail_cable_status = packet.rail_cable_status;
 
     unpacked_data.pyro_status = packet.pyro_status;
 

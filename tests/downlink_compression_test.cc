@@ -1,5 +1,6 @@
 #include <iostream>
 #include <chrono>
+#include "PacketDefinition_Firehorn2.h"
 #include "Protocol.h"
 
 using namespace std::chrono;
@@ -37,6 +38,7 @@ int main() {
     data.hpb_main_current = -4.33;
     data.hpb_backup_current = 17.33;
     data.pyro_status = AV_PYRO_CH1 | AV_PYRO_CH4;
+    data.rail_cable_status = AV_CABLE_EXT1;
 
     av_downlink_t packet(encode_downlink(data));
     av_downlink_unpacked_t result(decode_downlink(packet));
@@ -101,6 +103,9 @@ int main() {
               << "hpb_backup_current:\t" << data.hpb_backup_current << "\t\t" << (int)packet.hpb_backup_current << "\t\t"
               << result.hpb_backup_current << "\t\t" << (result.hpb_backup_current - data.hpb_backup_current) / (float)data.hpb_backup_current * 100 << "\n"
 
+              << "rail_cable_status:\t" << (int)data.rail_cable_status << "\t\t" << (int)packet.rail_cable_status << "\t\t"
+              << (int)result.rail_cable_status << "\t\t" << (result.rail_cable_status - data.rail_cable_status) / (float)data.rail_cable_status * 100 << "\n"
+              
               << "pyro_status:\t\t" << (int)data.pyro_status << "\t\t" << (int)packet.pyro_status << "\t\t"
               << (int)result.pyro_status << "\t\t" << (result.pyro_status - data.pyro_status) / (float)data.pyro_status * 100 << "\n";
 

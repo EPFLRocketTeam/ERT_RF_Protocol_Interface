@@ -33,6 +33,10 @@
 #define AV_CAMERA_AERO_TOP  (1 << 1)
 #define AV_CAMERA_AERO_BOT  (1 << 0)
 
+/* Launch rail cables map (0: open circuit, 1: continuity) */
+#define AV_CABLE_EXT1       (1 << 1)
+#define AV_CABLE_EXT2       (1 << 0)
+
 /* Pyro channels map (0: open circuit, 1 : continuity) */
 #define AV_PYRO_CH4         (1 << 3)
 #define AV_PYRO_CH3         (1 << 2)
@@ -177,6 +181,7 @@ typedef struct __attribute__((__packed__)) {
 	uint8_t  ambient_temp 	  	   : 6;   //        bbbbbb              | 0,80     | 2    | °C
 	uint8_t  av_state     		   : 4;   // FC FSM state
 	uint8_t  cam_rec               : 3;   // Cameras recording state
+	uint8_t  rail_cable_status     : 2;   // Launch rail cables continuity status
 	uint8_t  pyro_status           : 4;   // Pyro channels continuity status
 } av_downlink_t;
 #ifdef __cplusplus
@@ -234,6 +239,7 @@ typedef struct {
 	float    ambient_temp;
 	uint8_t  av_state;
 	uint8_t  cam_rec;
+	uint8_t  rail_cable_status;
 	uint8_t  pyro_status;
 } av_downlink_unpacked_t;
 
