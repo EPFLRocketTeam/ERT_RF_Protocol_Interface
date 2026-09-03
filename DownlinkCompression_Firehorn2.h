@@ -10,117 +10,113 @@
  * @param unpacked_data 
  * @return The compressed data ready to be sent as a radio packet.
  */
-inline av_downlink_t encode_downlink(const av_downlink_unpacked_t& unpacked_data) {
-    av_downlink_t packet;
-
-    packet.packet_nbr = unpacked_data.packet_nbr;
+inline void encode_downlink(av_downlink_t* packet, const av_downlink_unpacked_t& unpacked_data) {
+    packet->packet_nbr = unpacked_data.packet_nbr;
     
-    packet.av_timestamp = unpacked_data.av_timestamp;
+    packet->av_timestamp = unpacked_data.av_timestamp;
 
-    packet.gnss_lon = ((int32_t)unpacked_data.gnss_lon << 11)
+    packet->gnss_lon = ((int32_t)unpacked_data.gnss_lon << 11)
                     + abs((int32_t)((unpacked_data.gnss_lon - (int32_t)unpacked_data.gnss_lon) * 2048));
 
-    packet.gnss_lat = ((int32_t)unpacked_data.gnss_lat << 11)
+    packet->gnss_lat = ((int32_t)unpacked_data.gnss_lat << 11)
                     + abs((int32_t)((unpacked_data.gnss_lat - (int32_t)unpacked_data.gnss_lat) * 2048));
 
-    packet.gnss_alt = (uint16_t)(unpacked_data.gnss_alt / 10);
+    packet->gnss_alt = (uint16_t)(unpacked_data.gnss_alt / 10);
 
-    packet.vertical_speed = (int16_t)(unpacked_data.vertical_speed / 2);
+    packet->vertical_speed = (int16_t)(unpacked_data.vertical_speed / 2);
     
-    packet.absolute_speed = (uint16_t)(unpacked_data.absolute_speed / 2);
+    packet->absolute_speed = (uint16_t)(unpacked_data.absolute_speed / 2);
     
-    packet.agl_altitude = (uint16_t)unpacked_data.agl_altitude;
+    packet->agl_altitude = (uint16_t)unpacked_data.agl_altitude;
 
-    packet.HPO_pressure = (uint8_t)(unpacked_data.HPO_pressure / 2);
+    packet->HPO_pressure = (uint8_t)(unpacked_data.HPO_pressure / 2);
 
-    // packet.N2_temp_1 = (uint8_t)(unpacked_data.N2_temp_1 / 2);
+    // packet->N2_temp_1 = (uint8_t)(unpacked_data.N2_temp_1 / 2);
 
-    packet.HPE_pressure = (uint8_t)(unpacked_data.HPE_pressure / 2);
+    packet->HPE_pressure = (uint8_t)(unpacked_data.HPE_pressure / 2);
 
-    // packet.N2_temp_2 = (uint8_t)(unpacked_data.N2_temp_2 / 2);
+    // packet->N2_temp_2 = (uint8_t)(unpacked_data.N2_temp_2 / 2);
 
-    packet.fuel_pressure = ((uint16_t)unpacked_data.fuel_pressure << 3)
+    packet->fuel_pressure = ((uint16_t)unpacked_data.fuel_pressure << 3)
                          + (unpacked_data.fuel_pressure - (uint16_t)unpacked_data.fuel_pressure) * 8;
     
-    // packet.fuel_temp = (uint8_t)(unpacked_data.fuel_temp / 2);
+    // packet->fuel_temp = (uint8_t)(unpacked_data.fuel_temp / 2);
             
-    packet.LOX_pressure = ((uint16_t)unpacked_data.LOX_pressure << 3)
+    packet->LOX_pressure = ((uint16_t)unpacked_data.LOX_pressure << 3)
                         + (unpacked_data.LOX_pressure - (uint16_t)unpacked_data.LOX_pressure) * 8;
                 
-    // packet.LOX_temp = (int8_t)(unpacked_data.LOX_temp / 2);
+    // packet->LOX_temp = (int8_t)(unpacked_data.LOX_temp / 2);
     
 #if defined FLS_CONFIG && FLS_CONFIG == FLS_CAPA
-    packet.LOX_fls_capa = ((uint16_t)unpacked_data.LOX_fls_capa << 1)
+    packet->LOX_fls_capa = ((uint16_t)unpacked_data.LOX_fls_capa << 1)
                          + (unpacked_data.LOX_fls_capa - (uint16_t)unpacked_data.LOX_fls_capa) * 2;
 #elif defined FLS_CONFIG && FLS_CONFIG == FLS_DIFF
-    packet.LOX_fls_diff = ((uint16_t)unpacked_data.LOX_fls_diff << 3)
+    packet->LOX_fls_diff = ((uint16_t)unpacked_data.LOX_fls_diff << 3)
                          + (unpacked_data.LOX_fls_diff - (uint16_t)unpacked_data.LOX_fls_diff) * 8;
 #elif FLS_CONFIG == FLS_TEMP
-    packet.LOX_fls_temp_1 = (int8_t)(unpacked_data.LOX_fls_temp_1 / 2);
-    packet.LOX_fls_temp_2 = (int8_t)(unpacked_data.LOX_fls_temp_2 / 2);
-    packet.LOX_fls_temp_3 = (int8_t)(unpacked_data.LOX_fls_temp_3 / 2);
-    packet.LOX_fls_temp_4 = (int8_t)(unpacked_data.LOX_fls_temp_4 / 2);
-    packet.LOX_fls_temp_5 = (int8_t)(unpacked_data.LOX_fls_temp_5 / 2);
-    // packet.LOX_fls_temp_6 = (int8_t)(unpacked_data.LOX_fls_temp_6 / 2);
+    packet->LOX_fls_temp_1 = (int8_t)(unpacked_data.LOX_fls_temp_1 / 2);
+    packet->LOX_fls_temp_2 = (int8_t)(unpacked_data.LOX_fls_temp_2 / 2);
+    packet->LOX_fls_temp_3 = (int8_t)(unpacked_data.LOX_fls_temp_3 / 2);
+    packet->LOX_fls_temp_4 = (int8_t)(unpacked_data.LOX_fls_temp_4 / 2);
+    packet->LOX_fls_temp_5 = (int8_t)(unpacked_data.LOX_fls_temp_5 / 2);
+    // packet->LOX_fls_temp_6 = (int8_t)(unpacked_data.LOX_fls_temp_6 / 2);
 #endif /* FLS_CONFIG */
 
-    packet.fuel_inj_pressure = ((uint16_t)unpacked_data.fuel_inj_pressure << 3)
+    packet->fuel_inj_pressure = ((uint16_t)unpacked_data.fuel_inj_pressure << 3)
                          + (unpacked_data.fuel_inj_pressure - (uint16_t)unpacked_data.fuel_inj_pressure) * 8;
     
-    packet.LOX_inj_pressure = ((uint16_t)unpacked_data.LOX_inj_pressure << 3)
+    packet->LOX_inj_pressure = ((uint16_t)unpacked_data.LOX_inj_pressure << 3)
                          + (unpacked_data.LOX_inj_pressure - (uint16_t)unpacked_data.LOX_inj_pressure) * 8;
 
-    packet.chamber_pressure = ((uint16_t)unpacked_data.chamber_pressure << 3)
+    packet->chamber_pressure = ((uint16_t)unpacked_data.chamber_pressure << 3)
                          + (unpacked_data.chamber_pressure - (uint16_t)unpacked_data.chamber_pressure) * 8;
 
-    packet.chamber_temp = (uint8_t)(unpacked_data.chamber_temp / 2);
+    packet->chamber_temp = (uint8_t)(unpacked_data.chamber_temp / 2);
     
-    packet.valves_state = (uint8_t)unpacked_data.valves_state;
+    packet->valves_state = (uint8_t)unpacked_data.valves_state;
     
-    packet.valve_dpr_fuel = (uint8_t)unpacked_data.valve_dpr_fuel;
-    packet.valve_dpr_LOX = (uint8_t)unpacked_data.valve_dpr_LOX;
+    packet->valve_dpr_fuel = (uint8_t)unpacked_data.valve_dpr_fuel;
+    packet->valve_dpr_LOX = (uint8_t)unpacked_data.valve_dpr_LOX;
     
-    packet.lpb_voltage = ((uint8_t)unpacked_data.lpb_voltage << 4)
+    packet->lpb_voltage = ((uint8_t)unpacked_data.lpb_voltage << 4)
                        + (unpacked_data.lpb_voltage - (uint8_t)unpacked_data.lpb_voltage) * 16;
 
-    packet.lpb_current = ((int8_t)unpacked_data.lpb_current << 4)
+    packet->lpb_current = ((int8_t)unpacked_data.lpb_current << 4)
                        + abs((int8_t)((unpacked_data.lpb_current - (int8_t)unpacked_data.lpb_current) * 16));
 
-    packet.vout_5v_voltage = ((uint8_t)unpacked_data.vout_5v_voltage << 4)
+    packet->vout_5v_voltage = ((uint8_t)unpacked_data.vout_5v_voltage << 4)
                        + (unpacked_data.vout_5v_voltage - (uint8_t)unpacked_data.vout_5v_voltage) * 16;
 
-    packet.vout_5v_current = ((uint8_t)unpacked_data.vout_5v_current << 4)
+    packet->vout_5v_current = ((uint8_t)unpacked_data.vout_5v_current << 4)
                        + (unpacked_data.vout_5v_current - (uint8_t)unpacked_data.vout_5v_current) * 16;
     
-    packet.hpb_main_voltage = ((uint8_t)unpacked_data.hpb_main_voltage << 3)
+    packet->hpb_main_voltage = ((uint8_t)unpacked_data.hpb_main_voltage << 3)
                        + (unpacked_data.hpb_main_voltage - (uint8_t)unpacked_data.hpb_main_voltage) * 8;
     
-    packet.hpb_main_current = ((int32_t)unpacked_data.hpb_main_current << 3)
+    packet->hpb_main_current = ((int32_t)unpacked_data.hpb_main_current << 3)
                        + abs((int8_t)((unpacked_data.hpb_main_current - (int32_t)unpacked_data.hpb_main_current) * 8));
     
-    packet.hpb_backup_voltage = ((uint8_t)unpacked_data.hpb_backup_voltage << 3)
+    packet->hpb_backup_voltage = ((uint8_t)unpacked_data.hpb_backup_voltage << 3)
                        + (unpacked_data.hpb_backup_voltage - (uint8_t)unpacked_data.hpb_backup_voltage) * 8;
     
-    packet.hpb_backup_current = ((int8_t)unpacked_data.hpb_backup_current << 3)
+    packet->hpb_backup_current = ((int8_t)unpacked_data.hpb_backup_current << 3)
                        + abs((int8_t)((unpacked_data.hpb_backup_current - (int8_t)unpacked_data.hpb_backup_current) * 8));
     
-    packet.vout_24v_voltage = ((uint8_t)unpacked_data.vout_24v_voltage << 3)
+    packet->vout_24v_voltage = ((uint8_t)unpacked_data.vout_24v_voltage << 3)
                        + (unpacked_data.vout_24v_voltage - (uint8_t)unpacked_data.vout_24v_voltage) * 8;
     
-    packet.vout_24v_current = ((uint8_t)unpacked_data.vout_24v_current << 3)
+    packet->vout_24v_current = ((uint8_t)unpacked_data.vout_24v_current << 3)
                        + (unpacked_data.vout_24v_current - (uint8_t)unpacked_data.vout_24v_current) * 8;
 
-    packet.av_fc_temp = (uint8_t)(unpacked_data.av_fc_temp / 2);
+    packet->av_fc_temp = (uint8_t)(unpacked_data.av_fc_temp / 2);
 
-    packet.ambient_temp = (uint8_t)(unpacked_data.ambient_temp / 2);
+    packet->ambient_temp = (uint8_t)(unpacked_data.ambient_temp / 2);
 
-    packet.av_state = unpacked_data.av_state;
+    packet->av_state = unpacked_data.av_state;
 
-    packet.cam_rec = unpacked_data.cam_rec; 
+    packet->cam_rec = unpacked_data.cam_rec;
 
-    packet.pyro_status = unpacked_data.pyro_status;
-
-    return packet;
+    packet->pyro_status = unpacked_data.pyro_status;
 }
 
 
