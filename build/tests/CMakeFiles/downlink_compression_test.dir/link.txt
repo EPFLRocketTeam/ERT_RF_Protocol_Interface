@@ -1,1 +1,0 @@
-/usr/bin/c++ CMakeFiles/downlink_compression_test.dir/downlink_compression_test.cc.o -o downlink_compression_test 

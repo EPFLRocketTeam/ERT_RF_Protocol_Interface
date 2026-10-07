@@ -1,5 +1,0 @@
-/mnt/c/dev/projects/4. Rocket Team/4.3. Firehorn II/4.3.19. ERT_RF_Protocol/build/CMakeFiles/edit_cache.dir
-/mnt/c/dev/projects/4. Rocket Team/4.3. Firehorn II/4.3.19. ERT_RF_Protocol/build/CMakeFiles/rebuild_cache.dir
-/mnt/c/dev/projects/4. Rocket Team/4.3. Firehorn II/4.3.19. ERT_RF_Protocol/build/tests/CMakeFiles/downlink_compression_test.dir
-/mnt/c/dev/projects/4. Rocket Team/4.3. Firehorn II/4.3.19. ERT_RF_Protocol/build/tests/CMakeFiles/edit_cache.dir
-/mnt/c/dev/projects/4. Rocket Team/4.3. Firehorn II/4.3.19. ERT_RF_Protocol/build/tests/CMakeFiles/rebuild_cache.dir

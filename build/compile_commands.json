@@ -1,8 +1,0 @@
-[
-{
-  "directory": "/mnt/c/dev/projects/4. Rocket Team/4.3. Firehorn II/4.3.19. ERT_RF_Protocol/build/tests",
-  "command": "/usr/bin/c++ -DRF_PROTOCOL_FIREHORN -I\"/mnt/c/dev/projects/4. Rocket Team/4.3. Firehorn II/4.3.19. ERT_RF_Protocol\"  -o CMakeFiles/downlink_compression_test.dir/downlink_compression_test.cc.o -c \"/mnt/c/dev/projects/4. Rocket Team/4.3. Firehorn II/4.3.19. ERT_RF_Protocol/tests/downlink_compression_test.cc\"",
-  "file": "/mnt/c/dev/projects/4. Rocket Team/4.3. Firehorn II/4.3.19. ERT_RF_Protocol/tests/downlink_compression_test.cc",
-  "output": "tests/CMakeFiles/downlink_compression_test.dir/downlink_compression_test.cc.o"
-}
-]
