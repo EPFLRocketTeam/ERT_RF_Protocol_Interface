@@ -1,12 +1,60 @@
 #include <iostream>
 #include <chrono>
 #include "PacketDefinition_Firehorn2.h"
+#include "DownlinkCompression_Firehorn2.h"
 #include "Protocol.h"
 
 using namespace std::chrono;
 
+bool sdHealthTest () {
+    compression_decoder_internal_state.accumulated_sd_fail_count = 125;
+
+    bool is_ok = true;
+
+    auto verify = [&](uint64_t newv, uint64_t resv) {
+        av_downlink_unpacked_t data;
+        data.sd_fail_count = newv;
+        
+        av_downlink_t packed;
+        encode_downlink(&packed, data);
+
+        uint64_t foundv = decode_downlink(packed).sd_fail_count;
+        std::cout << newv << "\t\t" << resv << "\t\t" << foundv << "\t\t" << (resv == foundv) << "\n";
+
+        if (resv != foundv) is_ok = false;
+    };
+
+    std::cout << "SENT\t\tEXPECTS\t\tFOUND\t\tMATCH\n" << "\n";
+
+    verify(0, 0);
+    verify(1, 1);
+    verify(1, 1);
+    verify(0, 1);
+    verify(2, 3);
+    verify(5, 7);
+    verify(9, 11);
+    verify(15, 19);
+    verify(15, 19);
+    verify(1040, 2067);
+
+    uint64_t add_2_to_the_40 = 1ULL << 40ULL;
+    uint64_t add_2_to_the_29 = 1ULL << 29ULL; 
+    verify(add_2_to_the_40 + 1040, add_2_to_the_29 + 2067);
+
+    return is_ok;
+}
+
 int main() {
     std::cout << "FIREHORN 2 AV DOWNLINK PACKET (DE)COMPRESSION TEST\n\n";
+    
+    std::cout << "SD HEALTH TEST\n\n";
+
+    if (!sdHealthTest()) {
+        std::cout << "SD HEALTH TEST Failed\n";
+        return 1;
+    }
+
+    std::cout << "STANDARD TEST\n\n";
 
     av_downlink_unpacked_t data;
 
@@ -32,15 +80,20 @@ int main() {
     data.valves_state &= ~(1 << 4);
     data.valves_state |= AV_VALVE_SDPR_FUEL;
     data.valve_dpr_fuel = 80.1;
-    data.lpb_voltage = 3.74;
-    data.lpb_current = -1.17;
+    data.lpb1_voltage = 3.74;
+    data.lpb1_current = -1.17;
+    data.lpb2_voltage = 3.84;
+    data.lpb2_current = -1.27;
     data.hpb_main_voltage = 25.2;
     data.hpb_main_current = -4.33;
     data.hpb_backup_current = 17.33;
     data.pyro_status = AV_PYRO_CH1 | AV_PYRO_CH4;
     data.rail_cable_status = AV_CABLE_EXT1;
+    data.average_imu_rate = 26531.23;
+    data.remaining_disk_size = 1057 * 1024 * 1024 + 578 * 1200;
 
-    av_downlink_t packet(encode_downlink(data));
+    av_downlink_t packet;
+    encode_downlink(&packet, data);
     av_downlink_unpacked_t result(decode_downlink(packet));
 
     std::cout << "\t\t\tInitial\t\tCompressed\tDecompressed\tDelta (%)\n"
@@ -88,11 +141,17 @@ int main() {
               << "valve_dpr_fuel:\t\t" << data.valve_dpr_fuel << "\t\t" << (int)packet.valve_dpr_fuel << "\t\t"
               << (int)result.valve_dpr_fuel << "\t\t" << (result.valve_dpr_fuel - data.valve_dpr_fuel) / (float)data.valve_dpr_fuel * 100 << "\n"
               
-              << "lpb_voltage:\t\t" << data.lpb_voltage << "\t\t" << (int)packet.lpb_voltage << "\t\t"
-              << result.lpb_voltage << "\t\t" << (result.lpb_voltage - data.lpb_voltage) / (float)data.lpb_voltage * 100 << "\n"
+              << "lpb1_voltage:\t\t" << data.lpb1_voltage << "\t\t" << (int)packet.lpb1_voltage << "\t\t"
+              << result.lpb1_voltage << "\t\t" << (result.lpb1_voltage - data.lpb1_voltage) / (float)data.lpb1_voltage * 100 << "\n"
 
-              << "lpb_current:\t\t" << data.lpb_current << "\t\t" << (int)packet.lpb_current << "\t\t"
-              << result.lpb_current << "\t\t" << (result.lpb_current - data.lpb_current) / (float)data.lpb_current * 100 << "\n"
+              << "lpb1_current:\t\t" << data.lpb1_current << "\t\t" << (int)packet.lpb1_current << "\t\t"
+              << result.lpb1_current << "\t\t" << (result.lpb1_current - data.lpb1_current) / (float)data.lpb1_current * 100 << "\n"
+              
+              << "lpb2_voltage:\t\t" << data.lpb2_voltage << "\t\t" << (int)packet.lpb2_voltage << "\t\t"
+              << result.lpb2_voltage << "\t\t" << (result.lpb2_voltage - data.lpb2_voltage) / (float)data.lpb2_voltage * 100 << "\n"
+
+              << "lpb2_current:\t\t" << data.lpb2_current << "\t\t" << (int)packet.lpb2_current << "\t\t"
+              << result.lpb2_current << "\t\t" << (result.lpb2_current - data.lpb2_current) / (float)data.lpb2_current * 100 << "\n"
 
               << "hpb_main_voltage:\t" << data.hpb_main_voltage << "\t\t" << (int)packet.hpb_main_voltage << "\t\t"
               << result.hpb_main_voltage << "\t\t" << (result.hpb_main_voltage - data.hpb_main_voltage) / (float)data.hpb_main_voltage * 100 << "\n"
@@ -107,7 +166,13 @@ int main() {
               << (int)result.rail_cable_status << "\t\t" << (result.rail_cable_status - data.rail_cable_status) / (float)data.rail_cable_status * 100 << "\n"
               
               << "pyro_status:\t\t" << (int)data.pyro_status << "\t\t" << (int)packet.pyro_status << "\t\t"
-              << (int)result.pyro_status << "\t\t" << (result.pyro_status - data.pyro_status) / (float)data.pyro_status * 100 << "\n";
+              << (int)result.pyro_status << "\t\t" << (result.pyro_status - data.pyro_status) / (float)data.pyro_status * 100 << "\n"
+              
+              << "remaining_disk_size:\t" << (uint64_t)data.remaining_disk_size << "\t" << (uint64_t)packet.remaining_disk_size << "\t\t"
+              << (uint64_t)result.remaining_disk_size << "\t" << (((int64_t) result.remaining_disk_size - (int64_t) data.remaining_disk_size) / (float) data.remaining_disk_size) * 100 << "\n"
+              
+              << "average_imu_rate:\t" << (float)data.average_imu_rate << "\t\t" << (float)packet.average_imu_rate << "\t\t"
+              << (float)result.average_imu_rate << "\t\t" << (result.average_imu_rate - data.average_imu_rate) / (float) data.average_imu_rate * 100 << "\n";
 
     const unsigned initial_size(sizeof(data));
     const unsigned compressed_size(sizeof(packet));
@@ -121,7 +186,8 @@ int main() {
     std::cout << "Profiling over " << iterations << " iterations:\n";
     for (unsigned i(0); i < iterations; ++i) {
         auto start(steady_clock::now());
-        av_downlink_t packet(encode_downlink(data));
+        av_downlink_t packet;
+        encode_downlink(&packet, data);
         auto end(steady_clock::now());
 
         encoding_time += duration_cast<microseconds>(end - start).count();

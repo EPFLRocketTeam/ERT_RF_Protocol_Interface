@@ -79,6 +79,11 @@ enum CMD_ID {
 	AV_CMD_VENT_FUEL,
     AV_CMD_SDPR_LOX,
     AV_CMD_SDPR_FUEL,
+
+	AV_CMD_CAMERA_START,
+	AV_CMD_CAMERA_STOP,
+	AV_CMD_CAMERA_ABORT,
+	AV_CMD_CAMERA_RECOVER,
 	/* GSE FSM*/
 	GSE_CMD_IDLE,
 	GSE_CMD_ARM,
@@ -167,8 +172,10 @@ typedef struct __attribute__((__packed__)) {
     uint8_t  valves_state          : 6;   // binary states of the solenoid valves inc. SDPR_XXX
 	uint8_t  valve_dpr_fuel        : 7;   //       bbbbbbb              | 0,90     | 1    | °
 	uint8_t  valve_dpr_LOX         : 7;   //       bbbbbbb              | 0,90     | 1    | °
-	uint8_t  lpb_voltage  		   : 7;   //           bbb.bbbb         | 0,5      | 0.05 | V
-    int8_t   lpb_current           : 8;   //          bbbb.bbbb         | -4,4     | 0.05 | A
+	uint8_t  lpb1_voltage  		   : 7;   //           bbb.bbbb         | 0,5      | 0.05 | V
+    int8_t   lpb1_current          : 8;   //          bbbb.bbbb         | -4,4     | 0.05 | A
+	uint8_t  lpb2_voltage  		   : 7;   //           bbb.bbbb         | 0,5      | 0.05 | V
+    int8_t   lpb2_current          : 8;   //          bbbb.bbbb         | -4,4     | 0.05 | A
     uint8_t  vout_5v_voltage       : 7;   //           bbb.bbbb         | 0,5.5    | 0.05 | V
     uint8_t  vout_5v_current       : 6;   //            bb.bbbb         | 0,3      | 0.05 | A
 	uint8_t  hpb_main_voltage      : 8;   //         bbbbb.bbb          | 0,25.6   | 0.1  | V
@@ -183,6 +190,16 @@ typedef struct __attribute__((__packed__)) {
 	uint8_t  cam_rec               : 3;   // Cameras recording state
 	uint8_t  rail_cable_status     : 2;   // Launch rail cables continuity status
 	uint8_t  pyro_status           : 4;   // Pyro channels continuity status
+	uint8_t  sd_fail_count_dt_log2 : 5;   // How much the SD Fail count has increased in the last
+	                                      //   time (ceil of log2 + 2)
+										  // Value of 0 means reset of the internal counter
+										  // Value of 1 means delta = 0
+										  // Value of 2 is delta <= 1
+										  // Value of 3 is delta <= 2
+										  // Value of 4 is delta <= 4
+										  // Value of 5 is delta <= 8
+	uint8_t  average_imu_rate      : 8;   //                            | 0,255    | 0    | 100 Hz
+	uint16_t remaining_disk_size   : 9;   //                            | 0,16384M | 32M  | MB (2^20)
 } av_downlink_t;
 #ifdef __cplusplus
 const uint32_t av_downlink_size = sizeof(av_downlink_t);
@@ -225,8 +242,10 @@ typedef struct {
 	uint8_t  valves_state;
 	float    valve_dpr_fuel;
 	float    valve_dpr_LOX;
-	float    lpb_voltage;
-	float    lpb_current;
+	float    lpb1_voltage;
+	float    lpb1_current;
+	float    lpb2_voltage;
+	float    lpb2_current;
 	float    vout_5v_voltage;
 	float    vout_5v_current;
 	float    hpb_main_voltage;
@@ -241,6 +260,10 @@ typedef struct {
 	uint8_t  cam_rec;
 	uint8_t  rail_cable_status;
 	uint8_t  pyro_status;
+
+	uint64_t sd_fail_count;
+	float    average_imu_rate;
+	uint64_t remaining_disk_size;
 } av_downlink_unpacked_t;
 
 /////////////////////////////////////////////////////////////////
