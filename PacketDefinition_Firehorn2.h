@@ -176,8 +176,10 @@ typedef struct __attribute__((__packed__)) {
     int8_t   lpb1_current          : 8;   //          bbbb.bbbb         | -4,4     | 0.05 | A
 	uint8_t  lpb2_voltage  		   : 7;   //           bbb.bbbb         | 0,5      | 0.05 | V
     int8_t   lpb2_current          : 8;   //          bbbb.bbbb         | -4,4     | 0.05 | A
-    uint8_t  vout_5v_voltage       : 7;   //           bbb.bbbb         | 0,5.5    | 0.05 | V
-    uint8_t  vout_5v_current       : 6;   //            bb.bbbb         | 0,3      | 0.05 | A
+    uint8_t  vout1_5v_voltage      : 7;   //           bbb.bbbb         | 0,5.5    | 0.05 | V
+    uint8_t  vout1_5v_current      : 6;   //            bb.bbbb         | 0,3      | 0.05 | A
+    uint8_t  vout2_5v_voltage      : 7;   //           bbb.bbbb         | 0,5.5    | 0.05 | V
+    uint8_t  vout2_5v_current      : 6;   //            bb.bbbb         | 0,3      | 0.05 | A
 	uint8_t  hpb_main_voltage      : 8;   //         bbbbb.bbb          | 0,25.6   | 0.1  | V
     int16_t  hpb_main_current      : 9;   //        bbbbbb.bbb          | -5,20    | 0.1  | A
     uint8_t  hpb_backup_voltage    : 8;   //         bbbbb.bbb          | 0,25.6   | 0.1  | V
@@ -246,8 +248,10 @@ typedef struct {
 	float    lpb1_current;
 	float    lpb2_voltage;
 	float    lpb2_current;
-	float    vout_5v_voltage;
-	float    vout_5v_current;
+	float    vout1_5v_voltage;
+	float    vout1_5v_current;
+	float    vout2_5v_voltage;
+	float    vout2_5v_current;
 	float    hpb_main_voltage;
 	float    hpb_main_current;
 	float    hpb_backup_voltage;

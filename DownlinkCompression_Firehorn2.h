@@ -99,11 +99,17 @@ inline void encode_downlink(av_downlink_t* packet, const av_downlink_unpacked_t&
     packet->lpb2_current = ((int8_t)unpacked_data.lpb2_current << 4)
                        + abs((int8_t)((unpacked_data.lpb2_current - (int8_t)unpacked_data.lpb2_current) * 16));
 
-    packet->vout_5v_voltage = ((uint8_t)unpacked_data.vout_5v_voltage << 4)
-                       + (unpacked_data.vout_5v_voltage - (uint8_t)unpacked_data.vout_5v_voltage) * 16;
+    packet->vout1_5v_voltage = ((uint8_t)unpacked_data.vout1_5v_voltage << 4)
+                       + (unpacked_data.vout1_5v_voltage - (uint8_t)unpacked_data.vout1_5v_voltage) * 16;
 
-    packet->vout_5v_current = ((uint8_t)unpacked_data.vout_5v_current << 4)
-                       + (unpacked_data.vout_5v_current - (uint8_t)unpacked_data.vout_5v_current) * 16;
+    packet->vout1_5v_current = ((uint8_t)unpacked_data.vout1_5v_current << 4)
+                       + (unpacked_data.vout1_5v_current - (uint8_t)unpacked_data.vout1_5v_current) * 16;
+    
+    packet->vout2_5v_voltage = ((uint8_t)unpacked_data.vout2_5v_voltage << 4)
+                       + (unpacked_data.vout2_5v_voltage - (uint8_t)unpacked_data.vout2_5v_voltage) * 16;
+
+    packet->vout2_5v_current = ((uint8_t)unpacked_data.vout2_5v_current << 4)
+                       + (unpacked_data.vout2_5v_current - (uint8_t)unpacked_data.vout2_5v_current) * 16;
     
     packet->hpb_main_voltage = ((uint8_t)unpacked_data.hpb_main_voltage << 3)
                        + (unpacked_data.hpb_main_voltage - (uint8_t)unpacked_data.hpb_main_voltage) * 8;
@@ -259,13 +265,21 @@ inline av_downlink_unpacked_t decode_downlink(const av_downlink_t& packet) {
                            + (1 - 2 * (packet.lpb2_current < 0)) * (packet.lpb2_current & 0x0F) * 0.0625;
     unpacked_data.lpb2_current = round(unpacked_data.lpb2_current * 100.0) / 100.0;
     
-    unpacked_data.vout_5v_voltage = (packet.vout_5v_voltage >> 4)
-                           + (packet.vout_5v_voltage & 0x0F) * 0.0625;
-    unpacked_data.vout_5v_voltage = round(unpacked_data.vout_5v_voltage * 100.0) / 100.0;
+    unpacked_data.vout1_5v_voltage = (packet.vout1_5v_voltage >> 4)
+                           + (packet.vout1_5v_voltage & 0x0F) * 0.0625;
+    unpacked_data.vout1_5v_voltage = round(unpacked_data.vout1_5v_voltage * 100.0) / 100.0;
     
-    unpacked_data.vout_5v_current = (packet.vout_5v_current >> 4)
-                           + (packet.vout_5v_current & 0x0F) * 0.0625;
-    unpacked_data.vout_5v_current = round(unpacked_data.vout_5v_current * 100.0) / 100.0;
+    unpacked_data.vout1_5v_current = (packet.vout1_5v_current >> 4)
+                           + (packet.vout1_5v_current & 0x0F) * 0.0625;
+    unpacked_data.vout1_5v_current = round(unpacked_data.vout1_5v_current * 100.0) / 100.0;
+    
+    unpacked_data.vout2_5v_voltage = (packet.vout2_5v_voltage >> 4)
+                           + (packet.vout2_5v_voltage & 0x0F) * 0.0625;
+    unpacked_data.vout2_5v_voltage = round(unpacked_data.vout2_5v_voltage * 100.0) / 100.0;
+    
+    unpacked_data.vout2_5v_current = (packet.vout2_5v_current >> 4)
+                           + (packet.vout2_5v_current & 0x0F) * 0.0625;
+    unpacked_data.vout2_5v_current = round(unpacked_data.vout2_5v_current * 100.0) / 100.0;
     
     unpacked_data.hpb_main_voltage = (packet.hpb_main_voltage >> 3)
                            + (packet.hpb_main_voltage & 0x07) * 0.125;
