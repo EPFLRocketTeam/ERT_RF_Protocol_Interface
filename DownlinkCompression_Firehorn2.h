@@ -169,6 +169,8 @@ inline void encode_downlink(av_downlink_t* packet, const av_downlink_unpacked_t&
     compression_encoder_internal_state.previous_sd_fail_count = unpacked_data.sd_fail_count;
 
     packet->remaining_disk_size = (uint16_t) (unpacked_data.remaining_disk_size >> 25);
+
+    packet->baro_count = unpacked_data.baro_count;
 }
 
 
@@ -329,6 +331,8 @@ inline av_downlink_unpacked_t decode_downlink(const av_downlink_t& packet) {
     unpacked_data.sd_fail_count = compression_decoder_internal_state.accumulated_sd_fail_count;
 
     unpacked_data.remaining_disk_size = ((uint64_t) packet.remaining_disk_size) << ((uint64_t) 25);
+
+    unpacked_data.baro_count = packet.baro_count;
 
     return unpacked_data;
 }

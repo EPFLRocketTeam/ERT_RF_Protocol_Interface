@@ -202,6 +202,7 @@ typedef struct __attribute__((__packed__)) {
 										  // Value of 5 is delta <= 8
 	uint8_t  average_imu_rate      : 8;   //                            | 0,255    | 0    | 100 Hz
 	uint16_t remaining_disk_size   : 9;   //                            | 0,16384M | 32M  | MB (2^20)
+	uint8_t  baro_count            : 3;   //           bbb              | 0,4      | 1    | Number of Baro
 } av_downlink_t;
 #ifdef __cplusplus
 const uint32_t av_downlink_size = sizeof(av_downlink_t);
@@ -268,6 +269,8 @@ typedef struct {
 	uint64_t sd_fail_count;
 	float    average_imu_rate;
 	uint64_t remaining_disk_size;
+
+	uint8_t baro_count;
 } av_downlink_unpacked_t;
 
 /////////////////////////////////////////////////////////////////
