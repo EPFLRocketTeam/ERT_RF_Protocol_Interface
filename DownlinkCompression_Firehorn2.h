@@ -5,6 +5,15 @@
 #include <cstdint>
 #include "PacketDefinition_Firehorn2.h"
 
+static struct {
+    uint64_t accumulated_sd_fail_count = 0;
+} compression_decoder_internal_state;
+
+static struct {
+    uint64_t previous_sd_fail_count = 0;
+    bool did_first_encode = false;
+} compression_encoder_internal_state;
+
 /**
  * @brief Encodes (compresses) AV downlink data to reduce the packet size and meet the 10Hz req.
  * @param unpacked_data 
@@ -78,17 +87,29 @@ inline void encode_downlink(av_downlink_t* packet, const av_downlink_unpacked_t&
     packet->valve_dpr_fuel = (uint8_t)unpacked_data.valve_dpr_fuel;
     packet->valve_dpr_LOX = (uint8_t)unpacked_data.valve_dpr_LOX;
     
-    packet->lpb_voltage = ((uint8_t)unpacked_data.lpb_voltage << 4)
-                       + (unpacked_data.lpb_voltage - (uint8_t)unpacked_data.lpb_voltage) * 16;
+    packet->lpb1_voltage = ((uint8_t)unpacked_data.lpb1_voltage << 4)
+                       + (unpacked_data.lpb1_voltage - (uint8_t)unpacked_data.lpb1_voltage) * 16;
 
-    packet->lpb_current = ((int8_t)unpacked_data.lpb_current << 4)
-                       + abs((int8_t)((unpacked_data.lpb_current - (int8_t)unpacked_data.lpb_current) * 16));
+    packet->lpb1_current = ((int8_t)unpacked_data.lpb1_current << 4)
+                       + abs((int8_t)((unpacked_data.lpb1_current - (int8_t)unpacked_data.lpb1_current) * 16));
+                       
+    packet->lpb2_voltage = ((uint8_t)unpacked_data.lpb2_voltage << 4)
+                       + (unpacked_data.lpb2_voltage - (uint8_t)unpacked_data.lpb2_voltage) * 16;
 
-    packet->vout_5v_voltage = ((uint8_t)unpacked_data.vout_5v_voltage << 4)
-                       + (unpacked_data.vout_5v_voltage - (uint8_t)unpacked_data.vout_5v_voltage) * 16;
+    packet->lpb2_current = ((int8_t)unpacked_data.lpb2_current << 4)
+                       + abs((int8_t)((unpacked_data.lpb2_current - (int8_t)unpacked_data.lpb2_current) * 16));
 
-    packet->vout_5v_current = ((uint8_t)unpacked_data.vout_5v_current << 4)
-                       + (unpacked_data.vout_5v_current - (uint8_t)unpacked_data.vout_5v_current) * 16;
+    packet->vout1_5v_voltage = ((uint8_t)unpacked_data.vout1_5v_voltage << 4)
+                       + (unpacked_data.vout1_5v_voltage - (uint8_t)unpacked_data.vout1_5v_voltage) * 16;
+
+    packet->vout1_5v_current = ((uint8_t)unpacked_data.vout1_5v_current << 4)
+                       + (unpacked_data.vout1_5v_current - (uint8_t)unpacked_data.vout1_5v_current) * 16;
+    
+    packet->vout2_5v_voltage = ((uint8_t)unpacked_data.vout2_5v_voltage << 4)
+                       + (unpacked_data.vout2_5v_voltage - (uint8_t)unpacked_data.vout2_5v_voltage) * 16;
+
+    packet->vout2_5v_current = ((uint8_t)unpacked_data.vout2_5v_current << 4)
+                       + (unpacked_data.vout2_5v_current - (uint8_t)unpacked_data.vout2_5v_current) * 16;
     
     packet->hpb_main_voltage = ((uint8_t)unpacked_data.hpb_main_voltage << 3)
                        + (unpacked_data.hpb_main_voltage - (uint8_t)unpacked_data.hpb_main_voltage) * 8;
@@ -119,6 +140,37 @@ inline void encode_downlink(av_downlink_t* packet, const av_downlink_unpacked_t&
     packet->rail_cable_status = unpacked_data.rail_cable_status;
 
     packet->pyro_status = unpacked_data.pyro_status;
+
+    // Hz to 100 Hz batch
+    if (unpacked_data.average_imu_rate >= 25500.f) {
+        packet->average_imu_rate = 255;
+    } else {
+        packet->average_imu_rate = (uint8_t) (unpacked_data.average_imu_rate / 100.f);
+    }
+
+    if (!compression_encoder_internal_state.did_first_encode) {
+        compression_encoder_internal_state.did_first_encode = true;
+        packet->sd_fail_count_dt_log2 = 0;
+    } else if (compression_encoder_internal_state.previous_sd_fail_count >= unpacked_data.sd_fail_count) {
+        packet->sd_fail_count_dt_log2 = 1;
+    } else {
+        uint64_t delta = unpacked_data.sd_fail_count - compression_encoder_internal_state.previous_sd_fail_count;
+        uint64_t encoded_delta = 1;
+
+        uint8_t delta_log2 = 2;
+        while (delta_log2 != 31 && delta > encoded_delta) {
+            delta_log2 ++;
+            encoded_delta *= 2;
+        }
+
+        packet->sd_fail_count_dt_log2 = delta_log2;
+    }
+
+    compression_encoder_internal_state.previous_sd_fail_count = unpacked_data.sd_fail_count;
+
+    packet->remaining_disk_size = (uint16_t) (unpacked_data.remaining_disk_size >> 25);
+
+    packet->baro_count = unpacked_data.baro_count;
 }
 
 
@@ -199,21 +251,37 @@ inline av_downlink_unpacked_t decode_downlink(const av_downlink_t& packet) {
     unpacked_data.valve_dpr_fuel = packet.valve_dpr_fuel;
     unpacked_data.valve_dpr_LOX = packet.valve_dpr_LOX;
 
-    unpacked_data.lpb_voltage = (packet.lpb_voltage >> 4)
-                           + (packet.lpb_voltage & 0x0F) * 0.0625;
-    unpacked_data.lpb_voltage = round(unpacked_data.lpb_voltage * 100.0) / 100.0;
+    unpacked_data.lpb1_voltage = (packet.lpb1_voltage >> 4)
+                           + (packet.lpb1_voltage & 0x0F) * 0.0625;
+    unpacked_data.lpb1_voltage = round(unpacked_data.lpb1_voltage * 100.0) / 100.0;
     
-    unpacked_data.lpb_current = (packet.lpb_current >> 4)
-                           + (1 - 2 * (packet.lpb_current < 0)) * (packet.lpb_current & 0x0F) * 0.0625;
-    unpacked_data.lpb_current = round(unpacked_data.lpb_current * 100.0) / 100.0;
+    unpacked_data.lpb1_current = (packet.lpb1_current >> 4)
+                           + (1 - 2 * (packet.lpb1_current < 0)) * (packet.lpb1_current & 0x0F) * 0.0625;
+    unpacked_data.lpb1_current = round(unpacked_data.lpb1_current * 100.0) / 100.0;
     
-    unpacked_data.vout_5v_voltage = (packet.vout_5v_voltage >> 4)
-                           + (packet.vout_5v_voltage & 0x0F) * 0.0625;
-    unpacked_data.vout_5v_voltage = round(unpacked_data.vout_5v_voltage * 100.0) / 100.0;
+    unpacked_data.lpb2_voltage = (packet.lpb2_voltage >> 4)
+                           + (packet.lpb2_voltage & 0x0F) * 0.0625;
+    unpacked_data.lpb2_voltage = round(unpacked_data.lpb2_voltage * 100.0) / 100.0;
     
-    unpacked_data.vout_5v_current = (packet.vout_5v_current >> 4)
-                           + (packet.vout_5v_current & 0x0F) * 0.0625;
-    unpacked_data.vout_5v_current = round(unpacked_data.vout_5v_current * 100.0) / 100.0;
+    unpacked_data.lpb2_current = (packet.lpb2_current >> 4)
+                           + (1 - 2 * (packet.lpb2_current < 0)) * (packet.lpb2_current & 0x0F) * 0.0625;
+    unpacked_data.lpb2_current = round(unpacked_data.lpb2_current * 100.0) / 100.0;
+    
+    unpacked_data.vout1_5v_voltage = (packet.vout1_5v_voltage >> 4)
+                           + (packet.vout1_5v_voltage & 0x0F) * 0.0625;
+    unpacked_data.vout1_5v_voltage = round(unpacked_data.vout1_5v_voltage * 100.0) / 100.0;
+    
+    unpacked_data.vout1_5v_current = (packet.vout1_5v_current >> 4)
+                           + (packet.vout1_5v_current & 0x0F) * 0.0625;
+    unpacked_data.vout1_5v_current = round(unpacked_data.vout1_5v_current * 100.0) / 100.0;
+    
+    unpacked_data.vout2_5v_voltage = (packet.vout2_5v_voltage >> 4)
+                           + (packet.vout2_5v_voltage & 0x0F) * 0.0625;
+    unpacked_data.vout2_5v_voltage = round(unpacked_data.vout2_5v_voltage * 100.0) / 100.0;
+    
+    unpacked_data.vout2_5v_current = (packet.vout2_5v_current >> 4)
+                           + (packet.vout2_5v_current & 0x0F) * 0.0625;
+    unpacked_data.vout2_5v_current = round(unpacked_data.vout2_5v_current * 100.0) / 100.0;
     
     unpacked_data.hpb_main_voltage = (packet.hpb_main_voltage >> 3)
                            + (packet.hpb_main_voltage & 0x07) * 0.125;
@@ -250,6 +318,21 @@ inline av_downlink_unpacked_t decode_downlink(const av_downlink_t& packet) {
     unpacked_data.rail_cable_status = packet.rail_cable_status;
 
     unpacked_data.pyro_status = packet.pyro_status;
+
+    unpacked_data.average_imu_rate = 100 * packet.average_imu_rate;
+
+    if (packet.sd_fail_count_dt_log2 == 0) {
+        compression_decoder_internal_state.accumulated_sd_fail_count = 0;
+    } else {
+        compression_decoder_internal_state.accumulated_sd_fail_count
+         += (((uint64_t) 1) << (packet.sd_fail_count_dt_log2 - 1)) >> 1;
+    }
+
+    unpacked_data.sd_fail_count = compression_decoder_internal_state.accumulated_sd_fail_count;
+
+    unpacked_data.remaining_disk_size = ((uint64_t) packet.remaining_disk_size) << ((uint64_t) 25);
+
+    unpacked_data.baro_count = packet.baro_count;
 
     return unpacked_data;
 }
