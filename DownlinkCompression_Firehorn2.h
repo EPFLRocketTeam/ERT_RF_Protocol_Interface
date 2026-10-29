@@ -171,6 +171,8 @@ inline void encode_downlink(av_downlink_t* packet, const av_downlink_unpacked_t&
     packet->remaining_disk_size = (uint16_t) (unpacked_data.remaining_disk_size >> 25);
 
     packet->baro_count = unpacked_data.baro_count;
+
+    packet->prc_alive = unpacked_data.prc_alive & 0x7;
 }
 
 
@@ -333,6 +335,8 @@ inline av_downlink_unpacked_t decode_downlink(const av_downlink_t& packet) {
     unpacked_data.remaining_disk_size = ((uint64_t) packet.remaining_disk_size) << ((uint64_t) 25);
 
     unpacked_data.baro_count = packet.baro_count;
+
+    unpacked_data.prc_alive = packet.prc_alive;
 
     return unpacked_data;
 }

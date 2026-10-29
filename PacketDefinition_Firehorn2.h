@@ -43,6 +43,11 @@
 #define AV_PYRO_CH2         (1 << 1)
 #define AV_PYRO_CH1         (1 << 0)
 
+/* PRC boards alive map (0: no CAN heartbeat in 500 ms, 1: alive) */
+#define AV_PRC_ALIVE_LOX    (1 << 2)
+#define AV_PRC_ALIVE_ETH    (1 << 1)
+#define AV_PRC_ALIVE_ENGINE (1 << 0)
+
 // ---------------------- GSE MACROS -----------------------  //
 /* GSE valves state map (0: open, 1: closed) */
 #define GSE_VALVE_GQD1_NC   (1 << 13)   // Quick Disconnect
@@ -203,6 +208,7 @@ typedef struct __attribute__((__packed__)) {
 	uint8_t  average_imu_rate      : 8;   //                            | 0,255    | 0    | 100 Hz
 	uint16_t remaining_disk_size   : 9;   //                            | 0,16384M | 32M  | MB (2^20)
 	uint8_t  baro_count            : 3;   //           bbb              | 0,4      | 1    | Number of Baro
+	uint8_t  prc_alive             : 3;   // PRC CAN heartbeat seen in the last 500 ms (see AV_PRC_ALIVE_*)
 } av_downlink_t;
 #ifdef __cplusplus
 const uint32_t av_downlink_size = sizeof(av_downlink_t);
@@ -271,6 +277,8 @@ typedef struct {
 	uint64_t remaining_disk_size;
 
 	uint8_t baro_count;
+
+	uint8_t prc_alive;
 } av_downlink_unpacked_t;
 
 /////////////////////////////////////////////////////////////////
